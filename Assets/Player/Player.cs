@@ -202,17 +202,34 @@ public class Player : MonoBehaviour
         isInv = false;
     }
 
-    IEnumerator Dash()
+    // Satch Code
+    //IEnumerator Dash()
+    //{
+    //    isDashing = true;
+    //    isInv = true;
+    //    Vector2 dashLocation = getDashLocation();
+    //    rb.AddForce(dashLocation * dashSpeed, ForceMode2D.Force);
+
+    //    yield return new WaitForSeconds(dashDuration);
+
+    //    isDashing = false;
+    //    isInv = false;
+    //}
+
+    // Habib Code
+    IEnumerator Dash() // turn this into a loop so it can lerp from one location the next
     {
         isDashing = true;
         isInv = true;
         Vector2 dashLocation = getDashLocation();
-        rb.AddForce(dashLocation * dashSpeed, ForceMode2D.Force);
+        //rb.AddForce(dashLocation * dashSpeed, ForceMode2D.Force);
 
-        yield return new WaitForSeconds(dashDuration);
 
-        isDashing = false;
-        isInv = false;
+        // Take this out and keep this as a loop
+        //yield return new WaitForSeconds(dashDuration);
+
+        //isDashing = false;
+        //isInv = false;
     }
 
     IEnumerator Attack()
