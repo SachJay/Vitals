@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
     public Rigidbody2D rb;
 
     [SerializeField]
@@ -52,19 +51,14 @@ public class Player : MonoBehaviour
     [SerializeField]
     bool isAlive = true;
 
-    [SerializeField]
     public float knockbackForce = 400f;
 
-    [SerializeField]
     public string nextScene = "";
 
-    [SerializeField]
     public ParticleSystem enemyDeathParticlesPrefab; //TODO move out of player
 
-    [SerializeField]
     public ParticleSystem playerDeathParticlesPrefab;
 
-    [SerializeField]
     public GameObject visuals;
 
     Vector2 currentVelocity = Vector2.zero;
@@ -100,10 +94,12 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene(currentSceneName);
         }
 
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.T))
         {
             LoadNextScene();
         }
+#endif 
 
         if (!isAlive)
             return;
