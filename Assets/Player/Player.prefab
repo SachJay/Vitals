@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   render: {fileID: 2489258581978084581}
-  player: {fileID: -8337085692678809925}
+  player: {fileID: 2585928952307769519}
   minAmount: 1
   isDash: 1
 --- !u!1 &2548693745377052789
@@ -145,7 +145,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8094258152645059028}
-  - component: {fileID: -8337085692678809925}
+  - component: {fileID: 2585928952307769519}
   - component: {fileID: 1623201949953145261}
   m_Layer: 8
   m_Name: Player
@@ -171,7 +171,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-8337085692678809925
+--- !u!114 &2585928952307769519
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3451276787617159621}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8f82b9ad605605468033c864ac55119, type: 3}
+  m_Script: {fileID: 11500000, guid: 890e2850a76280b46ae28a2f5417a95b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1623201949953145261}
@@ -189,12 +189,12 @@ MonoBehaviour:
   accel: 3500
   dashCount: 1
   currentDashCount: 0
-  dashCooldown: 3
+  dashCooldown: 0.5
   attackCount: 1
   currentAttackCount: 1
   attackCooldown: 2.5
-  dashSpeed: 5700
-  dashDuration: 0.15
+  dashDistance: 12
+  dashDuration: 1
   attackSpeed: 3750
   attackDuration: 0.3
   drag: 14
@@ -207,7 +207,7 @@ MonoBehaviour:
   visuals: {fileID: 2548693745377052789}
   isDashing: 0
   isAttacking: 0
-  isInv: 0
+  isInv: 1
   frictionDeacceleration: 70
   attackHitbox: {fileID: 1558656742053626622}
 --- !u!50 &1623201949953145261
@@ -473,7 +473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b614e2002e3170747b1bb852209a3759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: -8337085692678809925}
+  player: {fileID: 0}
 --- !u!1 &6159812548602988315
 GameObject:
   m_ObjectHideFlags: 0
@@ -572,7 +572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   render: {fileID: 4802415953102151117}
-  player: {fileID: -8337085692678809925}
+  player: {fileID: 2585928952307769519}
   minAmount: 1
   isDash: 0
 --- !u!1 &7669183400844547710
@@ -673,6 +673,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   render: {fileID: 7223113121087948610}
-  player: {fileID: -8337085692678809925}
+  player: {fileID: 2585928952307769519}
   minAmount: 2
   isDash: 1

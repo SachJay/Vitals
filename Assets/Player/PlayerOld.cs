@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Player : MonoBehaviour
+public class PlayerOld : MonoBehaviour
 {
     public Rigidbody2D rb;
 
@@ -31,16 +30,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     float attackCooldown = 3f;
 
-    //[SerializeField]
-    //float dashSpeed = 1500;
+    [SerializeField]
+    float dashSpeed = 1500;
 
     [SerializeField]
-    float dashDistance = 15;
-
-    [SerializeField]
-    float dashDuration = 0.5f;
-
-    float elapsedDashTime = 0;
+    float dashDuration = 0.2f;
 
     [SerializeField]
     float attackSpeed = 900;
@@ -134,15 +128,6 @@ public class Player : MonoBehaviour
         cameraPosition.z = -10;
     }
 
-    private void FixedUpdate()
-    {
-        if (isDashing)
-        {
-            Dash();
-        }
-    }
-
-
     void handleTimers()
     {
         if (attackReset == null && currentAttackCount < attackCount)
@@ -169,13 +154,8 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(1) && currentDashCount > 0)
         {
             currentDashCount--;
-
-            isDashing = true;
-            isInv = true;
-
-            elapsedDashTime = 0;
-
-            setDashLocation();
+            //StartCoroutine(Dash());
+            
         }
     }
 
@@ -216,31 +196,40 @@ public class Player : MonoBehaviour
         attackHitbox.enabled = false;
     }
 
-    private void setDashLocation()
+    IEnumerator startInvPeriod()
     {
-        dashDestination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        if (Vector2.Distance(rb.position, dashDestination) > dashDistance)
-        {
-            Vector2 maxDashDistVec = (dashDestination - rb.position).normalized;
-
-            dashDestination = rb.position + maxDashDistVec * dashDistance;
-        }
+        yield return new WaitForSeconds(attackCooldown);
+        isInv = false;
     }
 
-    private void Dash()
+    // Satch Code
+    //IEnumerator Dash()
+    //{
+    //    isDashing = true;
+    //    isInv = true;
+    //    Vector2 dashLocation = getDashLocation();
+    //    rb.AddForce(dashLocation * dashSpeed, ForceMode2D.Force);
+
+    //    yield return new WaitForSeconds(dashDuration);
+
+    //    isDashing = false;
+    //    isInv = false;
+    //}
+
+    // Habib Code
+    void Dash() // turn this into a loop so it can lerp from one location the next
     {
-        elapsedDashTime += Time.fixedDeltaTime;
+        isDashing = true;
+        isInv = true;
+        Vector2 dashLocation = getDashLocation();
+        //rb.AddForce(dashLocation * dashSpeed, ForceMode2D.Force);
 
-        float percentComplete = elapsedDashTime / dashDuration;
 
-        rb.position = Vector2.Lerp(rb.position, dashDestination, percentComplete);
+        // Take this out and keep this as a loop
+        //yield return new WaitForSeconds(dashDuration);
 
-        if (Vector2.Distance(rb.position, dashDestination) < 0.2f) {
-            rb.position = dashDestination;
-            isDashing = false;
-            isInv = false;
-        }
+        //isDashing = false;
+        //isInv = false;
     }
 
     IEnumerator Attack()
@@ -249,8 +238,8 @@ public class Player : MonoBehaviour
         isAttacking = true;
         isInv = true;
 
-        //Vector2 dashLocation = getDashLocation();
-        rb.AddForce(dashDestination * attackSpeed, ForceMode2D.Force);
+        Vector2 dashLocation = getDashLocation();
+        rb.AddForce(dashLocation * attackSpeed, ForceMode2D.Force);
 
         yield return new WaitForSeconds(attackDuration);
 
@@ -258,6 +247,13 @@ public class Player : MonoBehaviour
         isInv = false;
     }
 
+    private Vector2 getDashLocation()
+    {
+        rb.velocity = Vector2.zero;
+
+        dashDestination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        return (dashDestination - rb.position).normalized;
+    }
 
     void handleMovement()
     {
@@ -294,6 +290,8 @@ public class Player : MonoBehaviour
         {
             StopCoroutine(dashReset);
         }
+
+        StartCoroutine(startInvPeriod());
 
         attackReset = null;
         dashReset = null;
