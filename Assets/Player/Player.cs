@@ -48,7 +48,7 @@ public class Player : MonoBehaviour
     [Header("Attack Variables")]
 
     [SerializeField]
-    float attackCount = 1;
+    float maxAttackCount = 1;
     public float currentAttackCount = 1;
 
     [SerializeField]
@@ -64,6 +64,9 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     CircleCollider2D attackHitbox;
+
+    [SerializeField]
+    DashIndicator[] attackIndicators;
 
     #endregion
 
@@ -91,7 +94,8 @@ public class Player : MonoBehaviour
 
     Vector2 dashDestination = Vector2.zero;
 
-
+    [SerializeField]
+    DashIndicator[] dashIndicators;
 
     #endregion
 
@@ -117,13 +121,37 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        currentDashCount = maxDashCount;
-        currentAttackCount = attackCount;
 
     }
 
+    private void UpdateDashes()
+    {
+        currentAttackCount = maxAttackCount;
+        currentDashCount = maxDashCount;
+
+        foreach (DashIndicator ind in attackIndicators)
+        {
+            ind.gameObject.SetActive(false);
+        }
+
+        foreach (DashIndicator ind in dashIndicators)
+        {
+            ind.gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < maxAttackCount; i++)
+        {
+            dashIndicators[i].gameObject.SetActive(true);
+        }
+
+        for (int i = 0; i < maxDashCount; i++)
+        {
+            dashIndicators[i].gameObject.SetActive(true);
+        }
+    }
+
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -152,13 +180,12 @@ public class Player : MonoBehaviour
             handleMovement();
         }
 
-        if (isDashing)
-        {
-            limitDash();
-        }
+        //if (isDashing)
+        //{
+        //    limitDash();
+        //}
 
         handleAttack();
-        handleTimers();
 
         cameraPosition.x = 0;
         cameraPosition.y = rb.transform.position.y;
@@ -175,18 +202,13 @@ public class Player : MonoBehaviour
 
     #endregion
 
-    void handleTimers()
-    {
-
-    }
-
-    void limitDash()
-    {
-        if (Vector2.Distance(rb.transform.position, dashDestination) < 1)
-        {
-            rb.drag = dashDrag;
-        }
-    }
+    //void limitDash()
+    //{
+    //    if (Vector2.Distance(rb.transform.position, dashDestination) < 1)
+    //    {
+    //        rb.drag = dashDrag;
+    //    }
+    //}
 
     #region Attack Functions
 
@@ -201,7 +223,7 @@ public class Player : MonoBehaviour
 
             elapsedDashTime = 0;
 
-            setDashLocation();
+            GetDashLocation();
         }
     }
 
@@ -235,12 +257,20 @@ public class Player : MonoBehaviour
 
             elapsedDashTime = 0;
 
-            setDashLocation();
+            GetDashLocation();
+
+            foreach (DashIndicator ind in dashIndicators)
+            {
+                if (ind.IsStarted)
+                    continue;
+                else
+                    ind.StartTimer(dashCooldown);
+            }
         }
     }
 
 
-    private void setDashLocation()
+    private void GetDashLocation()
     {
         dashDestination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -272,7 +302,7 @@ public class Player : MonoBehaviour
     public void ResetDashes()
     {
         currentDashCount = maxDashCount;
-        currentAttackCount = attackCount;
+        currentAttackCount = maxAttackCount;
         isAttacking = false;
         isDashing = false;
     }
