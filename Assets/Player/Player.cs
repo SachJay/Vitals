@@ -41,6 +41,11 @@ public class Player : MonoBehaviour
 
     Vector2 currentVelocity = Vector2.zero;
 
+    public float knockbackForce = 400f;
+
+    [SerializeField]
+    float frictionDeacceleration = 70;
+
     #endregion
 
     #region Attack Variables
@@ -92,8 +97,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     float dashDuration = 0.5f;
 
-    float elapsedDashTime = 0;
-
     bool isDashing = false;
 
     Vector2 dashDestination = Vector2.zero;
@@ -103,9 +106,18 @@ public class Player : MonoBehaviour
 
     #endregion
 
-    [Header("Other Stuff")]
+    #region Attack & Dash Shared Variables
 
-    public float knockbackForce = 400f;
+    [Header("Attack & Dash Shared Variables")]
+
+    [SerializeField]
+    TrailRenderer trailRenderer;
+
+    float elapsedDashTime = 0;
+
+    #endregion
+
+    [Header("Other Stuff")]
 
     public string nextScene = "";
 
@@ -114,9 +126,6 @@ public class Player : MonoBehaviour
     public ParticleSystem playerDeathParticlesPrefab;
 
     public GameObject visuals;
-
-    [SerializeField]
-    float frictionDeacceleration = 70;
     Vector3 cameraPosition = new Vector3(0,0,-10);
 
     #endregion
@@ -126,6 +135,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         UpdateAttackAndDashCounts();
+        SetTrailRenderer(false);
     }
 
     private void UpdateAttackAndDashCounts()
@@ -179,7 +189,7 @@ public class Player : MonoBehaviour
 
         if (!isAttacking)
         {
-            handleDashes();
+            HandleDashes();
         }
 
         if (!isDashing && !isAttacking)
@@ -188,7 +198,7 @@ public class Player : MonoBehaviour
             handleMovement();
         }
 
-        handleAttacks();
+        HandleAttacks();
 
         cameraPosition.x = 0;
         cameraPosition.y = rb.transform.position.y;
@@ -207,7 +217,7 @@ public class Player : MonoBehaviour
 
     #region Attack Functions
 
-    void handleAttacks()
+    void HandleAttacks()
     {
         if (Input.GetMouseButtonDown(0) && currentAttackCount > 0)
         {
@@ -221,6 +231,7 @@ public class Player : MonoBehaviour
             GetAttackLocation();
 
             attackHitbox.enabled = true;
+            SetTrailRenderer(true);
 
             foreach (AttackIndicator ind in attackIndicators)
             {
@@ -263,7 +274,10 @@ public class Player : MonoBehaviour
         if (Vector2.Distance(rb.position, attackDestination) < 0.2f)
         {
             attackHitbox.enabled = false;
+            SetTrailRenderer(false);
+            
             rb.position = attackDestination;
+            
             isAttacking = false;
             isInv = false;
         }
@@ -273,7 +287,7 @@ public class Player : MonoBehaviour
 
     #region Dash Functions
 
-    void handleDashes()
+    void HandleDashes()
     {
         if (Input.GetMouseButtonDown(1) && currentDashCount > 0)
         {
@@ -285,6 +299,8 @@ public class Player : MonoBehaviour
             elapsedDashTime = 0;
 
             GetDashLocation();
+
+            SetTrailRenderer(true);
 
             foreach (DashIndicator ind in dashIndicators)
             {
@@ -325,13 +341,18 @@ public class Player : MonoBehaviour
         rb.position = Vector2.Lerp(rb.position, dashDestination, percentComplete);
 
         if (Vector2.Distance(rb.position, dashDestination) < 0.2f) {
+            SetTrailRenderer(false);
+
             rb.position = dashDestination;
+            
             isDashing = false;
             isInv = false;
         }
     }
 
     #endregion
+
+    #region Attack & Dash Shared Functions
 
     public void ResetDashes()
     {
@@ -340,6 +361,13 @@ public class Player : MonoBehaviour
         isAttacking = false;
         isDashing = false;
     }
+
+    public void SetTrailRenderer(bool newState)
+    {
+        trailRenderer.emitting = newState;
+    }
+
+    #endregion
 
     void handleMovement()
     {
