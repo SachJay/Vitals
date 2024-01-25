@@ -220,6 +220,8 @@ public class Player : MonoBehaviour
 
             GetAttackLocation();
 
+            attackHitbox.enabled = true;
+
             foreach (AttackIndicator ind in attackIndicators)
             {
                 if (ind.IsStarted)
@@ -260,6 +262,7 @@ public class Player : MonoBehaviour
 
         if (Vector2.Distance(rb.position, attackDestination) < 0.2f)
         {
+            attackHitbox.enabled = false;
             rb.position = attackDestination;
             isAttacking = false;
             isInv = false;
