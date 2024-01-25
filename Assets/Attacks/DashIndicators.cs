@@ -16,16 +16,25 @@ public class DashIndicators : MonoBehaviour
     [SerializeField]
     bool isDash = true;
 
-    // Update is called once per frame
+    public void StartAttackTimer()
+    {
+
+    } 
+
+    public void StartDashTimer()
+    {
+        
+    }
+
     void Update()
     {
-        if (isDash)
-        {
-            render.enabled = player.currentDashCount >= minAmount;
-        } else
-        {
-            render.enabled = player.currentAttackCount >= minAmount;
-        }
+        //if (isDash)
+        //{
+        //    render.enabled = player.currentDashCount >= minAmount;
+        //} else
+        //{
+        //    render.enabled = player.currentAttackCount >= minAmount;
+        //}
 
     }
 }

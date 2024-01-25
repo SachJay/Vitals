@@ -34,7 +34,7 @@ public class Projectile : MonoBehaviour
 
         if (other.transform != null && other.transform.parent != null && other.transform.parent.parent != null && other.transform.parent.parent.gameObject.TryGetComponent(out Player player))
         {
-            if ((!player.isInv) || tag == "Undodgable")
+            if ((!player.IsInv) || tag == "Undodgable")
             {
                 //Destroy(other.transform.parent.gameObject);
                 player.KillPlayer(transform.position);

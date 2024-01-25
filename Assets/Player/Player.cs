@@ -6,10 +6,26 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    #region Variables
+
     public Rigidbody2D rb;
 
     [SerializeField]
     Camera camera;
+
+    #region Player State Variables
+
+    [SerializeField]
+    bool isAlive = true;
+
+    bool isInv = false;
+    public bool IsInv => isInv;
+
+    #endregion
+
+    #region Speed/RB Variables
+
+    [Header("Speed/RB Variables")]
 
     [SerializeField]
     float maxSpeed = 1;
@@ -18,11 +34,18 @@ public class Player : MonoBehaviour
     float accel = 1;
 
     [SerializeField]
-    float dashCount = 2;
-    public float currentDashCount;
+    float drag = 7f;
 
     [SerializeField]
-    float dashCooldown = 3f;
+    float dashDrag = 10f;
+
+    Vector2 currentVelocity = Vector2.zero;
+
+    #endregion
+
+    #region Attack Variables
+
+    [Header("Attack Variables")]
 
     [SerializeField]
     float attackCount = 1;
@@ -31,31 +54,48 @@ public class Player : MonoBehaviour
     [SerializeField]
     float attackCooldown = 3f;
 
-    //[SerializeField]
-    //float dashSpeed = 1500;
-
-    [SerializeField]
-    float dashDistance = 15;
-
-    [SerializeField]
-    float dashDuration = 0.5f;
-
-    float elapsedDashTime = 0;
-
     [SerializeField]
     float attackSpeed = 900;
 
     [SerializeField]
     float attackDuration = 0.3f;
 
-    [SerializeField]
-    float drag = 7f;
+    public bool isAttacking = false;
 
     [SerializeField]
-    float dashDrag = 10f;
+    CircleCollider2D attackHitbox;
+
+    #endregion
+
+    #region Dash Variables
+
+    [Header("Dash Variables")]
 
     [SerializeField]
-    bool isAlive = true;
+    float maxDashCount = 2;
+
+    float currentDashCount;
+
+    [SerializeField]
+    float dashCooldown = 3f;
+
+    [SerializeField]
+    float maxDashDistance = 15;
+
+    [SerializeField]
+    float dashDuration = 0.5f;
+
+    float elapsedDashTime = 0;
+
+    public bool isDashing = false;
+
+    Vector2 dashDestination = Vector2.zero;
+
+
+
+    #endregion
+
+    [Header("Other Stuff")]
 
     public float knockbackForce = 400f;
 
@@ -67,26 +107,17 @@ public class Player : MonoBehaviour
 
     public GameObject visuals;
 
-    Vector2 currentVelocity = Vector2.zero;
-    public bool isDashing = false;
-    public bool isAttacking = false;
-    public bool isInv = false;
-
     [SerializeField]
     float frictionDeacceleration = 70;
-
-    Vector2 dashDestination = Vector2.zero;
     Vector3 cameraPosition = new Vector3(0,0,-10);
 
-    Coroutine attackReset = null;
-    Coroutine dashReset = null;
+    #endregion
 
-    [SerializeField]
-    CircleCollider2D attackHitbox;
+    #region Start and Update Functions
 
     private void Start()
     {
-        currentDashCount = dashCount;
+        currentDashCount = maxDashCount;
         currentAttackCount = attackCount;
 
     }
@@ -142,18 +173,11 @@ public class Player : MonoBehaviour
         }
     }
 
+    #endregion
 
     void handleTimers()
     {
-        if (attackReset == null && currentAttackCount < attackCount)
-        {
-            attackReset = StartCoroutine(startAttackTimer());
-        }
 
-        if (dashReset == null && currentDashCount < dashCount)
-        {
-            dashReset = StartCoroutine(startDashTimer());
-        }
     }
 
     void limitDash()
@@ -164,82 +188,20 @@ public class Player : MonoBehaviour
         }
     }
 
-    void handleDashes()
-    {
-        if (Input.GetMouseButtonDown(1) && currentDashCount > 0)
-        {
-            currentDashCount--;
-
-            isDashing = true;
-            isInv = true;
-
-            elapsedDashTime = 0;
-
-            setDashLocation();
-        }
-    }
+    #region Attack Functions
 
     void handleAttack()
     {
         if (Input.GetMouseButtonDown(0) && currentAttackCount > 0)
         {
             currentAttackCount--;
-            StartCoroutine(Attack());
-            
-        }
-    }
 
-    IEnumerator startDashTimer()
-    {
-        yield return new WaitForSeconds(dashCooldown);
+            isAttacking = true;
+            isInv = true;
 
-        currentDashCount++;
-        if (currentDashCount > dashCount)
-        {
-            currentDashCount = dashCount;
-        }
-        dashReset = null;
-    }
+            elapsedDashTime = 0;
 
-    IEnumerator startAttackTimer()
-    {
-        attackHitbox.enabled = true;
-        yield return new WaitForSeconds(attackCooldown);
-
-        currentAttackCount++;
-        if (currentAttackCount > attackCount)
-        {
-            currentAttackCount = attackCount;
-        }
-        attackReset = null;
-
-        attackHitbox.enabled = false;
-    }
-
-    private void setDashLocation()
-    {
-        dashDestination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        if (Vector2.Distance(rb.position, dashDestination) > dashDistance)
-        {
-            Vector2 maxDashDistVec = (dashDestination - rb.position).normalized;
-
-            dashDestination = rb.position + maxDashDistVec * dashDistance;
-        }
-    }
-
-    private void Dash()
-    {
-        elapsedDashTime += Time.fixedDeltaTime;
-
-        float percentComplete = elapsedDashTime / dashDuration;
-
-        rb.position = Vector2.Lerp(rb.position, dashDestination, percentComplete);
-
-        if (Vector2.Distance(rb.position, dashDestination) < 0.2f) {
-            rb.position = dashDestination;
-            isDashing = false;
-            isInv = false;
+            setDashLocation();
         }
     }
 
@@ -258,6 +220,62 @@ public class Player : MonoBehaviour
         isInv = false;
     }
 
+    #endregion
+
+    #region Dash Functions
+
+    void handleDashes()
+    {
+        if (Input.GetMouseButtonDown(1) && currentDashCount > 0)
+        {
+            currentDashCount--;
+
+            isDashing = true;
+            isInv = true;
+
+            elapsedDashTime = 0;
+
+            setDashLocation();
+        }
+    }
+
+
+    private void setDashLocation()
+    {
+        dashDestination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        if (Vector2.Distance(rb.position, dashDestination) > maxDashDistance)
+        {
+            Vector2 maxDashDistVec = (dashDestination - rb.position).normalized;
+
+            dashDestination = rb.position + maxDashDistVec * maxDashDistance;
+        }
+    }
+
+    private void Dash()
+    {
+        elapsedDashTime += Time.fixedDeltaTime;
+
+        float percentComplete = elapsedDashTime / dashDuration;
+
+        rb.position = Vector2.Lerp(rb.position, dashDestination, percentComplete);
+
+        if (Vector2.Distance(rb.position, dashDestination) < 0.2f) {
+            rb.position = dashDestination;
+            isDashing = false;
+            isInv = false;
+        }
+    }
+
+    #endregion
+
+    public void ResetDashes()
+    {
+        currentDashCount = maxDashCount;
+        currentAttackCount = attackCount;
+        isAttacking = false;
+        isDashing = false;
+    }
 
     void handleMovement()
     {
@@ -276,27 +294,6 @@ public class Player : MonoBehaviour
         {
             rb.velocity = rb.velocity.normalized * maxSpeed;
         }
-    }
-
-    public void ResetDashes()
-    {
-        currentDashCount = dashCount;
-        currentAttackCount = attackCount;
-        isAttacking = false;
-        isDashing = false;
-
-        if (attackReset != null)
-        {
-            StopCoroutine(attackReset);
-        }
-
-        if (dashReset != null)
-        {
-            StopCoroutine(dashReset);
-        }
-
-        attackReset = null;
-        dashReset = null;
     }
 
     public Vector3 GetVelocity()
