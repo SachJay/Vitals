@@ -121,7 +121,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-
+        UpdateDashes();
     }
 
     private void UpdateDashes()
@@ -132,11 +132,13 @@ public class Player : MonoBehaviour
         foreach (DashIndicator ind in attackIndicators)
         {
             ind.gameObject.SetActive(false);
+            ind.player = this;
         }
 
         foreach (DashIndicator ind in dashIndicators)
         {
             ind.gameObject.SetActive(false);
+            ind.player = this;
         }
 
         for (int i = 0; i < maxAttackCount; i++)
@@ -150,21 +152,20 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     private void Update()
     {
+        #if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            LoadNextScene();
+        }
+        #endif 
+
         if (Input.GetKeyDown(KeyCode.R))
         {
             string currentSceneName = SceneManager.GetActiveScene().name;
             SceneManager.LoadScene(currentSceneName);
         }
-
-#if UNITY_EDITOR
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            LoadNextScene();
-        }
-#endif 
 
         if (!isAlive)
             return;
@@ -263,12 +264,19 @@ public class Player : MonoBehaviour
             {
                 if (ind.IsStarted)
                     continue;
+                
                 else
                     ind.StartTimer(dashCooldown);
+                
+                return;
             }
         }
     }
 
+    public void AddDash()
+    {
+        currentDashCount++;
+    }
 
     private void GetDashLocation()
     {

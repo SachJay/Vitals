@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class DashIndicator : MonoBehaviour
 {
+    public Player player;
+
     [SerializeField]
     Image background;
 
@@ -27,7 +29,11 @@ public class DashIndicator : MonoBehaviour
             slider.value = timePassed;
 
             if (slider.value >= slider.maxValue)
+            {
+                player.AddDash();
+
                 SetSlider(false);
+            }
         }
     }
 
@@ -40,6 +46,8 @@ public class DashIndicator : MonoBehaviour
 
     private void SetSlider(bool newState)
     {
+        isStarted = newState;
+
         background.enabled = !newState;
 
         timePassed = 0;

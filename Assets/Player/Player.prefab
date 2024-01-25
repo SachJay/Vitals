@@ -173,7 +173,7 @@ MonoBehaviour:
   dashDrag: 40
   maxAttackCount: 1
   currentAttackCount: 1
-  attackCooldown: 2.5
+  attackCooldown: 0.5
   attackSpeed: 3750
   attackDuration: 0.3
   isAttacking: 0
@@ -181,7 +181,7 @@ MonoBehaviour:
   attackIndicators:
   - {fileID: 9157215562982773384}
   maxDashCount: 2
-  dashCooldown: 0.5
+  dashCooldown: 3
   maxDashDistance: 12
   dashDuration: 0.4
   isDashing: 0
