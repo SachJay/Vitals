@@ -49,24 +49,28 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     float maxAttackCount = 1;
-    public float currentAttackCount = 1;
+    
+    float currentAttackCount = 1;
 
     [SerializeField]
     float attackCooldown = 3f;
 
     [SerializeField]
-    float attackSpeed = 900;
+    float maxAttackDistance = 7;
 
     [SerializeField]
-    float attackDuration = 0.3f;
+    float attackDuration = 0.5f;
 
-    public bool isAttacking = false;
+    bool isAttacking = false;
+    public bool IsAttacking => isAttacking;
+
+    Vector2 attackDestination = Vector2.zero;
 
     [SerializeField]
     CircleCollider2D attackHitbox;
 
     [SerializeField]
-    DashIndicator[] attackIndicators;
+    AttackIndicator[] attackIndicators;
 
     #endregion
 
@@ -90,7 +94,7 @@ public class Player : MonoBehaviour
 
     float elapsedDashTime = 0;
 
-    public bool isDashing = false;
+    bool isDashing = false;
 
     Vector2 dashDestination = Vector2.zero;
 
@@ -121,21 +125,15 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        UpdateDashes();
+        UpdateAttackAndDashCounts();
     }
 
-    private void UpdateDashes()
+    private void UpdateAttackAndDashCounts()
     {
+        // Attacks
         currentAttackCount = maxAttackCount;
-        currentDashCount = maxDashCount;
 
-        foreach (DashIndicator ind in attackIndicators)
-        {
-            ind.gameObject.SetActive(false);
-            ind.player = this;
-        }
-
-        foreach (DashIndicator ind in dashIndicators)
+        foreach (AttackIndicator ind in attackIndicators)
         {
             ind.gameObject.SetActive(false);
             ind.player = this;
@@ -143,7 +141,16 @@ public class Player : MonoBehaviour
 
         for (int i = 0; i < maxAttackCount; i++)
         {
-            dashIndicators[i].gameObject.SetActive(true);
+            attackIndicators[i].gameObject.SetActive(true);
+        }
+
+        // Dashes
+        currentDashCount = maxDashCount;
+
+        foreach (DashIndicator ind in dashIndicators)
+        {
+            ind.gameObject.SetActive(false);
+            ind.player = this;
         }
 
         for (int i = 0; i < maxDashCount; i++)
@@ -181,12 +188,7 @@ public class Player : MonoBehaviour
             handleMovement();
         }
 
-        //if (isDashing)
-        //{
-        //    limitDash();
-        //}
-
-        handleAttack();
+        handleAttacks();
 
         cameraPosition.x = 0;
         cameraPosition.y = rb.transform.position.y;
@@ -195,25 +197,17 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isDashing)
-        {
+        if (isAttacking)
+            Attack();
+        else if (isDashing)
             Dash();
-        }
     }
 
     #endregion
 
-    //void limitDash()
-    //{
-    //    if (Vector2.Distance(rb.transform.position, dashDestination) < 1)
-    //    {
-    //        rb.drag = dashDrag;
-    //    }
-    //}
-
     #region Attack Functions
 
-    void handleAttack()
+    void handleAttacks()
     {
         if (Input.GetMouseButtonDown(0) && currentAttackCount > 0)
         {
@@ -224,23 +218,52 @@ public class Player : MonoBehaviour
 
             elapsedDashTime = 0;
 
-            GetDashLocation();
+            GetAttackLocation();
+
+            foreach (AttackIndicator ind in attackIndicators)
+            {
+                if (ind.IsStarted)
+                    continue;
+
+                else
+                    ind.StartTimer(attackCooldown);
+
+                return;
+            }
         }
     }
 
-    IEnumerator Attack()
+    public void AddAttack()
     {
-        isDashing = false;
-        isAttacking = true;
-        isInv = true;
+        currentAttackCount++;
+    }
 
-        //Vector2 dashLocation = getDashLocation();
-        rb.AddForce(dashDestination * attackSpeed, ForceMode2D.Force);
+    private void GetAttackLocation()
+    {
+        attackDestination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        yield return new WaitForSeconds(attackDuration);
+        if (Vector2.Distance(rb.position, attackDestination) > maxAttackDistance)
+        {
+            Vector2 maxAttackDistVec = (attackDestination - rb.position).normalized;
 
-        isAttacking = false;
-        isInv = false;
+            attackDestination = rb.position + maxAttackDistVec * maxAttackDistance;
+        }
+    }
+
+    private void Attack()
+    {
+        elapsedDashTime += Time.fixedDeltaTime;
+
+        float percentComplete = elapsedDashTime / attackDuration;
+
+        rb.position = Vector2.Lerp(rb.position, attackDestination, percentComplete);
+
+        if (Vector2.Distance(rb.position, attackDestination) < 0.2f)
+        {
+            rb.position = attackDestination;
+            isAttacking = false;
+            isInv = false;
+        }
     }
 
     #endregion
@@ -324,7 +347,7 @@ public class Player : MonoBehaviour
         rb.AddForce(accelDirection * accel * Time.deltaTime, ForceMode2D.Force);
     }
 
-    void limitSpeed ()
+    void limitSpeed()
     {
         rb.drag = drag;
 

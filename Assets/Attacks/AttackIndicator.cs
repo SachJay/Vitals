@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DashIndicator : MonoBehaviour
+public class AttackIndicator : MonoBehaviour
 {
     [HideInInspector]
     public Player player;
@@ -31,7 +31,7 @@ public class DashIndicator : MonoBehaviour
 
             if (slider.value >= slider.maxValue)
             {
-                player.AddDash();
+                player.AddAttack();
 
                 SetSlider(false);
             }

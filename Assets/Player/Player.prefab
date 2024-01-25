@@ -172,19 +172,16 @@ MonoBehaviour:
   drag: 14
   dashDrag: 40
   maxAttackCount: 1
-  currentAttackCount: 1
   attackCooldown: 0.5
-  attackSpeed: 3750
+  maxAttackDistance: 7
   attackDuration: 0.3
-  isAttacking: 0
   attackHitbox: {fileID: 1558656742053626622}
   attackIndicators:
-  - {fileID: 9157215562982773384}
+  - {fileID: 3668561719965806254}
   maxDashCount: 2
   dashCooldown: 3
   maxDashDistance: 12
   dashDuration: 0.4
-  isDashing: 0
   dashIndicators:
   - {fileID: 1661786265147032800}
   - {fileID: 104709279449742717}
@@ -458,7 +455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b614e2002e3170747b1bb852209a3759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 2585928952307769519}
 --- !u!1 &8544503587500367895
 GameObject:
   m_ObjectHideFlags: 0
@@ -735,22 +732,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 45e8c6e173d141d488751da8da6defe0, type: 3}
---- !u!224 &5252821047744992610 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6986823718987279381, guid: 45e8c6e173d141d488751da8da6defe0, type: 3}
-  m_PrefabInstance: {fileID: 2887911056557717879}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &9157215562982773384 stripped
+--- !u!114 &3668561719965806254 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6271012649414159359, guid: 45e8c6e173d141d488751da8da6defe0, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1944062712206317529, guid: 45e8c6e173d141d488751da8da6defe0, type: 3}
   m_PrefabInstance: {fileID: 2887911056557717879}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79942ea4952dc2344b8dac7b4b1a85ae, type: 3}
+  m_Script: {fileID: 11500000, guid: 6fcdcb681441bdb4d948f8b279d42af9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &5252821047744992610 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 6986823718987279381, guid: 45e8c6e173d141d488751da8da6defe0, type: 3}
+  m_PrefabInstance: {fileID: 2887911056557717879}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3759887871789873598
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -9,8 +9,10 @@ public class PlayerAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (player.isAttacking)
+        print("Happened");
+        if (player.IsAttacking)
         {
+            print("IsAttacking");
             if (other.gameObject.TryGetComponent(out Enemy enemy) && enemy.transitionOnDeath)
             {
                 StartCoroutine(LoadNewScene());
