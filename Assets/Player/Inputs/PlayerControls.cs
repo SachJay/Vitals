@@ -53,6 +53,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""b220dc8a-bd44-43c2-8cbc-605b510f904e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +141,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""98f95777-0516-4c7e-b651-cb5cb43d9697"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -171,6 +191,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_MainGameplay_Move = m_MainGameplay.FindAction("Move", throwIfNotFound: true);
         m_MainGameplay_Attack = m_MainGameplay.FindAction("Attack", throwIfNotFound: true);
         m_MainGameplay_Dash = m_MainGameplay.FindAction("Dash", throwIfNotFound: true);
+        m_MainGameplay_Restart = m_MainGameplay.FindAction("Restart", throwIfNotFound: true);
         // FishingMinigame
         m_FishingMinigame = asset.FindActionMap("FishingMinigame", throwIfNotFound: true);
         m_FishingMinigame_Newaction = m_FishingMinigame.FindAction("New action", throwIfNotFound: true);
@@ -238,6 +259,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_MainGameplay_Move;
     private readonly InputAction m_MainGameplay_Attack;
     private readonly InputAction m_MainGameplay_Dash;
+    private readonly InputAction m_MainGameplay_Restart;
     public struct MainGameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -245,6 +267,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_MainGameplay_Move;
         public InputAction @Attack => m_Wrapper.m_MainGameplay_Attack;
         public InputAction @Dash => m_Wrapper.m_MainGameplay_Dash;
+        public InputAction @Restart => m_Wrapper.m_MainGameplay_Restart;
         public InputActionMap Get() { return m_Wrapper.m_MainGameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -263,6 +286,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @Restart.started += instance.OnRestart;
+            @Restart.performed += instance.OnRestart;
+            @Restart.canceled += instance.OnRestart;
         }
 
         private void UnregisterCallbacks(IMainGameplayActions instance)
@@ -276,6 +302,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @Restart.started -= instance.OnRestart;
+            @Restart.performed -= instance.OnRestart;
+            @Restart.canceled -= instance.OnRestart;
         }
 
         public void RemoveCallbacks(IMainGameplayActions instance)
@@ -344,6 +373,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnRestart(InputAction.CallbackContext context);
     }
     public interface IFishingMinigameActions
     {

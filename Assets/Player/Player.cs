@@ -190,27 +190,14 @@ public class Player : MonoBehaviour
 
         #endregion
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            string currentSceneName = SceneManager.GetActiveScene().name;
-            SceneManager.LoadScene(currentSceneName);
-        }
-
         if (!isAlive)
             return;
-
-        //if (!isAttacking)
-        //{
-        //    HandleDashes();
-        //}
 
         if (!isDashing && !isAttacking)
         {
             LimitSpeed();
             HandleMovement();
         }
-
-        //HandleAttacks();
 
         cameraPosition.x = 0;
         cameraPosition.y = rb.transform.position.y;
@@ -226,6 +213,14 @@ public class Player : MonoBehaviour
     }
 
     #endregion
+
+    private void OnRestart()
+    {
+        // TODO: Check if stage is done and stop player from restarting
+
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentSceneName);
+    }
 
     #region Attack Functions
 
