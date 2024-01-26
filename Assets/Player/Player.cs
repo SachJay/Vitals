@@ -206,8 +206,8 @@ public class Player : MonoBehaviour
 
         if (!isDashing && !isAttacking)
         {
-            limitSpeed();
-            handleMovement();
+            LimitSpeed();
+            HandleMovement();
         }
 
         //HandleAttacks();
@@ -226,11 +226,6 @@ public class Player : MonoBehaviour
     }
 
     #endregion
-
-    private void OnMove()
-    {
-        
-    }
 
     #region Attack Functions
 
@@ -403,16 +398,19 @@ public class Player : MonoBehaviour
 
     #endregion
 
-    void handleMovement()
-    {
-        Vector2 accelDirection = new Vector2(
-            (Input.GetKey(KeyCode.D) ? 1 : 0) - (Input.GetKey(KeyCode.A) ? 1 : 0),
-            (Input.GetKey(KeyCode.W) ? 1 : 0) - (Input.GetKey(KeyCode.S) ? 1 : 0));
+    #region Movement Functions
 
-        rb.AddForce(accelDirection * accel * Time.deltaTime, ForceMode2D.Force);
+    private void OnMove(InputValue inputValue)
+    {
+        currentVelocity = inputValue.Get<Vector2>();
     }
 
-    void limitSpeed()
+    private void HandleMovement()
+    {
+        rb.AddForce(accel * Time.deltaTime * currentVelocity, ForceMode2D.Force);
+    }
+
+    void LimitSpeed()
     {
         rb.drag = drag;
 
@@ -426,6 +424,8 @@ public class Player : MonoBehaviour
     {
         return rb.velocity;
     }
+
+    #endregion
 
     public void KillPlayer(Vector3 attackPosition)
     {
