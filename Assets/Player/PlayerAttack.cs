@@ -20,6 +20,7 @@ public class PlayerAttack : MonoBehaviour
             Destroy(other.gameObject);
 
             Vector2 dashLocation = (player.rb.velocity).normalized;
+
             player.SetTrailRenderer(false);
             player.rb.velocity = Vector2.zero;
             player.rb.AddForce(dashLocation * player.knockbackForce, ForceMode2D.Force);

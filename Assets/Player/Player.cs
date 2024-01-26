@@ -171,12 +171,23 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        #if UNITY_EDITOR
+        #region Debug Stuff
+
+#if UNITY_EDITOR
+
         if (Input.GetKeyDown(KeyCode.T))
         {
             LoadNextScene();
         }
-        #endif 
+        
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            KnockbackPlayer();
+        }
+
+#endif
+
+        #endregion
 
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -400,10 +411,19 @@ public class Player : MonoBehaviour
         visuals.SetActive(false);
     }
 
+    #region Debug Functions
+
     public void LoadNextScene()
     {
         SceneManager.LoadScene(nextScene);
     }
+
+    public void KnockbackPlayer()
+    {
+        rb.AddForce(Vector2.left * 100, ForceMode2D.Impulse);
+    }
+
+    #endregion
 
     public void PlayDeathParticles(Vector3 attackPosition)
     {
