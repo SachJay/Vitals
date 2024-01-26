@@ -1,17 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     #region Variables
-
-    public Rigidbody2D rb;
-
-    [SerializeField]
-    Camera camera;
 
     #region Player State Variables
 
@@ -119,6 +112,14 @@ public class Player : MonoBehaviour
 
     [Header("Other Stuff")]
 
+    public Rigidbody2D rb;
+
+    [SerializeField]
+    Camera camera;
+
+    [SerializeField]
+    PlayerControls playerControls;
+
     public string nextScene = "";
 
     public ParticleSystem enemyDeathParticlesPrefab; //TODO move out of player
@@ -198,10 +199,10 @@ public class Player : MonoBehaviour
         if (!isAlive)
             return;
 
-        if (!isAttacking)
-        {
-            HandleDashes();
-        }
+        //if (!isAttacking)
+        //{
+        //    HandleDashes();
+        //}
 
         if (!isDashing && !isAttacking)
         {
@@ -209,7 +210,7 @@ public class Player : MonoBehaviour
             handleMovement();
         }
 
-        HandleAttacks();
+        //HandleAttacks();
 
         cameraPosition.x = 0;
         cameraPosition.y = rb.transform.position.y;
@@ -226,35 +227,48 @@ public class Player : MonoBehaviour
 
     #endregion
 
+    private void OnMove()
+    {
+        
+    }
+
     #region Attack Functions
 
-    void HandleAttacks()
+    private void OnAttack()
     {
-        if (Input.GetMouseButtonDown(0) && currentAttackCount > 0)
+        if (!CanAttack()) return;
+
+        currentAttackCount--;
+
+        isAttacking = true;
+        isInv = true;
+
+        elapsedDashTime = 0;
+
+        GetAttackLocation();
+
+        attackHitbox.enabled = true;
+        SetTrailRenderer(true);
+
+        foreach (AttackIndicator ind in attackIndicators)
         {
-            currentAttackCount--;
+            if (ind.IsStarted)
+                continue;
 
-            isAttacking = true;
-            isInv = true;
+            else
+                ind.StartTimer(attackCooldown);
 
-            elapsedDashTime = 0;
-
-            GetAttackLocation();
-
-            attackHitbox.enabled = true;
-            SetTrailRenderer(true);
-
-            foreach (AttackIndicator ind in attackIndicators)
-            {
-                if (ind.IsStarted)
-                    continue;
-
-                else
-                    ind.StartTimer(attackCooldown);
-
-                return;
-            }
+            return;
         }
+    }
+
+    private bool CanAttack()
+    {
+        if (!isAlive) return false;
+        else if (currentAttackCount <= 0) return false;
+        else if (IsAttacking || isDashing) return false;
+        
+        else return true;
     }
 
     public void AddAttack()
@@ -298,32 +312,41 @@ public class Player : MonoBehaviour
 
     #region Dash Functions
 
-    void HandleDashes()
+    void OnDash()
     {
-        if (Input.GetMouseButtonDown(1) && currentDashCount > 0)
+        if (!CanDash()) return;
+
+        currentDashCount--;
+
+        isDashing = true;
+        isInv = true;
+
+        elapsedDashTime = 0;
+
+        GetDashLocation();
+
+        SetTrailRenderer(true);
+
+        foreach (DashIndicator ind in dashIndicators)
         {
-            currentDashCount--;
-
-            isDashing = true;
-            isInv = true;
-
-            elapsedDashTime = 0;
-
-            GetDashLocation();
-
-            SetTrailRenderer(true);
-
-            foreach (DashIndicator ind in dashIndicators)
-            {
-                if (ind.IsStarted)
-                    continue;
+            if (ind.IsStarted)
+                continue;
                 
-                else
-                    ind.StartTimer(dashCooldown);
+            else
+                ind.StartTimer(dashCooldown);
                 
-                return;
-            }
+            return;
         }
+        
+    }
+
+    private bool CanDash()
+    {
+        if (!isAlive) return false;
+        else if (currentDashCount <= 0) return false;
+        else if (IsAttacking || isDashing) return false;
+
+        else return true;
     }
 
     public void AddDash()
