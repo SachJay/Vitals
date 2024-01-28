@@ -143,37 +143,6 @@ public class Player : MonoBehaviour
         SetTrailRenderer(false);
     }
 
-    private void UpdateAttackAndDashCounts()
-    {
-        // Attacks
-        currentAttackCount = maxAttackCount;
-
-        foreach (AttackIndicator ind in attackIndicators)
-        {
-            ind.gameObject.SetActive(false);
-            ind.player = this;
-        }
-
-        for (int i = 0; i < maxAttackCount; i++)
-        {
-            attackIndicators[i].gameObject.SetActive(true);
-        }
-
-        // Dashes
-        currentDashCount = maxDashCount;
-
-        foreach (DashIndicator ind in dashIndicators)
-        {
-            ind.gameObject.SetActive(false);
-            ind.player = this;
-        }
-
-        for (int i = 0; i < maxDashCount; i++)
-        {
-            dashIndicators[i].gameObject.SetActive(true);
-        }
-    }
-
     private void Update()
     {
         #region Debug Stuff
@@ -197,15 +166,13 @@ public class Player : MonoBehaviour
         if (!isAlive)
             return;
 
+        print(currentVelocity);
+
         if (!isDashing && !isAttacking)
         {
             LimitSpeed();
             HandleMovement();
         }
-
-        cameraPosition.x = 0;
-        cameraPosition.y = rb.transform.position.y;
-        cameraPosition.z = -10;
     }
 
     private void FixedUpdate()
@@ -214,6 +181,13 @@ public class Player : MonoBehaviour
             Attack();
         else if (isDashing)
             Dash();
+    }
+
+    private void LateUpdate()
+    {
+        cameraPosition.x = 0;
+        cameraPosition.y = rb.transform.position.y;
+        cameraPosition.z = -10;
     }
 
     #endregion
@@ -395,6 +369,37 @@ public class Player : MonoBehaviour
     #endregion
 
     #region Attack & Dash Shared Functions
+
+    private void UpdateAttackAndDashCounts()
+    {
+        // Attacks
+        currentAttackCount = maxAttackCount;
+
+        foreach (AttackIndicator ind in attackIndicators)
+        {
+            ind.gameObject.SetActive(false);
+            ind.player = this;
+        }
+
+        for (int i = 0; i < maxAttackCount; i++)
+        {
+            attackIndicators[i].gameObject.SetActive(true);
+        }
+
+        // Dashes
+        currentDashCount = maxDashCount;
+
+        foreach (DashIndicator ind in dashIndicators)
+        {
+            ind.gameObject.SetActive(false);
+            ind.player = this;
+        }
+
+        for (int i = 0; i < maxDashCount; i++)
+        {
+            dashIndicators[i].gameObject.SetActive(true);
+        }
+    }
 
     public void ResetAttack_Dash()
     {
