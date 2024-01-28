@@ -12,19 +12,12 @@ public class PlayerAttack : MonoBehaviour
         if (player.IsAttacking)
         {
             if (other.gameObject.TryGetComponent(out Enemy enemy) && enemy.transitionOnDeath)
-            {
                 StartCoroutine(LoadNewScene());
-            }
 
             handleDeathParticles(other.gameObject);
             Destroy(other.gameObject);
 
-            Vector2 dashLocation = (player.rb.velocity).normalized;
-
-            player.SetTrailRenderer(false);
-            player.rb.velocity = Vector2.zero;
-            player.rb.AddForce(dashLocation * player.knockbackForce, ForceMode2D.Force);
-            player.ResetDashes();
+            player.EnemyKilled();
         }
     }
 

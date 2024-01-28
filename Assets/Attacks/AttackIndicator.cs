@@ -17,9 +17,23 @@ public class AttackIndicator : MonoBehaviour
     bool isStarted = false;
     public bool IsStarted => isStarted;
 
+    public void ResetTimer()
+    {
+        player.AddAttack();
+
+        SetSliderState(false);
+    }
+    
+    public void StartTimer(float cooldown)
+    {
+        SetSliderState(true);
+
+        slider.maxValue = cooldown;
+    }
+
     private void Start()
     {
-        SetSlider(false);
+        SetSliderState(false);
     }
 
     private void Update()
@@ -30,22 +44,11 @@ public class AttackIndicator : MonoBehaviour
             slider.value = timePassed;
 
             if (slider.value >= slider.maxValue)
-            {
-                player.AddAttack();
-
-                SetSlider(false);
-            }
+                ResetTimer();
         }
     }
 
-    public void StartTimer(float cooldown)
-    {
-        SetSlider(true);
-
-        slider.maxValue = cooldown;
-    }
-
-    private void SetSlider(bool newState)
+    private void SetSliderState(bool newState)
     {
         isStarted = newState;
 

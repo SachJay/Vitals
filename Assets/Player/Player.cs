@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -8,11 +9,14 @@ public class Player : MonoBehaviour
 
     #region Player State Variables
 
-    [SerializeField]
+    //[SerializeField]
     bool isAlive = true;
 
     bool isInv = false;
     public bool IsInv => isInv;
+
+    [SerializeField]
+    float killInvDuration = 0.2f;
 
     #endregion
 
@@ -392,12 +396,20 @@ public class Player : MonoBehaviour
 
     #region Attack & Dash Shared Functions
 
-    public void ResetDashes()
+    public void ResetAttack_Dash()
     {
-        currentDashCount = maxDashCount;
-        currentAttackCount = maxAttackCount;
-        isAttacking = false;
-        isDashing = false;
+        EndAttack();
+
+        for (int i = 0; i < maxAttackCount; i++)
+        {
+            attackIndicators[i].ResetTimer();
+        }
+
+        EndDash();        
+        for (int i = 0; i < maxDashCount; i++)
+        {
+            dashIndicators[i].ResetTimer();
+        }
     }
 
     public void SetTrailRenderer(bool newState)
@@ -407,7 +419,7 @@ public class Player : MonoBehaviour
 
     #endregion
 
-    #region Movement Functions
+    #region Other Movement Functions
 
     private void OnMove(InputValue inputValue)
     {
@@ -435,6 +447,22 @@ public class Player : MonoBehaviour
     }
 
     #endregion
+
+    public void EnemyKilled()
+    {
+        ResetAttack_Dash();
+
+        StartCoroutine(TempInvincibility());
+    }
+
+    IEnumerator TempInvincibility()
+    {
+        isInv = true;
+
+        yield return new WaitForSeconds(killInvDuration);
+
+        isInv = false;
+    }
 
     public void KillPlayer(Vector3 attackPosition)
     {
