@@ -290,15 +290,17 @@ public class Player : MonoBehaviour
         rb.position = Vector2.Lerp(rb.position, attackDestination, percentComplete);
 
         if (Vector2.Distance(rb.position, attackDestination) < 0.2f)
+        {
+            rb.position = attackDestination;
+
             EndAttack();
+        }
     }
 
     private void EndAttack()
     {
         attackHitbox.enabled = false;
         SetTrailRenderer(false);
-
-        rb.position = attackDestination;
 
         isAttacking = false;
         isInv = false;
@@ -371,14 +373,16 @@ public class Player : MonoBehaviour
         rb.position = Vector2.Lerp(rb.position, dashDestination, percentComplete);
 
         if (Vector2.Distance(rb.position, dashDestination) < 0.2f)
+        {
+            rb.position = dashDestination;
+
             EndDash();
+        }
     }
 
     private void EndDash()
     {
         SetTrailRenderer(false);
-
-        rb.position = dashDestination;
 
         isDashing = false;
         isInv = false;
@@ -448,6 +452,9 @@ public class Player : MonoBehaviour
 
     public void KnockbackPlayer()
     {
+        EndAttack();
+        EndDash();
+        
         rb.AddForce(Vector2.left * 100, ForceMode2D.Impulse);
     }
 
