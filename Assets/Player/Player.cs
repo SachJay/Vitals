@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -8,11 +9,14 @@ public class Player : MonoBehaviour
 
     #region Player State Variables
 
-    [SerializeField]
+    //[SerializeField]
     bool isAlive = true;
 
     bool isInv = false;
     public bool IsInv => isInv;
+
+    [SerializeField]
+    float killInvDuration = 0.2f;
 
     #endregion
 
@@ -228,6 +232,9 @@ public class Player : MonoBehaviour
     {
         if (!CanAttack()) return;
 
+        if(isDashing)
+            EndDash();
+
         currentAttackCount--;
 
         isAttacking = true;
@@ -256,7 +263,7 @@ public class Player : MonoBehaviour
     {
         if (!isAlive) return false;
         else if (currentAttackCount <= 0) return false;
-        else if (IsAttacking || isDashing) return false;
+        else if (IsAttacking) return false;
         
         else return true;
     }
@@ -288,14 +295,19 @@ public class Player : MonoBehaviour
 
         if (Vector2.Distance(rb.position, attackDestination) < 0.2f)
         {
-            attackHitbox.enabled = false;
-            SetTrailRenderer(false);
-            
             rb.position = attackDestination;
-            
-            isAttacking = false;
-            isInv = false;
+
+            EndAttack();
         }
+    }
+
+    private void EndAttack()
+    {
+        attackHitbox.enabled = false;
+        SetTrailRenderer(false);
+
+        isAttacking = false;
+        isInv = false;
     }
 
     #endregion
@@ -364,26 +376,40 @@ public class Player : MonoBehaviour
 
         rb.position = Vector2.Lerp(rb.position, dashDestination, percentComplete);
 
-        if (Vector2.Distance(rb.position, dashDestination) < 0.2f) {
-            SetTrailRenderer(false);
-
+        if (Vector2.Distance(rb.position, dashDestination) < 0.2f)
+        {
             rb.position = dashDestination;
-            
-            isDashing = false;
-            isInv = false;
+
+            EndDash();
         }
+    }
+
+    private void EndDash()
+    {
+        SetTrailRenderer(false);
+
+        isDashing = false;
+        isInv = false;
     }
 
     #endregion
 
     #region Attack & Dash Shared Functions
 
-    public void ResetDashes()
+    public void ResetAttack_Dash()
     {
-        currentDashCount = maxDashCount;
-        currentAttackCount = maxAttackCount;
-        isAttacking = false;
-        isDashing = false;
+        EndAttack();
+
+        for (int i = 0; i < maxAttackCount; i++)
+        {
+            attackIndicators[i].ResetTimer();
+        }
+
+        EndDash();        
+        for (int i = 0; i < maxDashCount; i++)
+        {
+            dashIndicators[i].ResetTimer();
+        }
     }
 
     public void SetTrailRenderer(bool newState)
@@ -393,7 +419,7 @@ public class Player : MonoBehaviour
 
     #endregion
 
-    #region Movement Functions
+    #region Other Movement Functions
 
     private void OnMove(InputValue inputValue)
     {
@@ -422,6 +448,22 @@ public class Player : MonoBehaviour
 
     #endregion
 
+    public void EnemyKilled()
+    {
+        ResetAttack_Dash();
+
+        StartCoroutine(TempInvincibility());
+    }
+
+    IEnumerator TempInvincibility()
+    {
+        isInv = true;
+
+        yield return new WaitForSeconds(killInvDuration);
+
+        isInv = false;
+    }
+
     public void KillPlayer(Vector3 attackPosition)
     {
         isAlive = false;
@@ -438,6 +480,9 @@ public class Player : MonoBehaviour
 
     public void KnockbackPlayer()
     {
+        EndAttack();
+        EndDash();
+        
         rb.AddForce(Vector2.left * 100, ForceMode2D.Impulse);
     }
 
