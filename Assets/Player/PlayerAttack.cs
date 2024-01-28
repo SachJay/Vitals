@@ -9,7 +9,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (player.isAttacking)
+        if (player.IsAttacking)
         {
             if (other.gameObject.TryGetComponent(out Enemy enemy) && enemy.transitionOnDeath)
             {
@@ -20,6 +20,8 @@ public class PlayerAttack : MonoBehaviour
             Destroy(other.gameObject);
 
             Vector2 dashLocation = (player.rb.velocity).normalized;
+
+            player.SetTrailRenderer(false);
             player.rb.velocity = Vector2.zero;
             player.rb.AddForce(dashLocation * player.knockbackForce, ForceMode2D.Force);
             player.ResetDashes();

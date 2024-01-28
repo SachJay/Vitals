@@ -1,15 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    public Rigidbody2D rb;
+    #region Variables
+
+    #region Player State Variables
 
     [SerializeField]
-    Camera camera;
+    bool isAlive = true;
+
+    bool isInv = false;
+    public bool IsInv => isInv;
+
+    #endregion
+
+    #region Speed/RB Variables
+
+    [Header("Speed/RB Variables")]
 
     [SerializeField]
     float maxSpeed = 1;
@@ -18,240 +27,385 @@ public class Player : MonoBehaviour
     float accel = 1;
 
     [SerializeField]
-    float dashCount = 2;
-    public float currentDashCount;
-
-    [SerializeField]
-    float dashCooldown = 3f;
-
-    [SerializeField]
-    float attackCount = 1;
-    public float currentAttackCount = 1;
-
-    [SerializeField]
-    float attackCooldown = 3f;
-
-    [SerializeField]
-    float dashSpeed = 1500;
-
-    [SerializeField]
-    float dashDuration = 0.2f;
-
-    [SerializeField]
-    float attackSpeed = 900;
-
-    [SerializeField]
-    float attackDuration = 0.3f;
-
-    [SerializeField]
     float drag = 7f;
 
     [SerializeField]
     float dashDrag = 10f;
 
-    [SerializeField]
-    bool isAlive = true;
-
-    [SerializeField]
-    public float knockbackForce = 400f;
-
-    [SerializeField]
-    public string nextScene = "";
-
-    [SerializeField]
-    public ParticleSystem enemyDeathParticlesPrefab; //TODO move out of player
-
-    [SerializeField]
-    public ParticleSystem playerDeathParticlesPrefab;
-
-    [SerializeField]
-    public GameObject visuals;
-
     Vector2 currentVelocity = Vector2.zero;
-    public bool isDashing = false;
-    public bool isAttacking = false;
-    public bool isInv = false;
+
+    public float knockbackForce = 400f;
 
     [SerializeField]
     float frictionDeacceleration = 70;
 
-    Vector2 dashDestination = Vector2.zero;
-    Vector3 cameraPosition = new Vector3(0,0,-10);
+    #endregion
 
-    Coroutine attackReset = null;
-    Coroutine dashReset = null;
+    #region Attack Variables
+
+    [Header("Attack Variables")]
+
+    [SerializeField]
+    float maxAttackCount = 1;
+    
+    float currentAttackCount = 1;
+
+    [SerializeField]
+    float attackCooldown = 3f;
+
+    [SerializeField]
+    float maxAttackDistance = 7;
+
+    [SerializeField]
+    float attackDuration = 0.5f;
+
+    bool isAttacking = false;
+    public bool IsAttacking => isAttacking;
+
+    Vector2 attackDestination = Vector2.zero;
 
     [SerializeField]
     CircleCollider2D attackHitbox;
 
+    [SerializeField]
+    AttackIndicator[] attackIndicators;
+
+    #endregion
+
+    #region Dash Variables
+
+    [Header("Dash Variables")]
+
+    [SerializeField]
+    float maxDashCount = 2;
+
+    float currentDashCount;
+
+    [SerializeField]
+    float dashCooldown = 3f;
+
+    [SerializeField]
+    float maxDashDistance = 15;
+
+    [SerializeField]
+    float dashDuration = 0.5f;
+
+    bool isDashing = false;
+
+    Vector2 dashDestination = Vector2.zero;
+
+    [SerializeField]
+    DashIndicator[] dashIndicators;
+
+    #endregion
+
+    #region Attack & Dash Shared Variables
+
+    [Header("Attack & Dash Shared Variables")]
+
+    [SerializeField]
+    TrailRenderer trailRenderer;
+
+    float elapsedDashTime = 0;
+
+    #endregion
+
+    [Header("Other Stuff")]
+
+    public Rigidbody2D rb;
+
+    [SerializeField]
+    Camera camera;
+
+    [SerializeField]
+    PlayerControls playerControls;
+
+    public string nextScene = "";
+
+    public ParticleSystem enemyDeathParticlesPrefab; //TODO move out of player
+
+    public ParticleSystem playerDeathParticlesPrefab;
+
+    public GameObject visuals;
+    Vector3 cameraPosition = new Vector3(0,0,-10);
+
+    #endregion
+
+    #region Start and Update Functions
+
     private void Start()
     {
-        currentDashCount = dashCount;
-        currentAttackCount = attackCount;
-
+        UpdateAttackAndDashCounts();
+        SetTrailRenderer(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void UpdateAttackAndDashCounts()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        // Attacks
+        currentAttackCount = maxAttackCount;
+
+        foreach (AttackIndicator ind in attackIndicators)
         {
-            string currentSceneName = SceneManager.GetActiveScene().name;
-            SceneManager.LoadScene(currentSceneName);
+            ind.gameObject.SetActive(false);
+            ind.player = this;
         }
+
+        for (int i = 0; i < maxAttackCount; i++)
+        {
+            attackIndicators[i].gameObject.SetActive(true);
+        }
+
+        // Dashes
+        currentDashCount = maxDashCount;
+
+        foreach (DashIndicator ind in dashIndicators)
+        {
+            ind.gameObject.SetActive(false);
+            ind.player = this;
+        }
+
+        for (int i = 0; i < maxDashCount; i++)
+        {
+            dashIndicators[i].gameObject.SetActive(true);
+        }
+    }
+
+    private void Update()
+    {
+        #region Debug Stuff
+
+#if UNITY_EDITOR
 
         if (Input.GetKeyDown(KeyCode.T))
         {
             LoadNextScene();
         }
+        
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            KnockbackPlayer();
+        }
+
+#endif
+
+        #endregion
 
         if (!isAlive)
             return;
 
-        if (!isAttacking)
-        {
-            handleDashes();
-        }
-
         if (!isDashing && !isAttacking)
         {
-            limitSpeed();
-            handleMovement();
+            LimitSpeed();
+            HandleMovement();
         }
-
-        if (isDashing)
-        {
-            limitDash();
-        }
-
-        handleAttack();
-        handleTimers();
 
         cameraPosition.x = 0;
         cameraPosition.y = rb.transform.position.y;
         cameraPosition.z = -10;
     }
 
-    void handleTimers()
+    private void FixedUpdate()
     {
-        if (attackReset == null && currentAttackCount < attackCount)
-        {
-            attackReset = StartCoroutine(startAttackTimer());
-        }
-
-        if (dashReset == null && currentDashCount < dashCount)
-        {
-            dashReset = StartCoroutine(startDashTimer());
-        }
+        if (isAttacking)
+            Attack();
+        else if (isDashing)
+            Dash();
     }
 
-    void limitDash()
+    #endregion
+
+    private void OnRestart()
     {
-        if (Vector2.Distance(rb.transform.position, dashDestination) < 1)
-        {
-            rb.drag = dashDrag;
-        }
+        // TODO: Check if stage is done and stop player from restarting
+
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(currentSceneName);
     }
 
-    void handleDashes()
+    #region Attack Functions
+
+    private void OnAttack()
     {
-        if (Input.GetMouseButtonDown(1) && currentDashCount > 0)
-        {
-            currentDashCount--;
-            StartCoroutine(Dash());
-            
-        }
-    }
+        if (!CanAttack()) return;
 
-    void handleAttack()
-    {
-        if (Input.GetMouseButtonDown(0) && currentAttackCount > 0)
-        {
-            currentAttackCount--;
-            StartCoroutine(Attack());
-            
-        }
-    }
+        currentAttackCount--;
 
-    IEnumerator startDashTimer()
-    {
-        yield return new WaitForSeconds(dashCooldown);
-
-        currentDashCount++;
-        if (currentDashCount > dashCount)
-        {
-            currentDashCount = dashCount;
-        }
-        dashReset = null;
-    }
-
-    IEnumerator startAttackTimer()
-    {
-        attackHitbox.enabled = true;
-        yield return new WaitForSeconds(attackCooldown);
-
-        currentAttackCount++;
-        if (currentAttackCount > attackCount)
-        {
-            currentAttackCount = attackCount;
-        }
-        attackReset = null;
-
-        attackHitbox.enabled = false;
-    }
-
-    IEnumerator startInvPeriod()
-    {
-        yield return new WaitForSeconds(attackCooldown);
-        isInv = false;
-    }
-
-    IEnumerator Dash()
-    {
-        isDashing = true;
-        isInv = true;
-        Vector2 dashLocation = getDashLocation();
-        rb.AddForce(dashLocation * dashSpeed, ForceMode2D.Force);
-
-        yield return new WaitForSeconds(dashDuration);
-
-        isDashing = false;
-        isInv = false;
-    }
-
-    IEnumerator Attack()
-    {
-        isDashing = false;
         isAttacking = true;
         isInv = true;
 
-        Vector2 dashLocation = getDashLocation();
-        rb.AddForce(dashLocation * attackSpeed, ForceMode2D.Force);
+        elapsedDashTime = 0;
 
-        yield return new WaitForSeconds(attackDuration);
+        GetAttackLocation();
 
-        isAttacking = false;
-        isInv = false;
+        attackHitbox.enabled = true;
+        SetTrailRenderer(true);
+
+        foreach (AttackIndicator ind in attackIndicators)
+        {
+            if (ind.IsStarted)
+                continue;
+
+            else
+                ind.StartTimer(attackCooldown);
+
+            return;
+        }
     }
 
-    private Vector2 getDashLocation()
+    private bool CanAttack()
     {
-        rb.velocity = Vector2.zero;
+        if (!isAlive) return false;
+        else if (currentAttackCount <= 0) return false;
+        else if (IsAttacking || isDashing) return false;
+        
+        else return true;
+    }
 
+    public void AddAttack()
+    {
+        currentAttackCount++;
+    }
+
+    private void GetAttackLocation()
+    {
+        attackDestination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        if (Vector2.Distance(rb.position, attackDestination) > maxAttackDistance)
+        {
+            Vector2 maxAttackDistVec = (attackDestination - rb.position).normalized;
+
+            attackDestination = rb.position + maxAttackDistVec * maxAttackDistance;
+        }
+    }
+
+    private void Attack()
+    {
+        elapsedDashTime += Time.fixedDeltaTime;
+
+        float percentComplete = elapsedDashTime / attackDuration;
+
+        rb.position = Vector2.Lerp(rb.position, attackDestination, percentComplete);
+
+        if (Vector2.Distance(rb.position, attackDestination) < 0.2f)
+        {
+            attackHitbox.enabled = false;
+            SetTrailRenderer(false);
+            
+            rb.position = attackDestination;
+            
+            isAttacking = false;
+            isInv = false;
+        }
+    }
+
+    #endregion
+
+    #region Dash Functions
+
+    void OnDash()
+    {
+        if (!CanDash()) return;
+
+        currentDashCount--;
+
+        isDashing = true;
+        isInv = true;
+
+        elapsedDashTime = 0;
+
+        GetDashLocation();
+
+        SetTrailRenderer(true);
+
+        foreach (DashIndicator ind in dashIndicators)
+        {
+            if (ind.IsStarted)
+                continue;
+                
+            else
+                ind.StartTimer(dashCooldown);
+                
+            return;
+        }
+        
+    }
+
+    private bool CanDash()
+    {
+        if (!isAlive) return false;
+        else if (currentDashCount <= 0) return false;
+        else if (IsAttacking || isDashing) return false;
+
+        else return true;
+    }
+
+    public void AddDash()
+    {
+        currentDashCount++;
+    }
+
+    private void GetDashLocation()
+    {
         dashDestination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        return (dashDestination - rb.position).normalized;
+
+        if (Vector2.Distance(rb.position, dashDestination) > maxDashDistance)
+        {
+            Vector2 maxDashDistVec = (dashDestination - rb.position).normalized;
+
+            dashDestination = rb.position + maxDashDistVec * maxDashDistance;
+        }
     }
 
-    void handleMovement()
+    private void Dash()
     {
-        Vector2 accelDirection = new Vector2(
-            (Input.GetKey(KeyCode.D) ? 1 : 0) - (Input.GetKey(KeyCode.A) ? 1 : 0),
-            (Input.GetKey(KeyCode.W) ? 1 : 0) - (Input.GetKey(KeyCode.S) ? 1 : 0));
+        elapsedDashTime += Time.fixedDeltaTime;
 
-        rb.AddForce(accelDirection * accel * Time.deltaTime, ForceMode2D.Force);
+        float percentComplete = elapsedDashTime / dashDuration;
+
+        rb.position = Vector2.Lerp(rb.position, dashDestination, percentComplete);
+
+        if (Vector2.Distance(rb.position, dashDestination) < 0.2f) {
+            SetTrailRenderer(false);
+
+            rb.position = dashDestination;
+            
+            isDashing = false;
+            isInv = false;
+        }
     }
 
-    void limitSpeed ()
+    #endregion
+
+    #region Attack & Dash Shared Functions
+
+    public void ResetDashes()
+    {
+        currentDashCount = maxDashCount;
+        currentAttackCount = maxAttackCount;
+        isAttacking = false;
+        isDashing = false;
+    }
+
+    public void SetTrailRenderer(bool newState)
+    {
+        trailRenderer.emitting = newState;
+    }
+
+    #endregion
+
+    #region Movement Functions
+
+    private void OnMove(InputValue inputValue)
+    {
+        currentVelocity = inputValue.Get<Vector2>();
+    }
+
+    private void HandleMovement()
+    {
+        rb.AddForce(accel * Time.deltaTime * currentVelocity, ForceMode2D.Force);
+    }
+
+    void LimitSpeed()
     {
         rb.drag = drag;
 
@@ -261,33 +415,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ResetDashes()
-    {
-        currentDashCount = dashCount;
-        currentAttackCount = attackCount;
-        isAttacking = false;
-        isDashing = false;
-
-        if (attackReset != null)
-        {
-            StopCoroutine(attackReset);
-        }
-
-        if (dashReset != null)
-        {
-            StopCoroutine(dashReset);
-        }
-
-        StartCoroutine(startInvPeriod());
-
-        attackReset = null;
-        dashReset = null;
-    }
-
     public Vector3 GetVelocity()
     {
         return rb.velocity;
     }
+
+    #endregion
 
     public void KillPlayer(Vector3 attackPosition)
     {
@@ -296,10 +429,19 @@ public class Player : MonoBehaviour
         visuals.SetActive(false);
     }
 
+    #region Debug Functions
+
     public void LoadNextScene()
     {
         SceneManager.LoadScene(nextScene);
     }
+
+    public void KnockbackPlayer()
+    {
+        rb.AddForce(Vector2.left * 100, ForceMode2D.Impulse);
+    }
+
+    #endregion
 
     public void PlayDeathParticles(Vector3 attackPosition)
     {
