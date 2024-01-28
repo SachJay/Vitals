@@ -228,6 +228,9 @@ public class Player : MonoBehaviour
     {
         if (!CanAttack()) return;
 
+        if(isDashing)
+            EndDash();
+
         currentAttackCount--;
 
         isAttacking = true;
@@ -256,7 +259,7 @@ public class Player : MonoBehaviour
     {
         if (!isAlive) return false;
         else if (currentAttackCount <= 0) return false;
-        else if (IsAttacking || isDashing) return false;
+        else if (IsAttacking) return false;
         
         else return true;
     }
@@ -287,15 +290,18 @@ public class Player : MonoBehaviour
         rb.position = Vector2.Lerp(rb.position, attackDestination, percentComplete);
 
         if (Vector2.Distance(rb.position, attackDestination) < 0.2f)
-        {
-            attackHitbox.enabled = false;
-            SetTrailRenderer(false);
-            
-            rb.position = attackDestination;
-            
-            isAttacking = false;
-            isInv = false;
-        }
+            EndAttack();
+    }
+
+    private void EndAttack()
+    {
+        attackHitbox.enabled = false;
+        SetTrailRenderer(false);
+
+        rb.position = attackDestination;
+
+        isAttacking = false;
+        isInv = false;
     }
 
     #endregion
@@ -364,14 +370,18 @@ public class Player : MonoBehaviour
 
         rb.position = Vector2.Lerp(rb.position, dashDestination, percentComplete);
 
-        if (Vector2.Distance(rb.position, dashDestination) < 0.2f) {
-            SetTrailRenderer(false);
+        if (Vector2.Distance(rb.position, dashDestination) < 0.2f)
+            EndDash();
+    }
 
-            rb.position = dashDestination;
-            
-            isDashing = false;
-            isInv = false;
-        }
+    private void EndDash()
+    {
+        SetTrailRenderer(false);
+
+        rb.position = dashDestination;
+
+        isDashing = false;
+        isInv = false;
     }
 
     #endregion
