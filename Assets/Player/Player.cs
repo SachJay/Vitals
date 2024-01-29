@@ -34,10 +34,10 @@ public class Player : MonoBehaviour
     float accel = 1f;
 
     [SerializeField]
-    float drag = 7f;
+    float stopDrag = 7f;
 
     [SerializeField]
-    float dashDrag = 10f;
+    float movingDrag = 1f;
 
     Vector2 currentVelocity = Vector2.zero;
 
@@ -45,6 +45,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     float frictionDeacceleration = 70;
+
+    bool isMoving = false;
 
     #endregion
 
@@ -169,6 +171,11 @@ public class Player : MonoBehaviour
         if (!isAlive)
             return;
 
+        if (isMoving)
+            rb.drag = movingDrag;
+        else
+            rb.drag = stopDrag;
+        
         if (!isDashing && !isAttacking)
         {
             LimitSpeed();
@@ -430,6 +437,8 @@ public class Player : MonoBehaviour
     private void OnMove(InputValue inputValue)
     {
         currentVelocity = inputValue.Get<Vector2>();
+
+        isMoving = currentVelocity != Vector2.zero;
     }
 
     private void HandleMovement()
@@ -439,8 +448,6 @@ public class Player : MonoBehaviour
 
     void LimitSpeed()
     {
-        rb.drag = drag;
-
         if (rb.velocity.magnitude > maxSpeed)
         {
             rb.velocity = rb.velocity.normalized * maxSpeed;
