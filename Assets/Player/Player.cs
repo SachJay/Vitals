@@ -25,16 +25,19 @@ public class Player : MonoBehaviour
     [Header("Speed/RB Variables")]
 
     [SerializeField]
-    float maxSpeed = 1;
+    float maxSpeed = 1f;
 
     [SerializeField]
-    float accel = 1;
+    float currentSpeed = 0f;
 
     [SerializeField]
-    float drag = 7f;
+    float accel = 1f;
 
     [SerializeField]
-    float dashDrag = 10f;
+    float stopDrag = 7f;
+
+    [SerializeField]
+    float movingDrag = 1f;
 
     Vector2 currentVelocity = Vector2.zero;
 
@@ -42,6 +45,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     float frictionDeacceleration = 70;
+
+    bool isMoving = false;
 
     #endregion
 
@@ -143,37 +148,6 @@ public class Player : MonoBehaviour
         SetTrailRenderer(false);
     }
 
-    private void UpdateAttackAndDashCounts()
-    {
-        // Attacks
-        currentAttackCount = maxAttackCount;
-
-        foreach (AttackIndicator ind in attackIndicators)
-        {
-            ind.gameObject.SetActive(false);
-            ind.player = this;
-        }
-
-        for (int i = 0; i < maxAttackCount; i++)
-        {
-            attackIndicators[i].gameObject.SetActive(true);
-        }
-
-        // Dashes
-        currentDashCount = maxDashCount;
-
-        foreach (DashIndicator ind in dashIndicators)
-        {
-            ind.gameObject.SetActive(false);
-            ind.player = this;
-        }
-
-        for (int i = 0; i < maxDashCount; i++)
-        {
-            dashIndicators[i].gameObject.SetActive(true);
-        }
-    }
-
     private void Update()
     {
         #region Debug Stuff
@@ -197,15 +171,16 @@ public class Player : MonoBehaviour
         if (!isAlive)
             return;
 
+        if (isMoving)
+            rb.drag = movingDrag;
+        else
+            rb.drag = stopDrag;
+        
         if (!isDashing && !isAttacking)
         {
             LimitSpeed();
             HandleMovement();
         }
-
-        cameraPosition.x = 0;
-        cameraPosition.y = rb.transform.position.y;
-        cameraPosition.z = -10;
     }
 
     private void FixedUpdate()
@@ -214,6 +189,13 @@ public class Player : MonoBehaviour
             Attack();
         else if (isDashing)
             Dash();
+    }
+
+    private void LateUpdate()
+    {
+        cameraPosition.x = 0;
+        cameraPosition.y = rb.transform.position.y;
+        cameraPosition.z = -10;
     }
 
     #endregion
@@ -396,6 +378,37 @@ public class Player : MonoBehaviour
 
     #region Attack & Dash Shared Functions
 
+    private void UpdateAttackAndDashCounts()
+    {
+        // Attacks
+        currentAttackCount = maxAttackCount;
+
+        foreach (AttackIndicator ind in attackIndicators)
+        {
+            ind.gameObject.SetActive(false);
+            ind.player = this;
+        }
+
+        for (int i = 0; i < maxAttackCount; i++)
+        {
+            attackIndicators[i].gameObject.SetActive(true);
+        }
+
+        // Dashes
+        currentDashCount = maxDashCount;
+
+        foreach (DashIndicator ind in dashIndicators)
+        {
+            ind.gameObject.SetActive(false);
+            ind.player = this;
+        }
+
+        for (int i = 0; i < maxDashCount; i++)
+        {
+            dashIndicators[i].gameObject.SetActive(true);
+        }
+    }
+
     public void ResetAttack_Dash()
     {
         EndAttack();
@@ -424,6 +437,8 @@ public class Player : MonoBehaviour
     private void OnMove(InputValue inputValue)
     {
         currentVelocity = inputValue.Get<Vector2>();
+
+        isMoving = currentVelocity != Vector2.zero;
     }
 
     private void HandleMovement()
@@ -433,12 +448,12 @@ public class Player : MonoBehaviour
 
     void LimitSpeed()
     {
-        rb.drag = drag;
-
         if (rb.velocity.magnitude > maxSpeed)
         {
             rb.velocity = rb.velocity.normalized * maxSpeed;
         }
+
+        currentSpeed = rb.velocity.magnitude;
     }
 
     public Vector3 GetVelocity()
