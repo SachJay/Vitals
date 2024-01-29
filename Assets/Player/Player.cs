@@ -25,10 +25,13 @@ public class Player : MonoBehaviour
     [Header("Speed/RB Variables")]
 
     [SerializeField]
-    float maxSpeed = 1;
+    float maxSpeed = 1f;
 
     [SerializeField]
-    float accel = 1;
+    float currentSpeed = 0f;
+
+    [SerializeField]
+    float accel = 1f;
 
     [SerializeField]
     float drag = 7f;
@@ -165,8 +168,6 @@ public class Player : MonoBehaviour
 
         if (!isAlive)
             return;
-
-        print(currentVelocity);
 
         if (!isDashing && !isAttacking)
         {
@@ -444,6 +445,8 @@ public class Player : MonoBehaviour
         {
             rb.velocity = rb.velocity.normalized * maxSpeed;
         }
+
+        currentSpeed = rb.velocity.magnitude;
     }
 
     public Vector3 GetVelocity()
