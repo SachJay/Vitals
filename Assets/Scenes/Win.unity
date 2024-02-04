@@ -313,6 +313,10 @@ PrefabInstance:
       propertyPath: stopDrag
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 2585928952307769519, guid: aeb623f2fbd00074f8beaf24d8e74c71, type: 3}
+      propertyPath: nextScene
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3099488609614250162, guid: aeb623f2fbd00074f8beaf24d8e74c71, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
