@@ -2378,6 +2378,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2585928952307769519, guid: aeb623f2fbd00074f8beaf24d8e74c71, type: 3}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 519420031}
+    - target: {fileID: 2585928952307769519, guid: aeb623f2fbd00074f8beaf24d8e74c71, type: 3}
+      propertyPath: nextScene
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2585928952307769519, guid: aeb623f2fbd00074f8beaf24d8e74c71, type: 3}
       propertyPath: maxDashCount
       value: 1
       objectReference: {fileID: 0}

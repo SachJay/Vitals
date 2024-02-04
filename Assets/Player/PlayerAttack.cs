@@ -33,7 +33,6 @@ public class PlayerAttack : MonoBehaviour
 
     IEnumerator LoadNewScene()
     {
-        print("Load Next Scene");
         yield return new WaitForSeconds(2);
         player.LoadNextScene();
     }
