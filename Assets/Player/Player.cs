@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -129,7 +130,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     PlayerControls playerControls;
 
-    public string nextScene = "";
+    [SerializeField]
+    Scenes nextScene;
 
     public ParticleSystem enemyDeathParticlesPrefab; //TODO move out of player
 
@@ -144,6 +146,8 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        ErrorCheck();
+
         UpdateAttackAndDashCounts();
         SetTrailRenderer(false);
     }
@@ -199,14 +203,6 @@ public class Player : MonoBehaviour
     }
 
     #endregion
-
-    private void OnRestart()
-    {
-        // TODO: Check if stage is done and stop player from restarting
-
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(currentSceneName);
-    }
 
     #region Attack Functions
 
@@ -463,6 +459,18 @@ public class Player : MonoBehaviour
 
     #endregion
 
+    public void LoadNextScene()
+    {
+        SceneChanger.ChangeSceneTo(nextScene);
+    }
+
+    private void OnRestart()
+    {
+        // TODO: Check if stage is done and stop player from restarting
+
+        SceneChanger.ResetCurrentScene(SceneManager.GetActiveScene().name);
+    }
+
     public void EnemyKilled()
     {
         ResetAttack_Dash();
@@ -486,11 +494,18 @@ public class Player : MonoBehaviour
         visuals.SetActive(false);
     }
 
+
     #region Debug Functions
 
-    public void LoadNextScene()
+    private void ErrorCheck()
     {
-        SceneManager.LoadScene(nextScene);
+        // This function is to let us know if some variables AREN'T set when the player is added to a scene
+        
+        if (camera == null) 
+            Debug.LogException(new Exception(name + " is missing the \"camera\" Variable, Please set it in the inspector"));
+
+        if (nextScene == Scenes.NONE)
+            Debug.LogException(new Exception(name + " is missing the \"nextScene\" Variable, Please set it in the inspector"));
     }
 
     public void KnockbackPlayer()

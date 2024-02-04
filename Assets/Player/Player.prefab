@@ -311,13 +311,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 890e2850a76280b46ae28a2f5417a95b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 1623201949953145261}
-  camera: {fileID: 0}
-  isAlive: 1
-  maxSpeed: 3500
+  killInvDuration: 0.2
+  maxSpeed: 8
+  currentSpeed: 0
   accel: 3500
-  drag: 14
-  dashDrag: 40
+  stopDrag: 7
+  movingDrag: 1
   knockbackForce: 400
   frictionDeacceleration: 70
   maxAttackCount: 1
@@ -338,7 +337,9 @@ MonoBehaviour:
   - {fileID: 104709279449742717}
   - {fileID: 5032171309942398347}
   trailRenderer: {fileID: 6647558999362038324}
-  nextScene: Barrage
+  rb: {fileID: 1623201949953145261}
+  camera: {fileID: 0}
+  nextScene: 6
   enemyDeathParticlesPrefab: {fileID: 3240456933415795335, guid: 2503a67f3845060458631f1c40afdb0f, type: 3}
   playerDeathParticlesPrefab: {fileID: 3240456933415795335, guid: 4e5b56f4b7e0ff74ba54b4b191c02c52, type: 3}
   visuals: {fileID: 2548693745377052789}
