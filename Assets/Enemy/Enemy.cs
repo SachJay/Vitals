@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    public Player player;
+    Player player;
 
     [SerializeField]
     EnemyAttack[] enemyAttack;
@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
     float speed = 100;
 
     [SerializeField]
-    public bool transitionOnDeath = false;
+    bool transitionOnDeath = false;
 
     private void Start()
     {
