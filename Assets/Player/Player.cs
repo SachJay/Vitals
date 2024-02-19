@@ -494,7 +494,6 @@ public class Player : MonoBehaviour
         visuals.SetActive(false);
     }
 
-
     #region Debug Functions
 
     private void ErrorCheck()
