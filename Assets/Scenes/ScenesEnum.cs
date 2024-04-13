@@ -6,5 +6,7 @@ public enum Scenes
     Boss,
     BossFinalPhase,
     Win,
+    LobbyFinder,
+    Lobby,
     NONE
 }
