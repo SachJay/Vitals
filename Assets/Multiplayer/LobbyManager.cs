@@ -37,6 +37,12 @@ public class LobbyManager : MonoBehaviour
         bool apiResult = await steamManager.RefreshMultiplayerLobbies();
 
         displayLobbies();
+        List<Lobby> lobbyList = GetLobbies();
+        if (lobbyList.Count > 0)
+        {
+            RoomEnter room = await lobbyList[0].Join();
+            print("Enters room: " + room);
+        } 
     }
 
     private void testFlow()
