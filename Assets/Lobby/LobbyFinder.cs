@@ -1,20 +1,31 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.Generic;
+using UnityEngine.UI;
+using Steamworks.Data;
 
 public class LobbyFinder : MonoBehaviour
 {
     public static LobbyFinder Instance { get; private set; }
 
-    private const int MAX_LOBBIES = 100;
+    private const int MAX_LOBBIES = 10;
 
     [SerializeField] private bool isDebugOn = false;
     [SerializeField] private LobbyUI lobbyUIPrefab;
     [SerializeField] private Transform lobbyContainerTF;
+    [SerializeField] MultiplayerManager multiplayerManager;
+    [SerializeField] private Button refreshButton;
 
-    private LobbyUI[] lobbies;
+    public SteamManager steamManager = null;
+
+    public LobbyUI[] lobbies;
+
+    List<string> steamLobbyNames = new(){};
 
     private void Awake()
     {
+        steamManager = GameObject.Find("SteamManager").GetComponent<SteamManager>(); //FIXME potentially slow
         Instance = this;
 
         lobbies = new LobbyUI[MAX_LOBBIES];
@@ -23,35 +34,51 @@ public class LobbyFinder : MonoBehaviour
             LobbyUI lobbyObject = Instantiate(lobbyUIPrefab, lobbyContainerTF);
             lobbies[i] = lobbyObject;
             lobbies[i].gameObject.SetActive(false);
-        }    
+        }
+
+        setupRefreshButtonListener();
     }
 
     private void Start()
     {
         if (!isDebugOn)
             return;
-
-        List<string> testLobbies = new()
-        {
-            "One", "Two", "Three"
-        };
-        UpdateLobbies(testLobbies);
     }
 
-    public void UpdateLobbies(List<string> updatedLobbies)
+    private void setupRefreshButtonListener() //FIXME move this to a button function class?
     {
+        refreshButton.onClick.AddListener(async () =>
+        {
+            steamLobbyNames = await multiplayerManager.RefreshLobby();
+            UpdateLobbies();
+        });
+    }
+
+    public void UpdateLobbies()
+    {
+
+        print("Lobby Count: " + steamLobbyNames.Count);
+
         DisableLobbies();
 
-        for (int i = 0; i < updatedLobbies.Count; i++)
+        for (int i = 0; i < steamLobbyNames.Count; i++)
         {
-            lobbies[i].gameObject.SetActive(true);
-            lobbies[i].Init(updatedLobbies[i]);
+            if (lobbies[i] != null && lobbies[i].gameObject != null)
+            {
+                lobbies[i].gameObject.SetActive(true);
+            }
+            lobbies[i].Init(steamLobbyNames[i]);
         }
     }
 
     private void DisableLobbies()
     {
         foreach (LobbyUI lobbyUI in lobbies)
-            lobbyUI.gameObject.SetActive(false);
+        {
+            if (lobbyUI != null && lobbyUI.gameObject != null)
+            {
+                lobbyUI.gameObject.SetActive(false);
+            }
+        }
     }
 }
