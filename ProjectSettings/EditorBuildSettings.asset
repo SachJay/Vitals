@@ -23,4 +23,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Win.unity
     guid: 23ed27ff99e75ac46ab0c070eb40964e
+  - enabled: 1
+    path: Assets/Scenes/LobbyFinder.unity
+    guid: a8847e5be55ad7b42b47595d7bb2a7d4
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: b26a0e028365dd641b08c52e660f4e51
   m_configObjects: {}
