@@ -401,7 +401,7 @@ public class SteamManager : MonoBehaviour
             hostedMultiplayerLobby = createLobbyOutput.Value;
             hostedMultiplayerLobby.SetPublic();
             hostedMultiplayerLobby.SetJoinable(true);
-            hostedMultiplayerLobby.SetData("Test", "I am Lobby A");
+            hostedMultiplayerLobby.SetData("lobby_name", UnityEngine.Random.Range(0f, 10.0f).ToString());
 
             currentLobby = hostedMultiplayerLobby;
 

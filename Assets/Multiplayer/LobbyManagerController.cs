@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class LobbyManager : MonoBehaviour
+public class LobbyManagerController : MonoBehaviour
 {
     [SerializeField]
     SteamManager steamManager;
@@ -66,7 +66,7 @@ public class LobbyManager : MonoBehaviour
             print("Lobby Found");
             foreach(KeyValuePair<string, string> keyPair in x.Data)
             {
-                print(keyPair.Key + "  " + keyPair.Value);
+                print(keyPair.Key + "  //// " + keyPair.Value);
             }
         });
     }
