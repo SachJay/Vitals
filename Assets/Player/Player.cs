@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -130,8 +130,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     PlayerControls playerControls;
 
-    [SerializeField]
-    Scenes nextScene;
+    //[SerializeField]
+    //Scenes nextScene;
 
     public ParticleSystem enemyDeathParticlesPrefab; //TODO move out of player
 
@@ -461,14 +461,14 @@ public class Player : MonoBehaviour
 
     public void LoadNextScene()
     {
-        SceneChanger.ChangeSceneTo(nextScene);
+        //SceneChanger.ChangeSceneTo(nextScene);
     }
 
     private void OnRestart()
     {
         // TODO: Check if stage is done and stop player from restarting
 
-        SceneChanger.ResetCurrentScene(SceneManager.GetActiveScene().name);
+        //SceneChanger.ResetCurrentScene(SceneManager.GetActiveScene().name);
     }
 
     public void EnemyKilled()
@@ -503,8 +503,8 @@ public class Player : MonoBehaviour
         if (camera == null) 
             Debug.LogException(new Exception(name + " is missing the \"camera\" Variable, Please set it in the inspector"));
 
-        if (nextScene == Scenes.NONE)
-            Debug.LogException(new Exception(name + " is missing the \"nextScene\" Variable, Please set it in the inspector"));
+        //if (nextScene == Scenes.NONE)
+            //Debug.LogException(new Exception(name + " is missing the \"nextScene\" Variable, Please set it in the inspector"));
     }
 
     public void KnockbackPlayer()
