@@ -29,12 +29,18 @@ public class PlayerAttack : MonoBehaviour
 
     private void Awake()
     {
+        if (!player.IsOwned)
+            return;
+
         if (enemyDeathParticlesPrefab == null)
             LogExtension.LogMissingVariable(name, nameof(enemyDeathParticlesPrefab));
     }
 
     private void Start()
     {
+        if (!player.IsOwned)
+            return;
+
         player.PlayerInputHandler.OnAttackInputStarted += PlayerInput_OnAttackStarted;
         OnEnemyKilled += PlayerAttack_OnEnemyKilled;
 
@@ -44,6 +50,9 @@ public class PlayerAttack : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!player.IsOwned)
+            return;
+
         if (!IsAttacking)
             return;
 

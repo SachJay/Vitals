@@ -25,6 +25,9 @@ public class PlayerDash : MonoBehaviour
 
     private void Start()
     {
+        if (!player.IsOwned)
+            return;
+
         player.PlayerInputHandler.OnDashInputStarted += PlayerInput_OnDashStarted;
 
         player.PlayerAttack.OnAttackStarted += PlayerAttack_OnAttackStarted;
@@ -36,6 +39,9 @@ public class PlayerDash : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!player.IsOwned)
+            return;
+
         if (!IsDashing)
             return;
 
@@ -123,8 +129,8 @@ public class PlayerDash : MonoBehaviour
 
     private void EndDash()
     {
+        OnDashEnded?.Invoke();
         IsDashing = false;
-        player.PlayerStats.SetInvincibleStatus(false);
         SetTrailRenderer(false);
     }
 

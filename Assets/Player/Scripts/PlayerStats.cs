@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -14,11 +13,15 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
     private void Start()
     {
+        if (!player.IsOwned)
+            return;
+
         player.PlayerAttack.OnEnemyKilled += PlayerAttack_OnKillEnemy;
         player.PlayerAttack.OnAttackStarted += PlayerAttack_OnAttackStarted;
         player.PlayerAttack.OnAttackEnded += PlayerAttack_OnAttackEnded;
 
         player.PlayerDash.OnDashStarted += PlayerDash_OnDashStarted;
+        player.PlayerDash.OnDashEnded += PlayerDash_OnDashEnded;
     }
 
     private void PlayerDash_OnDashStarted()
@@ -29,11 +32,6 @@ public class PlayerStats : MonoBehaviour, IDamageable
     private void PlayerDash_OnDashEnded()
     {
         IsInvincible = false;
-    }
-
-    public void SetInvincibleStatus(bool isInvincible)
-    {
-        IsInvincible = isInvincible;
     }
 
     private void PlayerAttack_OnAttackStarted()

@@ -40,7 +40,7 @@ public class ShotFire : EnemyAttack
         {
             for (int i = -projectileNumbers; i <= projectileNumbers; i++)
             {
-                Vector3 targetDir = player.transform.position - transform.position + player.GetVelocity() * predictiveAmount;
+                Vector3 targetDir = player.transform.position - transform.position + player.PlayerMovement.GetVelocity() * predictiveAmount;
                 float angle = Mathf.Atan2(targetDir.y, targetDir.x) + Random.Range(minOffset, maxOffset);
 
                 SpawnProjectile(angle + i * projectileSpread, projectilePrefab1, spawnOffset);

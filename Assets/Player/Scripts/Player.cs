@@ -9,14 +9,15 @@ public class Player : NetworkBehaviour
     [HideInInspector] public PlayerAttack PlayerAttack;
     [HideInInspector] public PlayerDash PlayerDash;
 
-    public bool IsOwned = false;
+    public bool IsOwned => isOwned;
 
     private void Awake()
     {
+        if (!IsOwned)
+            return;
+
         InitComponentReferences();
     }
-
-    public Vector3 GetVelocity() => PlayerMovement.GetVelocity();
 
     private void InitComponentReferences()
     {

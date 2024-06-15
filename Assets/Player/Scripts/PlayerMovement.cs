@@ -18,12 +18,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        if (!player.IsOwned)
+            return;
+
         currentVelocity = player.PlayerInputHandler.Move;
         IsMoving = currentVelocity != Vector2.zero;
     }
 
     void Update()
     {
+        if (!player.IsOwned)
+            return;
+
         if (IsMoving)
             rb.drag = movingDrag;
         else
