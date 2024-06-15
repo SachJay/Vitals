@@ -7,11 +7,11 @@ public class PlayerInputHandler : MonoBehaviour
     public PlayerInputEvent OnAttackInputStarted;
     public PlayerInputEvent OnDashInputStarted;
 
-    public Vector2 Move { get; private set; }
+    public Vector2 Move { get; private set; } = Vector2.zero;
 
     public void OnMoveInput(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.performed)
         {
             Move = context.ReadValue<Vector2>();
         }

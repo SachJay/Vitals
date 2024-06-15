@@ -25,13 +25,10 @@ public class PlayerAttack : MonoBehaviour
 
     private Vector2 attackDestination = Vector2.zero;
     private float currentAttackCount = 1;
-    private float elapsedDashTime = 0;
+    private float elapsedTime = 0;
 
     private void Awake()
     {
-        if (!player.IsOwned)
-            return;
-
         if (player == null)
             LogExtension.LogMissingVariable(name, nameof(player));
 
@@ -44,9 +41,6 @@ public class PlayerAttack : MonoBehaviour
 
     private void Start()
     {
-        if (!player.IsOwned)
-            return;
-
         player.PlayerInputHandler.OnAttackInputStarted += PlayerInput_OnAttackStarted;
         OnEnemyKilled += PlayerAttack_OnEnemyKilled;
 
@@ -63,17 +57,7 @@ public class PlayerAttack : MonoBehaviour
         if (!IsAttacking)
             return;
 
-        elapsedDashTime += Time.fixedDeltaTime;
-
-        float percentComplete = elapsedDashTime / attackDuration;
-
-        transform.position = Vector2.Lerp(transform.position, attackDestination, percentComplete);
-
-        if (Vector2.Distance(transform.position, attackDestination) < 0.2f)
-        {
-            transform.position = attackDestination;
-            EndAttack();
-        }
+        Attack();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -103,6 +87,21 @@ public class PlayerAttack : MonoBehaviour
         currentAttackCount++;
     }
 
+    private void Attack()
+    {
+        elapsedTime += Time.fixedDeltaTime;
+
+        float percentComplete = elapsedTime / attackDuration;
+
+        player.transform.position = Vector2.Lerp(player.transform.position, attackDestination, percentComplete);
+
+        if (Vector2.Distance(player.transform.position, attackDestination) < 0.2f)
+        {
+            player.transform.position = attackDestination;
+            EndAttack();
+        }
+    }
+
     private void PlayerInput_OnAttackStarted()
     {
         if (!CanAttack())
@@ -113,7 +112,7 @@ public class PlayerAttack : MonoBehaviour
         IsAttacking = true;
         OnAttackStarted?.Invoke();
 
-        elapsedDashTime = 0;
+        elapsedTime = 0;
 
         GetAttackLocation();
 
@@ -145,7 +144,7 @@ public class PlayerAttack : MonoBehaviour
         if (enemyDeathParticlesPrefab == null)
             return;
 
-        ParticleSystem deathParticles = Instantiate(enemyDeathParticlesPrefab, transform.position, Quaternion.identity);
+        ParticleSystem deathParticles = Instantiate(enemyDeathParticlesPrefab, player.transform.position, Quaternion.identity);
 
         Vector3 difference = player.transform.position - enemy.transform.position;
         float rotationZ = Mathf.Atan2(difference.y, -difference.x) * Mathf.Rad2Deg;
@@ -163,11 +162,11 @@ public class PlayerAttack : MonoBehaviour
     {
         attackDestination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (Vector2.Distance((Vector2)transform.position, attackDestination) > maxAttackDistance)
+        if (Vector2.Distance((Vector2)player.transform.position, attackDestination) > maxAttackDistance)
         {
-            Vector2 maxAttackDistVec = (attackDestination - (Vector2)transform.position).normalized;
+            Vector2 maxAttackDistVec = (attackDestination - (Vector2)player.transform.position).normalized;
 
-            attackDestination = (Vector2)transform.position + maxAttackDistVec * maxAttackDistance;
+            attackDestination = (Vector2)player.transform.position + maxAttackDistVec * maxAttackDistance;
         }
     }
 

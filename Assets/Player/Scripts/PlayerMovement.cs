@@ -16,33 +16,28 @@ public class PlayerMovement : MonoBehaviour
 
     Vector2 currentVelocity = Vector2.zero;
 
-    private void Start()
+    private void Update()
     {
         if (!player.IsOwned)
             return;
 
         currentVelocity = player.PlayerInputHandler.Move;
         IsMoving = currentVelocity != Vector2.zero;
-    }
 
-    void Update()
-    {
-        if (!player.IsOwned)
-            return;
-
-        if (IsMoving)
-            rb.drag = movingDrag;
-        else
-            rb.drag = stopDrag;
-
+        rb.drag = IsMoving ? movingDrag : stopDrag;
         if (!player.PlayerDash.IsDashing && !player.PlayerAttack.IsAttacking)
         {
-            LimitSpeed();
             HandleMovement();
+            LimitSpeed();
         }
     }
 
     public Vector3 GetVelocity() => rb.velocity;
+
+    private void HandleMovement()
+    {
+        rb.AddForce(accel * Time.deltaTime * currentVelocity, ForceMode2D.Force);
+    }
 
     private void LimitSpeed()
     {
@@ -50,10 +45,5 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = rb.velocity.normalized * maxSpeed;
         }
-    }
-
-    private void HandleMovement()
-    {
-        rb.AddForce(accel * Time.deltaTime * currentVelocity, ForceMode2D.Force);
     }
 }

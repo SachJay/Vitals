@@ -2,7 +2,7 @@
     "name": "PlayerControls",
     "maps": [
         {
-            "name": "MainGameplay",
+            "name": "Player",
             "id": "c5585ab9-d716-4ec1-9dde-639a5f5c3637",
             "actions": [
                 {
@@ -128,34 +128,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Restart",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "FishingMinigame",
-            "id": "6f110ce4-da97-445b-a374-103c266c6141",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "fbc39f76-4a2d-4a5d-9298-d13ceacd5764",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "af4c8839-8e62-4c0d-8cd6-cdd674199950",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

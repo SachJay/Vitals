@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour, IDamageable
 {
-    public bool IsAlive { get; private set; }
+    public bool IsAlive { get; private set; } = true;
     public bool IsInvincible { get; private set; }
 
     [Header("References")]
@@ -14,17 +14,8 @@ public class PlayerStats : MonoBehaviour, IDamageable
     [SerializeField] private ParticleSystem playerDeathParticlesPrefab;
     [SerializeField] private float killInvincibilityDuration = 0.2f;
 
-    private void Awake()
-    {
-        if (playerDeathParticlesPrefab == null)
-            LogExtension.LogMissingVariable(name, nameof(playerDeathParticlesPrefab));
-    }
-
     private void Start()
     {
-        if (!player.IsOwned)
-            return;
-
         player.PlayerAttack.OnEnemyKilled += PlayerAttack_OnKillEnemy;
         player.PlayerAttack.OnAttackStarted += PlayerAttack_OnAttackStarted;
         player.PlayerAttack.OnAttackEnded += PlayerAttack_OnAttackEnded;

@@ -10,9 +10,6 @@ public class PlayerCamera : MonoBehaviour
 
     private void Awake()
     {
-        if (!player.IsOwned)
-            return;
-
         if (playerCamera == null)
             LogExtension.LogMissingVariable(name, nameof(playerCamera));
     }

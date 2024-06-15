@@ -7,7 +7,7 @@ public class AttackIndicator : MonoBehaviour
 
     [SerializeField] private Image background;
     [SerializeField] private Slider slider;
-
+    
     private float timePassed;
 
     public bool IsStarted { get; private set; }

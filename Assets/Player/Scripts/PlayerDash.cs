@@ -18,23 +18,21 @@ public class PlayerDash : MonoBehaviour
     [SerializeField] private float maxDashDistance = 15;
     [SerializeField] private float dashDuration = 0.5f;
     [SerializeField] private DashIndicator[] dashIndicators;
+    [SerializeField] private AbilityTimer[] abilityTimers;
 
     private Vector2 dashDestination = Vector2.zero;
     private float currentDashCount;
-    private float elapsedDashTime = 0;
+    private float elapsedTime = 0;
 
     private void Start()
     {
-        if (!player.IsOwned)
-            return;
-
         player.PlayerInputHandler.OnDashInputStarted += PlayerInput_OnDashStarted;
 
         player.PlayerAttack.OnAttackStarted += PlayerAttack_OnAttackStarted;
         player.PlayerAttack.OnEnemyKilled += PlayerAttack_OnEnemyKilled;
 
         SetTrailRenderer(false);
-        UpdateDashCounts();
+        InitDash();
     }
 
     private void FixedUpdate()
@@ -42,7 +40,7 @@ public class PlayerDash : MonoBehaviour
         if (!player.IsOwned)
             return;
 
-        if (!IsDashing)
+        if (!IsDashing || player.PlayerAttack.IsAttacking)
             return;
 
         Dash();
@@ -55,27 +53,22 @@ public class PlayerDash : MonoBehaviour
 
     private void PlayerInput_OnDashStarted()
     {
-        if (!CanDash()) return;
+        if (!CanDash()) 
+            return;
 
         currentDashCount--;
 
         IsDashing = true;
         OnDashStarted?.Invoke();
 
-        elapsedDashTime = 0;
+        elapsedTime = 0;
 
         GetDashLocation();
-
         SetTrailRenderer(true);
 
-        foreach (DashIndicator dashIndicator in dashIndicators)
-        {
-            if (!dashIndicator.IsStarted)
-            {
-                dashIndicator.StartTimer(dashCooldown);
-                break;
-            }
-        }
+        AbilityTimer abilityTimer = GetFirstAvailableAbilityTimer();
+        if (abilityTimer != null)
+            abilityTimer.StartTimer(dashCooldown);
     }
 
     private void PlayerAttack_OnAttackStarted()
@@ -87,23 +80,22 @@ public class PlayerDash : MonoBehaviour
     private void PlayerAttack_OnEnemyKilled()
     {
         EndDash();
+
         for (int i = 0; i < maxDashCount; i++)
-        {
-            dashIndicators[i].ResetTimer();
-        }
+            abilityTimers[i].OnTimerTimeout?.Invoke(dashCooldown);
     }
 
     private void Dash()
     {
-        elapsedDashTime += Time.fixedDeltaTime;
+        elapsedTime += Time.fixedDeltaTime;
 
-        float percentComplete = elapsedDashTime / dashDuration;
+        float percentComplete = elapsedTime / dashDuration;
 
-        transform.position = Vector2.Lerp(transform.position, dashDestination, percentComplete);
+        player.transform.position = Vector2.Lerp(player.transform.position, dashDestination, percentComplete);
 
-        if (Vector2.Distance(transform.position, dashDestination) < 0.2f)
+        if (Vector2.Distance(player.transform.position, dashDestination) < 0.2f)
         {
-            transform.position = dashDestination;
+            player.transform.position = dashDestination;
             EndDash();
         }
     }
@@ -112,17 +104,17 @@ public class PlayerDash : MonoBehaviour
     {
         dashDestination = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (Vector2.Distance((Vector2)transform.position, dashDestination) > maxDashDistance)
+        if (Vector2.Distance((Vector2)player.transform.position, dashDestination) > maxDashDistance)
         {
-            Vector2 maxDashDistVec = (dashDestination - (Vector2)transform.position).normalized;
+            Vector2 maxDashDistVec = (dashDestination - (Vector2)player.transform.position).normalized;
 
-            dashDestination = (Vector2)transform.position + maxDashDistVec * maxDashDistance;
+            dashDestination = (Vector2)player.transform.position + maxDashDistVec * maxDashDistance;
         }
     }
 
     private bool CanDash()
     {
-        if (player.PlayerStats.IsAlive || currentDashCount <= 0 || player.PlayerAttack.IsAttacking || IsDashing)
+        if (!player.PlayerStats.IsAlive || currentDashCount <= 0 || player.PlayerAttack.IsAttacking || IsDashing)
             return false;
         return true;
     }
@@ -134,23 +126,30 @@ public class PlayerDash : MonoBehaviour
         SetTrailRenderer(false);
     }
 
-    private void UpdateDashCounts()
+    private void InitDash()
     {
-        // Dashes
         currentDashCount = maxDashCount;
-
-        foreach (DashIndicator ind in dashIndicators)
+        for (int index = 0; index < abilityTimers.Length; index++)
         {
-            ind.gameObject.SetActive(false);
-
-            // TODO: Fix this to have a general timer and not be controlled by a UI
-            ind.player = player;
+            AbilityTimer abilityTimer = abilityTimers[index];
+            abilityTimer.gameObject.SetActive(index < maxDashCount);
+            abilityTimer.OnTimerTimeout += AbilityTimer_OnTimerTimeout;
         }
+    }
 
-        for (int i = 0; i < maxDashCount; i++)
+    private void AbilityTimer_OnTimerTimeout(float _)
+    {
+        currentDashCount++;
+    }
+
+    private AbilityTimer GetFirstAvailableAbilityTimer()
+    {
+        foreach (AbilityTimer abilityTimer in abilityTimers)
         {
-            dashIndicators[i].gameObject.SetActive(true);
+            if (!abilityTimer.IsStarted)
+                return abilityTimer;
         }
+        return null;
     }
 
     // TODO: Move out of dashing to its own script

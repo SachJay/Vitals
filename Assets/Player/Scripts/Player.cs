@@ -14,9 +14,6 @@ public class Player : NetworkBehaviour
 
     private void Awake()
     {
-        if (!IsOwned)
-            return;
-
         InitComponentReferences();
     }
 
@@ -26,5 +23,10 @@ public class Player : NetworkBehaviour
             PlayerInputHandler = playerInputHandler;
         else
             LogExtension.LogMissingVariable(name, nameof(PlayerInputHandler));
+
+        if (TryGetComponent(out PlayerMovement playerMovement))
+            PlayerMovement = playerMovement;
+        else
+            LogExtension.LogMissingVariable(name, nameof(PlayerMovement));
     }
 }
