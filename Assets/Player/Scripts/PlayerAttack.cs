@@ -32,8 +32,14 @@ public class PlayerAttack : MonoBehaviour
         if (!player.IsOwned)
             return;
 
+        if (player == null)
+            LogExtension.LogMissingVariable(name, nameof(player));
+
         if (enemyDeathParticlesPrefab == null)
             LogExtension.LogMissingVariable(name, nameof(enemyDeathParticlesPrefab));
+
+        if (attackHitbox == null)
+            LogExtension.LogMissingVariable(name, nameof(attackHitbox));
     }
 
     private void Start()
@@ -44,6 +50,7 @@ public class PlayerAttack : MonoBehaviour
         player.PlayerInputHandler.OnAttackInputStarted += PlayerInput_OnAttackStarted;
         OnEnemyKilled += PlayerAttack_OnEnemyKilled;
 
+        attackHitbox.enabled = false;
         SetTrailRenderer(false);
         UpdateAttackCount();
     }
