@@ -17,7 +17,6 @@ public class PlayerDash : MonoBehaviour
     [SerializeField] private float dashCooldown = 3f;
     [SerializeField] private float maxDashDistance = 15;
     [SerializeField] private float dashDuration = 0.5f;
-    [SerializeField] private DashIndicator[] dashIndicators;
     [SerializeField] private AbilityTimer[] abilityTimers;
 
     private Vector2 dashDestination = Vector2.zero;

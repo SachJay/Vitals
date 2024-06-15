@@ -20,7 +20,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float attackCooldown = 3f;
     [SerializeField] private float maxAttackDistance = 7;
     [SerializeField] private float attackDuration = 0.5f;
-    [SerializeField] private AttackIndicator[] attackIndicators;
+    [SerializeField] private AbilityTimer[] abilityTimers;
     [SerializeField] private CircleCollider2D attackHitbox;
 
     private Vector2 attackDestination = Vector2.zero;
@@ -46,7 +46,7 @@ public class PlayerAttack : MonoBehaviour
 
         attackHitbox.enabled = false;
         SetTrailRenderer(false);
-        UpdateAttackCount();
+        InitAttack();
     }
 
     private void FixedUpdate()
@@ -119,23 +119,17 @@ public class PlayerAttack : MonoBehaviour
         attackHitbox.enabled = true;
         SetTrailRenderer(true);
 
-        foreach (AttackIndicator attackIndicator in attackIndicators)
-        {
-            if (!attackIndicator.IsStarted)
-            {
-                attackIndicator.StartTimer(attackCooldown);
-                break;
-            }
-        }
+        AbilityTimer abilityTimer = GetFirstAvailableAbilityTimer();
+        if (abilityTimer != null)
+            abilityTimer.StartTimer(attackCooldown);
     }
 
     private void PlayerAttack_OnEnemyKilled()
     {
         EndAttack();
+
         for (int i = 0; i < maxAttackCount; i++)
-        {
-            attackIndicators[i].ResetTimer();
-        }
+            abilityTimers[i].OnTimerTimeout?.Invoke(attackCooldown);
     }
 
     private void HandleDeathParticles(GameObject enemy)
@@ -179,23 +173,30 @@ public class PlayerAttack : MonoBehaviour
         OnAttackEnded?.Invoke();
     }
 
-    private void UpdateAttackCount()
+    private void InitAttack()
     {
-        // Attacks
         currentAttackCount = maxAttackCount;
-
-        foreach (AttackIndicator ind in attackIndicators)
+        for (int index = 0; index < abilityTimers.Length; index++)
         {
-            ind.gameObject.SetActive(false);
-
-            // TODO: Fix this to have a general timer and not be controlled by a UI
-            ind.player = player;
+            AbilityTimer abilityTimer = abilityTimers[index];
+            abilityTimer.gameObject.SetActive(index < maxAttackCount);
+            abilityTimer.OnTimerTimeout += AbilityTimer_OnTimerTimeout;
         }
+    }
 
-        for (int i = 0; i < maxAttackCount; i++)
+    private void AbilityTimer_OnTimerTimeout(float _)
+    {
+        currentAttackCount++;
+    }
+
+    private AbilityTimer GetFirstAvailableAbilityTimer()
+    {
+        foreach (AbilityTimer abilityTimer in abilityTimers)
         {
-            attackIndicators[i].gameObject.SetActive(true);
+            if (!abilityTimer.IsStarted)
+                return abilityTimer;
         }
+        return null;
     }
 
     // TODO: Move out of dashing to its own script

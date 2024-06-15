@@ -33,13 +33,13 @@ public class AbilityTimerUI : MonoBehaviour
     private void AbilityTimer_OnTimerStarted(float cooldown)
     {
         slider.maxValue = cooldown;
-        slider.value = 0;
         background.enabled = false;
         slider.enabled = true;
     }
 
     private void AbilityTimer_OnTimerTimeout(float _)
     {
+        slider.value = 0;
         background.enabled = true;
         slider.enabled = false;
     }
