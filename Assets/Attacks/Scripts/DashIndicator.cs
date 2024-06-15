@@ -1,16 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AttackIndicator : MonoBehaviour
+public class DashIndicator : MonoBehaviour
 {
-    [HideInInspector]
-    public Player player;
+    [HideInInspector] public Player player;
 
-    [SerializeField]
-    Image background;
-
-    [SerializeField]
-    Slider slider;
+    [SerializeField] private Image background;
+    [SerializeField] private Slider slider;
 
     float timePassed;
 
@@ -19,11 +15,11 @@ public class AttackIndicator : MonoBehaviour
 
     public void ResetTimer()
     {
-        player.AddAttack();
+        player.PlayerDash.AddDash();
 
         SetSliderState(false);
     }
-    
+
     public void StartTimer(float cooldown)
     {
         SetSliderState(true);

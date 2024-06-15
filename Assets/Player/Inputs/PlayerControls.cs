@@ -24,7 +24,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     ""name"": ""PlayerControls"",
     ""maps"": [
         {
-            ""name"": ""MainGameplay"",
+            ""name"": ""Player"",
             ""id"": ""c5585ab9-d716-4ec1-9dde-639a5f5c3637"",
             ""actions"": [
                 {
@@ -154,47 +154,16 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
-        },
-        {
-            ""name"": ""FishingMinigame"",
-            ""id"": ""6f110ce4-da97-445b-a374-103c266c6141"",
-            ""actions"": [
-                {
-                    ""name"": ""New action"",
-                    ""type"": ""Button"",
-                    ""id"": ""fbc39f76-4a2d-4a5d-9298-d13ceacd5764"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""af4c8839-8e62-4c0d-8cd6-cdd674199950"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""New action"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                }
-            ]
         }
     ],
     ""controlSchemes"": []
 }");
-        // MainGameplay
-        m_MainGameplay = asset.FindActionMap("MainGameplay", throwIfNotFound: true);
-        m_MainGameplay_Move = m_MainGameplay.FindAction("Move", throwIfNotFound: true);
-        m_MainGameplay_Attack = m_MainGameplay.FindAction("Attack", throwIfNotFound: true);
-        m_MainGameplay_Dash = m_MainGameplay.FindAction("Dash", throwIfNotFound: true);
-        m_MainGameplay_Restart = m_MainGameplay.FindAction("Restart", throwIfNotFound: true);
-        // FishingMinigame
-        m_FishingMinigame = asset.FindActionMap("FishingMinigame", throwIfNotFound: true);
-        m_FishingMinigame_Newaction = m_FishingMinigame.FindAction("New action", throwIfNotFound: true);
+        // Player
+        m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
+        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
+        m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
+        m_Player_Restart = m_Player.FindAction("Restart", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -253,30 +222,30 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // MainGameplay
-    private readonly InputActionMap m_MainGameplay;
-    private List<IMainGameplayActions> m_MainGameplayActionsCallbackInterfaces = new List<IMainGameplayActions>();
-    private readonly InputAction m_MainGameplay_Move;
-    private readonly InputAction m_MainGameplay_Attack;
-    private readonly InputAction m_MainGameplay_Dash;
-    private readonly InputAction m_MainGameplay_Restart;
-    public struct MainGameplayActions
+    // Player
+    private readonly InputActionMap m_Player;
+    private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
+    private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_Attack;
+    private readonly InputAction m_Player_Dash;
+    private readonly InputAction m_Player_Restart;
+    public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
-        public MainGameplayActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_MainGameplay_Move;
-        public InputAction @Attack => m_Wrapper.m_MainGameplay_Attack;
-        public InputAction @Dash => m_Wrapper.m_MainGameplay_Dash;
-        public InputAction @Restart => m_Wrapper.m_MainGameplay_Restart;
-        public InputActionMap Get() { return m_Wrapper.m_MainGameplay; }
+        public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @Attack => m_Wrapper.m_Player_Attack;
+        public InputAction @Dash => m_Wrapper.m_Player_Dash;
+        public InputAction @Restart => m_Wrapper.m_Player_Restart;
+        public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(MainGameplayActions set) { return set.Get(); }
-        public void AddCallbacks(IMainGameplayActions instance)
+        public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
+        public void AddCallbacks(IPlayerActions instance)
         {
-            if (instance == null || m_Wrapper.m_MainGameplayActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_MainGameplayActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
@@ -291,7 +260,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Restart.canceled += instance.OnRestart;
         }
 
-        private void UnregisterCallbacks(IMainGameplayActions instance)
+        private void UnregisterCallbacks(IPlayerActions instance)
         {
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
@@ -307,76 +276,26 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Restart.canceled -= instance.OnRestart;
         }
 
-        public void RemoveCallbacks(IMainGameplayActions instance)
+        public void RemoveCallbacks(IPlayerActions instance)
         {
-            if (m_Wrapper.m_MainGameplayActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_PlayerActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IMainGameplayActions instance)
+        public void SetCallbacks(IPlayerActions instance)
         {
-            foreach (var item in m_Wrapper.m_MainGameplayActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_PlayerActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_MainGameplayActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_PlayerActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public MainGameplayActions @MainGameplay => new MainGameplayActions(this);
-
-    // FishingMinigame
-    private readonly InputActionMap m_FishingMinigame;
-    private List<IFishingMinigameActions> m_FishingMinigameActionsCallbackInterfaces = new List<IFishingMinigameActions>();
-    private readonly InputAction m_FishingMinigame_Newaction;
-    public struct FishingMinigameActions
-    {
-        private @PlayerControls m_Wrapper;
-        public FishingMinigameActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_FishingMinigame_Newaction;
-        public InputActionMap Get() { return m_Wrapper.m_FishingMinigame; }
-        public void Enable() { Get().Enable(); }
-        public void Disable() { Get().Disable(); }
-        public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(FishingMinigameActions set) { return set.Get(); }
-        public void AddCallbacks(IFishingMinigameActions instance)
-        {
-            if (instance == null || m_Wrapper.m_FishingMinigameActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_FishingMinigameActionsCallbackInterfaces.Add(instance);
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
-        }
-
-        private void UnregisterCallbacks(IFishingMinigameActions instance)
-        {
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
-        }
-
-        public void RemoveCallbacks(IFishingMinigameActions instance)
-        {
-            if (m_Wrapper.m_FishingMinigameActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        public void SetCallbacks(IFishingMinigameActions instance)
-        {
-            foreach (var item in m_Wrapper.m_FishingMinigameActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_FishingMinigameActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    public FishingMinigameActions @FishingMinigame => new FishingMinigameActions(this);
-    public interface IMainGameplayActions
+    public PlayerActions @Player => new PlayerActions(this);
+    public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnRestart(InputAction.CallbackContext context);
-    }
-    public interface IFishingMinigameActions
-    {
-        void OnNewaction(InputAction.CallbackContext context);
     }
 }
