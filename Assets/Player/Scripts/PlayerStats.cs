@@ -6,10 +6,19 @@ public class PlayerStats : MonoBehaviour, IDamageable
     public bool IsAlive { get; private set; }
     public bool IsInvincible { get; private set; }
 
+    [Header("References")]
     [SerializeField] private Player player;
-    [SerializeField] private float killInvincibilityDuration = 0.2f;
-    [SerializeField] private ParticleSystem playerDeathParticlesPrefab;
     [SerializeField] private GameObject visualsGameObject;
+
+    [Header("Other Configurations")]
+    [SerializeField] private ParticleSystem playerDeathParticlesPrefab;
+    [SerializeField] private float killInvincibilityDuration = 0.2f;
+
+    private void Awake()
+    {
+        if (playerDeathParticlesPrefab == null)
+            LogExtension.LogMissingVariable(name, nameof(playerDeathParticlesPrefab));
+    }
 
     private void Start()
     {
@@ -52,16 +61,13 @@ public class PlayerStats : MonoBehaviour, IDamageable
     private IEnumerator GainTempInvincibility(float invincibilityDuration)
     {
         IsInvincible = true;
-
         yield return new WaitForSeconds(invincibilityDuration);
-
         IsInvincible = false;
     }
 
     public void TakeDamage(IDamageable damager, int damage)
     {
         IsAlive = false;
-
         PlayDeathParticles(damager.GetTransform().position);
         visualsGameObject.SetActive(false);
     }
@@ -71,6 +77,9 @@ public class PlayerStats : MonoBehaviour, IDamageable
     // TODO: Move out of PlayerStats
     private void PlayDeathParticles(Vector3 attackPosition)
     {
+        if (playerDeathParticlesPrefab == null)
+            return;
+
         ParticleSystem deathParticles = Instantiate(playerDeathParticlesPrefab, transform.position, Quaternion.identity);
 
         Vector3 difference = attackPosition - transform.position;
