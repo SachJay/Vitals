@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -34,14 +33,14 @@ public class Projectile : MonoBehaviour
 
         if (other.transform != null && other.transform.parent != null && other.transform.parent.parent != null && other.transform.parent.parent.gameObject.TryGetComponent(out Player player))
         {
-            if ((!player.IsInv) || tag == "Undodgable")
+            if ((!player.PlayerStats.IsInvincible) || CompareTag("Undodgable"))
             {
                 //Destroy(other.transform.parent.gameObject);
-                player.KillPlayer(transform.position);
+                // TODO: Add IDamageable and damage
+                player.PlayerStats.TakeDamage(null, 1);
                 Destroy(gameObject);
             }
         }
-
     }
 
     public void SetDirection(Vector2 direction)

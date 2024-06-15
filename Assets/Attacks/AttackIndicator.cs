@@ -3,23 +3,18 @@ using UnityEngine.UI;
 
 public class AttackIndicator : MonoBehaviour
 {
-    [HideInInspector]
-    public Player player;
+    [HideInInspector] public Player player;
 
-    [SerializeField]
-    Image background;
+    [SerializeField] private Image background;
+    [SerializeField] private Slider slider;
 
-    [SerializeField]
-    Slider slider;
+    private float timePassed;
 
-    float timePassed;
-
-    bool isStarted = false;
-    public bool IsStarted => isStarted;
+    public bool IsStarted { get; private set; }
 
     public void ResetTimer()
     {
-        player.AddAttack();
+        player.PlayerAttack.AddAttack();
 
         SetSliderState(false);
     }
@@ -50,7 +45,7 @@ public class AttackIndicator : MonoBehaviour
 
     private void SetSliderState(bool newState)
     {
-        isStarted = newState;
+        IsStarted = newState;
 
         background.enabled = !newState;
 

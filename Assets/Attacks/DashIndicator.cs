@@ -3,24 +3,19 @@ using UnityEngine.UI;
 
 public class DashIndicator : MonoBehaviour
 {
-    [HideInInspector]
-    public Player player;
+    [HideInInspector] public Player player;
 
-    [SerializeField]
-    Image background;
-
-    [SerializeField]
-    Slider slider;
+    [SerializeField] private Image background;
+    [SerializeField] private Slider slider;
 
     float timePassed;
 
     bool isStarted = false;
     public bool IsStarted => isStarted;
 
-
     public void ResetTimer()
     {
-        player.AddDash();
+        player.PlayerDash.AddDash();
 
         SetSliderState(false);
     }
