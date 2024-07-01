@@ -1,38 +1,18 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShotFire : EnemyAttack
 {
-    [SerializeField]
-    int projectileNumbers = 3;
-
-    [SerializeField]
-    float projectileSpread = 0.1f;
-
-    [SerializeField]
-    float endingDelay = 1f;
-
-    [SerializeField]
-    float projectileDelay = 0.1f;
-
-    [SerializeField]
-    float waveDelay = 0f;
-
-    [SerializeField]
-    float numberOfWaves = 5f;
-
-    [SerializeField]
-    float maxOffset = 0.05f;
-
-    [SerializeField]
-    float minOffset = -0.05f;
-
-    [SerializeField]
-    float predictiveAmount = 0f;
-
-    [SerializeField]
-    float spawnOffset = 0f;
+    [SerializeField] private int projectileNumbers = 3;
+    [SerializeField] private float projectileSpread = 0.1f;
+    [SerializeField] private float endingDelay = 1f;
+    [SerializeField] private float projectileDelay = 0.1f;
+    [SerializeField] private float waveDelay = 0f;
+    [SerializeField] private float numberOfWaves = 5f;
+    [SerializeField] private float maxOffset = 0.05f;
+    [SerializeField] private float minOffset = -0.05f;
+    [SerializeField] private float predictiveAmount = 0f;
+    [SerializeField] private float spawnOffset = 0f;
 
     public override IEnumerator ExecuteAttack(Player player)
     {
