@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -7,10 +6,16 @@ using Steamworks;
 
 public class CustomNetworkManager : NetworkManager
 {
-    [SerializeField]
-    private PlayerObjectController GamePlayerPrefab;
+    public static CustomNetworkManager Instance { get; private set; }
+
+    [SerializeField] private PlayerObjectController GamePlayerPrefab;
 
     public List<PlayerObjectController> GamePlayers { get; } = new List<PlayerObjectController>();
+
+    public override void Awake()
+    {
+        Instance = this;
+    }
 
     public override void OnServerAddPlayer(NetworkConnectionToClient conn)
     {

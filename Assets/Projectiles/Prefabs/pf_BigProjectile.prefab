@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7708346955731555250}
   - component: {fileID: 6194367845769135771}
   m_Layer: 9
-  m_Name: BigProjectile
+  m_Name: pf_BigProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

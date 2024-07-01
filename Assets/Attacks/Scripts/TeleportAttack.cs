@@ -1,49 +1,23 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TeleportAttack : EnemyAttack
 {
-    [SerializeField]
-    float endingDelay = 1f;
+    [SerializeField] private float endingDelay = 1f;
+    [SerializeField] private float waveDelay = 0f;
+    [SerializeField] private int numberOfWaves = 5;
+    [SerializeField] private int maxDirectionChange = 5;
+    [SerializeField] private int minDirectionChange = 10;
+    [SerializeField] private int sprayGap = 1;
+    [SerializeField] private Projectile projectileAttackablePrefab;
+    [SerializeField] private int maxWaveDistance = 16;
+    [SerializeField] private int horiOffset = -3;
+    [SerializeField] private float spawnOffset = 0f;
 
-    [SerializeField]
-    float waveDelay = 0f;
-
-    [SerializeField]
-    float waveSpread = 0.1f;
-
-    [SerializeField]
-    int numberOfWaves = 5;
-
-    [SerializeField]
-    int numberOfParticles = 4;
-
-    [SerializeField]
-    int maxDirectionChange = 5;
-
-    [SerializeField]
-    int minDirectionChange = 10;
-
-    [SerializeField]
-    int sprayGap = 1;
-
-    [SerializeField]
-    public Projectile projectileAttackablePrefab;
-
-    [SerializeField]
-    int maxWaveDistance = 16;
-
-    int waveSpreadCount = 0;
-    int count = 0;
-    int waveMaxCount = 0;
-    int direction = 1;
-
-    [SerializeField]
-    int horiOffset = -3;
-
-    [SerializeField]
-    float spawnOffset = 0f;
+    private int waveSpreadCount = 0;
+    private int count = 0;
+    private int waveMaxCount = 0;
+    private int direction = 1;
 
     public override IEnumerator ExecuteAttack(Player player)
     {
@@ -56,7 +30,6 @@ public class TeleportAttack : EnemyAttack
                 Projectile p1 = SpawnProjectile(Mathf.PI, projectilePrefab1, spawnOffset);
                 p1.transform.position = p1.transform.position + new Vector3(horiOffset, j + waveSpreadCount + 1, 0);
             }
-            
         }
 
         for (int j = 0; j < numberOfWaves; j++) {
@@ -65,11 +38,10 @@ public class TeleportAttack : EnemyAttack
             {
                 Projectile p1 = SpawnProjectile(Mathf.PI, projectilePrefab1, spawnOffset);
                 p1.transform.position = p1.transform.position + new Vector3(horiOffset, i * sprayGap + waveSpreadCount, 0);
-
             }
             
             waveSpreadCount += direction;
-            handleWaveDirection();
+            HandleWaveDirection();
 
             yield return new WaitForSeconds(waveDelay);
         }
@@ -77,7 +49,7 @@ public class TeleportAttack : EnemyAttack
         yield return new WaitForSeconds(endingDelay);
     }
 
-    private void handleWaveDirection()
+    private void HandleWaveDirection()
     {
         count++;
         if (waveMaxCount < count || waveSpreadCount > maxWaveDistance || waveSpreadCount < -maxWaveDistance)
