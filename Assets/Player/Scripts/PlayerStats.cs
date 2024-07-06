@@ -1,18 +1,32 @@
+using Mirror;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerStats : MonoBehaviour, IDamageable
+public class PlayerStats : NetworkBehaviour, IDamageable
 {
-    public bool IsAlive { get; private set; } = true;
+    public delegate void PlayerStatsEvent();
+    public PlayerStatsEvent OnDie;
+
+    public bool IsDead => isDead;
     public bool IsInvincible { get; private set; }
 
     [Header("References")]
     [SerializeField] private Player player;
-    [SerializeField] private GameObject visualsGameObject;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     [Header("Other Configurations")]
     [SerializeField] private ParticleSystem playerDeathParticlesPrefab;
     [SerializeField] private float killInvincibilityDuration = 0.2f;
+
+    [SyncVar(hook = nameof(OnIsDeadChanged))]
+    private bool isDead;
+
+    private Coroutine invincibilityCoroutine = null;
+
+    private void Awake()
+    {
+        isDead = false;
+    }
 
     private void Start()
     {
@@ -24,6 +38,16 @@ public class PlayerStats : MonoBehaviour, IDamageable
         player.PlayerDash.OnDashEnded += PlayerDash_OnDashEnded;
     }
 
+#if UNITY_EDITOR
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            TakeDamage(null, 0);
+        }
+    }
+#endif
+
     private void PlayerDash_OnDashStarted()
     {
         IsInvincible = true;
@@ -31,7 +55,8 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
     private void PlayerDash_OnDashEnded()
     {
-        IsInvincible = false;
+        if (invincibilityCoroutine == null)
+            IsInvincible = false;
     }
 
     private void PlayerAttack_OnAttackStarted()
@@ -41,12 +66,21 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
     private void PlayerAttack_OnAttackEnded()
     {
-        IsInvincible = false;
+        if (invincibilityCoroutine == null) 
+            IsInvincible = false;
     }
 
     private void PlayerAttack_OnKillEnemy()
     {
-        StartCoroutine(GainTempInvincibility(killInvincibilityDuration));
+        if (invincibilityCoroutine != null)
+            StopCoroutine(invincibilityCoroutine);
+        invincibilityCoroutine = StartCoroutine(GainTempInvincibility(killInvincibilityDuration));
+    }
+
+    private void OnIsDeadChanged(bool _, bool newStatus)
+    {
+        isDead = newStatus;
+        OnDie?.Invoke();
     }
 
     private IEnumerator GainTempInvincibility(float invincibilityDuration)
@@ -54,16 +88,40 @@ public class PlayerStats : MonoBehaviour, IDamageable
         IsInvincible = true;
         yield return new WaitForSeconds(invincibilityDuration);
         IsInvincible = false;
+        invincibilityCoroutine = null;
     }
 
     public void TakeDamage(IDamageable damager, int damage)
     {
-        IsAlive = false;
-        PlayDeathParticles(damager.GetTransform().position);
-        visualsGameObject.SetActive(false);
+        if (isOwned)
+            CMD_TakeDamage();
+    }
+
+    public void Revive()
+    {
+        if (isOwned)
+            CMD_Revive();
     }
 
     public Transform GetTransform() => transform;
+
+    #region Mirror Functions
+
+    [Command]
+    private void CMD_TakeDamage()
+    {
+        isDead = true;
+        PlayDeathParticles(transform.position);
+        spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.0f);
+    }
+
+    [Command]
+    private void CMD_Revive()
+    {
+        isDead = false;
+    }
+
+    #endregion
 
     // TODO: Move out of PlayerStats
     private void PlayDeathParticles(Vector3 attackPosition)

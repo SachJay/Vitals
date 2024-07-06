@@ -147,7 +147,7 @@ public class PlayerAttack : MonoBehaviour
 
     private bool CanAttack()
     {
-        if (!player.PlayerStats.IsAlive || currentAttackCount <= 0 || IsAttacking)
+        if (player.PlayerStats.IsDead || currentAttackCount <= 0 || IsAttacking)
             return false;
         return true;
     }

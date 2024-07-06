@@ -113,7 +113,7 @@ public class PlayerDash : MonoBehaviour
 
     private bool CanDash()
     {
-        if (!player.PlayerStats.IsAlive || currentDashCount <= 0 || player.PlayerAttack.IsAttacking || IsDashing)
+        if (player.PlayerStats.IsDead || currentDashCount <= 0 || player.PlayerAttack.IsAttacking || IsDashing)
             return false;
         return true;
     }
