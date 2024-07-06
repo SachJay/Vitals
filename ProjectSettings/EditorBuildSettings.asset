@@ -6,27 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: fefdbfd4b8d4412438a0a9c4ac8a88e6
+  - enabled: 1
+    path: Assets/Scenes/Lobby.unity
+    guid: 19e8d8717fc581442b44bda05a55ccc1
+  - enabled: 1
     path: Assets/Scenes/Tutorial.unity
     guid: 50fe336c404dfd54c861a48aabc4094d
   - enabled: 1
-    path: Assets/Scenes/Barrage.unity
-    guid: a27959ae01b917a48b89e65bd16184fa
-  - enabled: 1
-    path: Assets/Scenes/Waver.unity
-    guid: 674304fe89a54424b83370c8a9cf84f1
-  - enabled: 1
-    path: Assets/Scenes/Boss.unity
-    guid: fb906f132fe22894aad06bfd2d04f568
-  - enabled: 1
-    path: Assets/Scenes/BossFinalPhase.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
     path: Assets/Scenes/Win.unity
     guid: 23ed27ff99e75ac46ab0c070eb40964e
-  - enabled: 1
-    path: Assets/Scenes/LobbyFinder.unity
-    guid: a8847e5be55ad7b42b47595d7bb2a7d4
-  - enabled: 1
-    path: Assets/Scenes/Lobby.unity
-    guid: b26a0e028365dd641b08c52e660f4e51
   m_configObjects: {}

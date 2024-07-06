@@ -246,7 +246,7 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
-  GamePlayerPrefab: {fileID: 4219493734241826914, guid: aeb623f2fbd00074f8beaf24d8e74c71, type: 3}
+  GamePlayerPrefab: {fileID: 2072584938607171452, guid: aeb623f2fbd00074f8beaf24d8e74c71, type: 3}
 --- !u!1 &376451035
 GameObject:
   m_ObjectHideFlags: 0

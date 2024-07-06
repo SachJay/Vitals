@@ -2191,6 +2191,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3591432038778011849, guid: aeb623f2fbd00074f8beaf24d8e74c71, type: 3}
+      propertyPath: sceneId
+      value: 1315817100
+      objectReference: {fileID: 0}
     - target: {fileID: 4065795651203562860, guid: aeb623f2fbd00074f8beaf24d8e74c71, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (!player.IsOwned)
+        if (!player.IsOwned || player.PlayerStats.IsDead)
             return;
 
         currentVelocity = player.PlayerInputHandler.Move;
