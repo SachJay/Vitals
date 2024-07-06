@@ -786,8 +786,10 @@ MonoBehaviour:
   syncInterval: 0
   player: {fileID: 1218822230930457798}
   spriteRenderer: {fileID: 2380100135437610038}
-  playerDeathParticlesPrefab: {fileID: 0}
+  playerDeathParticlesPrefab: {fileID: 3240456933415795335, guid: 4e5b56f4b7e0ff74ba54b4b191c02c52, type: 3}
   killInvincibilityDuration: 0.2
+  reviveInvincibilityDuration: 0.5
+  dashEndingInvincibilityDuration: 0.1
 --- !u!1 &4267242464284710359
 GameObject:
   m_ObjectHideFlags: 0
@@ -1237,7 +1239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1218822230930457798}
   trailRenderer: {fileID: 9115926748649122831}
-  enemyDeathParticlesPrefab: {fileID: 0}
+  enemyDeathParticlesPrefab: {fileID: 3240456933415795335, guid: 2503a67f3845060458631f1c40afdb0f, type: 3}
   maxAttackCount: 1
   attackCooldown: 3
   maxAttackDistance: 7

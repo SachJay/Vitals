@@ -17,6 +17,8 @@ public class PlayerStats : NetworkBehaviour, IDamageable
     [Header("Other Configurations")]
     [SerializeField] private ParticleSystem playerDeathParticlesPrefab;
     [SerializeField] private float killInvincibilityDuration = 0.2f;
+    [SerializeField] private float reviveInvincibilityDuration = 0.5f;
+    [SerializeField] private float dashEndingInvincibilityDuration = 0.1f;
 
     [SyncVar(hook = nameof(OnIsDeadChanged))]
     private bool isDead;
@@ -48,6 +50,13 @@ public class PlayerStats : NetworkBehaviour, IDamageable
     }
 #endif
 
+    public void StartInvulnerability(float invincibilityDuration)
+    {
+        if (invincibilityCoroutine != null)
+            StopCoroutine(invincibilityCoroutine);
+        invincibilityCoroutine = StartCoroutine(GainTempInvincibility(invincibilityDuration));
+    }
+
     private void PlayerDash_OnDashStarted()
     {
         IsInvincible = true;
@@ -55,8 +64,7 @@ public class PlayerStats : NetworkBehaviour, IDamageable
 
     private void PlayerDash_OnDashEnded()
     {
-        if (invincibilityCoroutine == null)
-            IsInvincible = false;
+        StartInvulnerability(dashEndingInvincibilityDuration);
     }
 
     private void PlayerAttack_OnAttackStarted()
@@ -66,15 +74,12 @@ public class PlayerStats : NetworkBehaviour, IDamageable
 
     private void PlayerAttack_OnAttackEnded()
     {
-        if (invincibilityCoroutine == null) 
-            IsInvincible = false;
+        StartInvulnerability(dashEndingInvincibilityDuration);
     }
 
     private void PlayerAttack_OnKillEnemy()
     {
-        if (invincibilityCoroutine != null)
-            StopCoroutine(invincibilityCoroutine);
-        invincibilityCoroutine = StartCoroutine(GainTempInvincibility(killInvincibilityDuration));
+        StartInvulnerability(killInvincibilityDuration);
     }
 
     private void OnIsDeadChanged(bool _, bool newStatus)
@@ -100,7 +105,10 @@ public class PlayerStats : NetworkBehaviour, IDamageable
     public void Revive()
     {
         if (isOwned)
+        {
+            StartInvulnerability(reviveInvincibilityDuration);
             CMD_Revive();
+        }
     }
 
     public Transform GetTransform() => transform;

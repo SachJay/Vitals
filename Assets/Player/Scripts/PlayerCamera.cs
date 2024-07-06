@@ -8,12 +8,6 @@ public class PlayerCamera : MonoBehaviour
 
     private Vector3 cameraPosition = new(0, 0, -10);
 
-    private void Awake()
-    {
-        if (playerCamera == null)
-            LogExtension.LogMissingVariable(name, nameof(playerCamera));
-    }
-
     private void LateUpdate()
     {
         if (!player.IsOwned)
@@ -26,5 +20,4 @@ public class PlayerCamera : MonoBehaviour
         cameraPosition.y = transform.position.y;
         cameraPosition.z = -10;
     }
-
 }
