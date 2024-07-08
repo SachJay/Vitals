@@ -3,8 +3,8 @@ using UnityEngine;
 
 public abstract class EnemyAttack : MonoBehaviour
 {
-    [SerializeField] protected Projectile projectilePrefab1;
-    [SerializeField] private float projectileSpeed = 5f;
+    [SerializeField, Tooltip("Type of projectile fired")] protected Projectile projectilePrefab1;
+    [SerializeField, Tooltip("Speed of projectile")] private float projectileSpeed = 5f;
 
     public abstract IEnumerator ExecuteAttack(Player player);
 
