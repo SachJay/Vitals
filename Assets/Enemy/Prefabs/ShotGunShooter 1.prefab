@@ -169,6 +169,7 @@ MonoBehaviour:
   rb: {fileID: 3311548755933363982}
   attackDelay: 1
   speed: 0.01
+  agroRange: 50
 --- !u!58 &1090012229901992717
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -497,62 +498,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2444942602456962192}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8842012562230261150
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6681452231467085815}
-  - component: {fileID: 5097724462725062056}
-  m_Layer: 6
-  m_Name: ShotgunAttack
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6681452231467085815
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8842012562230261150}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1414217118075503186}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5097724462725062056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8842012562230261150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bf108c44bdb9df418a0bcd041a54914, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectilePrefab1: {fileID: 7708346955731555250, guid: a662f47c8cdc9b540aaeb707968ec81f, type: 3}
-  projectileSpeed: 600
-  projectileAmount: 5
-  projectileSpread: 15
-  endingDelay: 2
-  projectileDelay: 0
-  waveDelay: 0
-  numberOfWaves: 1
-  maxRandomDir: 0
-  minRandonDir: 0
-  predictiveAmount: 0
-  spawnOffset: 0
 --- !u!1 &9149629122110239399
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,3 +583,76 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &5723499202081610296
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1414217118075503186}
+    m_Modifications:
+    - target: {fileID: 1428975153279694287, guid: 691b3774aa998c7438911cf24fa706c1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428975153279694287, guid: 691b3774aa998c7438911cf24fa706c1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428975153279694287, guid: 691b3774aa998c7438911cf24fa706c1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428975153279694287, guid: 691b3774aa998c7438911cf24fa706c1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428975153279694287, guid: 691b3774aa998c7438911cf24fa706c1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428975153279694287, guid: 691b3774aa998c7438911cf24fa706c1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428975153279694287, guid: 691b3774aa998c7438911cf24fa706c1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428975153279694287, guid: 691b3774aa998c7438911cf24fa706c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428975153279694287, guid: 691b3774aa998c7438911cf24fa706c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1428975153279694287, guid: 691b3774aa998c7438911cf24fa706c1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3880088191826980774, guid: 691b3774aa998c7438911cf24fa706c1, type: 3}
+      propertyPath: m_Name
+      value: ShotgunAttack
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 691b3774aa998c7438911cf24fa706c1, type: 3}
+--- !u!114 &5097724462725062056 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 707968188432091024, guid: 691b3774aa998c7438911cf24fa706c1, type: 3}
+  m_PrefabInstance: {fileID: 5723499202081610296}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bf108c44bdb9df418a0bcd041a54914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &6681452231467085815 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1428975153279694287, guid: 691b3774aa998c7438911cf24fa706c1, type: 3}
+  m_PrefabInstance: {fileID: 5723499202081610296}
+  m_PrefabAsset: {fileID: 0}
