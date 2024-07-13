@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Player : NetworkBehaviour
 {
+    public static Player Instance { get; private set; }
+
     [HideInInspector] public PlayerInputHandler PlayerInputHandler;
     [HideInInspector] public PlayerMovement PlayerMovement;
 
@@ -11,6 +13,12 @@ public class Player : NetworkBehaviour
     public PlayerDash PlayerDash;
 
     public bool IsOwned => isOwned;
+
+    public override void OnStartLocalPlayer()
+    {
+        if (isOwned)
+            Instance = this;
+    }
 
     private void Awake()
     {

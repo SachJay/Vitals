@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Win.unity
     guid: 23ed27ff99e75ac46ab0c070eb40964e
+  - enabled: 1
+    path: Assets/Scenes/CameraTestScene.unity
+    guid: 4660144b6dca8a04a9cd1ef31ea4acf8
   m_configObjects: {}
