@@ -11,6 +11,8 @@ public class Player : NetworkBehaviour
     public PlayerStats PlayerStats;
     public PlayerAttack PlayerAttack;
     public PlayerDash PlayerDash;
+    public PlayerPickup PlayerPickup;
+    public PlayerThrow PlayerThrow;
 
     public bool IsOwned => isOwned;
 

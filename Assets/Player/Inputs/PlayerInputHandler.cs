@@ -6,6 +6,8 @@ public class PlayerInputHandler : MonoBehaviour
     public delegate void PlayerInputEvent();
     public PlayerInputEvent OnAttackInputStarted;
     public PlayerInputEvent OnDashInputStarted;
+    public PlayerInputEvent OnInteractInputStarted;
+    public PlayerInputEvent OnInteractInputEnded;
 
     public Vector2 Move { get; private set; } = Vector2.zero;
 
@@ -34,6 +36,18 @@ public class PlayerInputHandler : MonoBehaviour
         if (context.started)
         {
             OnDashInputStarted?.Invoke();
+        }
+    }
+
+    public void OnInteractInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            OnInteractInputStarted?.Invoke();
+        }
+        else if (context.canceled)
+        {
+            OnInteractInputEnded?.Invoke();
         }
     }
 }
