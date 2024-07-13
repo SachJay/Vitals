@@ -165,10 +165,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyAttack:
-  - {fileID: 5097724462725062056}
+  - {fileID: 3509899973805200607}
   rb: {fileID: 3311548755933363982}
   attackDelay: 1
   speed: 0.01
+  agroRange: 50
 --- !u!58 &1090012229901992717
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -580,7 +581,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6681452231467085815}
+  - {fileID: 3076560434763015808}
   m_Father: {fileID: 8094258152645059028}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7823227356731455682
@@ -614,62 +615,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2444942602456962192}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8842012562230261150
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6681452231467085815}
-  - component: {fileID: 5097724462725062056}
-  m_Layer: 6
-  m_Name: ShotgunAttack
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6681452231467085815
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8842012562230261150}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1414217118075503186}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5097724462725062056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8842012562230261150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bf108c44bdb9df418a0bcd041a54914, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectilePrefab1: {fileID: 7708346955731555250, guid: a662f47c8cdc9b540aaeb707968ec81f, type: 3}
-  projectileSpeed: 500
-  projectileAmount: 7
-  projectileSpread: 80
-  endingDelay: 1.5
-  projectileDelay: 0
-  waveDelay: 0
-  numberOfWaves: 1
-  maxRandomDir: 0
-  minRandonDir: 0
-  predictiveAmount: 0
-  spawnOffset: 0
 --- !u!1 &9149629122110239399
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,3 +700,76 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &114694236233332454
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1414217118075503186}
+    m_Modifications:
+    - target: {fileID: 948342338361117199, guid: d92eb55dadf8d0a4da29019594ac5605, type: 3}
+      propertyPath: m_Name
+      value: BackwardShotgunAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 3108990789404512358, guid: d92eb55dadf8d0a4da29019594ac5605, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3108990789404512358, guid: d92eb55dadf8d0a4da29019594ac5605, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3108990789404512358, guid: d92eb55dadf8d0a4da29019594ac5605, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3108990789404512358, guid: d92eb55dadf8d0a4da29019594ac5605, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3108990789404512358, guid: d92eb55dadf8d0a4da29019594ac5605, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3108990789404512358, guid: d92eb55dadf8d0a4da29019594ac5605, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3108990789404512358, guid: d92eb55dadf8d0a4da29019594ac5605, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3108990789404512358, guid: d92eb55dadf8d0a4da29019594ac5605, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3108990789404512358, guid: d92eb55dadf8d0a4da29019594ac5605, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3108990789404512358, guid: d92eb55dadf8d0a4da29019594ac5605, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d92eb55dadf8d0a4da29019594ac5605, type: 3}
+--- !u!4 &3076560434763015808 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3108990789404512358, guid: d92eb55dadf8d0a4da29019594ac5605, type: 3}
+  m_PrefabInstance: {fileID: 114694236233332454}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3509899973805200607 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3540623853912269369, guid: d92eb55dadf8d0a4da29019594ac5605, type: 3}
+  m_PrefabInstance: {fileID: 114694236233332454}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bf108c44bdb9df418a0bcd041a54914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

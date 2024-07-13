@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private EnemyAttack[] enemyAttack;
+    [SerializeField] private EnemyAction[] enemyActions;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private float attackDelay = 1f;
     [SerializeField] private float speed = 100;
+    [SerializeField] private float agroRange = 50f;
 
     private Player player;
 
@@ -22,7 +23,7 @@ public class Enemy : MonoBehaviour
                 LogExtension.LogMissingComponent(name, nameof(Player));
         }
 
-        StartCoroutine(StartAttacks());
+        StartCoroutine(HandleEnemyActions());
     }
 
     public void SetPlayerTarget(Player player)
@@ -30,28 +31,46 @@ public class Enemy : MonoBehaviour
         this.player = player;
     }
 
-    private IEnumerator StartAttacks()
+    private IEnumerator HandleEnemyActions()
     {
         while (true)
         {
-            for (int i = 0; i < enemyAttack.Length; i++)
-            {
-                if (player != null)
-                    yield return StartCoroutine(enemyAttack[i].ExecuteAttack(player));
-            }
+            if (player == null)
+                yield return null;
 
-            yield return new WaitForSeconds(attackDelay);
+            if (Vector2.Distance(transform.position, player.transform.position) < agroRange)
+            {
+                for (int i = 0; i < enemyActions.Length; i++)
+                {
+                    yield return StartCoroutine(enemyActions[i].ExecuteAction(player));
+                }
+
+                yield return new WaitForSeconds(attackDelay);
+            } else
+            {
+                yield return StartCoroutine(Idle()); 
+            }
         }
+    }
+
+    public void MoveTowards(Vector3 target, float speedMultiplayer)
+    {
+        Vector2 targetDirection = (target - transform.position).normalized;
+
+        rb.MovePosition(rb.position + targetDirection * speed * speedMultiplayer);
+
+        Vector3 difference = target - transform.position;
+        float rotationZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ + 90);
+    }
+
+    private IEnumerator Idle()
+    {
+        yield return new WaitForSeconds(0.1f);
     }
 
     private void Update()
     {
-        Vector2 targetDirection = (player.transform.position - transform.position).normalized;
-
-        rb.MovePosition(rb.position + targetDirection * speed);
-
-        Vector3 difference = player.transform.position - transform.position;
-        float rotationZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ + 90);
+       //Handle interrupts here
     }
 }

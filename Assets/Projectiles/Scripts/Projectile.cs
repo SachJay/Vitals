@@ -3,14 +3,8 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private float duration = 5;
     [SerializeField] private bool contactDamage = true;
     [SerializeField] private float speed = 1;
-
-    private void Start()
-    {
-        Destroy(gameObject, duration);
-    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -34,8 +28,18 @@ public class Projectile : MonoBehaviour
         this.speed = speed;
     }
 
+    public void SetDuration(float duration)
+    {
+        Destroy(gameObject, duration);
+    }
+
     public void SetDirection(Vector2 direction)
     {
         rb.AddForce(direction.normalized * speed);
+    }
+
+    public void SetScale(Vector3 scale)
+    {
+        transform.localScale = scale;
     }
 }
