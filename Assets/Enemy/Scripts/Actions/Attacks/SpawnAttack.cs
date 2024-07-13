@@ -9,7 +9,7 @@ public class SpawnAttack : EnemyAttack
     [SerializeField] private Enemy enemyPrefab;
     [SerializeField] private Vector3[] transformationList;
 
-    public override IEnumerator ExecuteAttack(Player player)
+    public override IEnumerator ExecuteAction(Player player)
     {
         for (int j = 0; j < numberOfEnemies; j++)
         {

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PathwayFire : EnemyAttack
+public class TeleportAttack : EnemyAttack
 {
     [SerializeField] private float endingDelay = 1f;
     [SerializeField] private float waveDelay = 0f;
@@ -19,7 +19,7 @@ public class PathwayFire : EnemyAttack
     private int waveMaxCount = 0;
     private int direction = 1;
 
-    public override IEnumerator ExecuteAttack(Player player)
+    public override IEnumerator ExecuteAction(Player player)
     {
         waveSpreadCount = 0;
 

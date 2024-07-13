@@ -5,16 +5,16 @@ public class ShotFire : EnemyAttack
 {
     [SerializeField, Tooltip("Number Of Projectiles Per Wave")] private int projectileAmount = 3;
     [SerializeField, Tooltip("The number of degrees each projectiles are from each other")] private float projectileSpread = 0.1f;
-    [SerializeField, Tooltip("Delay of entire attack. Delay after all waves")] private float endingDelay = 1f;
-    [SerializeField, Tooltip("Delay between each projectile")] private float projectileDelay = 0.1f;
-    [SerializeField, Tooltip("Delay between next wave")] private float waveDelay = 0f;
+    [SerializeField, Tooltip("Delay of entire attack. Delay after all waves in seconds")] private float endingDelay = 1f;
+    [SerializeField, Tooltip("Delay between each projectile in seconds")] private float projectileDelay = 0.1f;
+    [SerializeField, Tooltip("Delay between next wave in seconds")] private float waveDelay = 0f;
     [SerializeField, Tooltip("Number of waves. 1 wave shoots the number of projectiles defined")] private float numberOfWaves = 5f;
     [SerializeField, Tooltip("Upper value for the random direction a projectile will fire in degrees")] private float maxRandomDir = 5f;
     [SerializeField, Tooltip("Lower value for the random direction a projectile will fire in degrees")] private float minRandonDir = -5f;
-    [SerializeField, Tooltip("Amount the projectile is fired infront of player")] private float predictiveAmount = 0f;
-    [SerializeField, Tooltip("Random distance projectiles could spawn originating from enemy")] private float spawnOffset = 0f;
+    [SerializeField, Tooltip("Amount the projectile is fired infront of player in unity units")] private float predictiveAmount = 0f;
+    [SerializeField, Tooltip("Random distance projectiles could spawn originating from enemy in unity units")] private float spawnOffset = 0f;
 
-    public override IEnumerator ExecuteAttack(Player player)
+    public override IEnumerator ExecuteAction(Player player)
     {
         float projectileSpreadRad = projectileSpread * Mathf.Deg2Rad;
 
