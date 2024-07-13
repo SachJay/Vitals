@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8094258152645059028}
   - component: {fileID: 5429194533963491520}
+  - component: {fileID: 7993157169348160122}
   - component: {fileID: 1090012229901992717}
   - component: {fileID: 3311548755933363982}
   m_Layer: 6
@@ -48,12 +49,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d9ed3867006ef40af29b947dbb89eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyAttack:
-  - {fileID: 5097724462725062056}
+  enemyActions: []
   rb: {fileID: 3311548755933363982}
   attackDelay: 1
   speed: 0.01
   agroRange: 50
+--- !u!114 &7993157169348160122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3451276787617159621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2538ae5a0214b4943b1d7228765f6369, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyDeathParticlesPrefab: {fileID: 3240456933415795335, guid: 2503a67f3845060458631f1c40afdb0f, type: 3}
 --- !u!58 &1090012229901992717
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -406,17 +419,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3cea3764617209442b902a212373ab86, type: 3}
---- !u!114 &5097724462725062056 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5806228469922056489, guid: 3cea3764617209442b902a212373ab86, type: 3}
-  m_PrefabInstance: {fileID: 1597967957311165569}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bf108c44bdb9df418a0bcd041a54914, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &6681452231467085815 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5374014828688653174, guid: 3cea3764617209442b902a212373ab86, type: 3}

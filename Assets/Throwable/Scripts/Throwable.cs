@@ -6,10 +6,11 @@ public class Throwable : MonoBehaviour, IInteractable
     public bool IsThrown { get; private set; } = false;
 
     [SerializeField] private float force = 100.0f;
-    [SerializeField] private float delayPickup = 1.0f;
-    
+    [SerializeField] private int damage = 1;
+
+    private readonly float delayCheck = 1.0f;
+    private float timer = 0.0f;
     private Rigidbody2D rb;
-    private float timer = -999f;
 
     private void Awake()
     {
@@ -19,25 +20,29 @@ public class Throwable : MonoBehaviour, IInteractable
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (IsThrown)
-            Debug.Log(collision.name);
+        if (!IsThrown)
+            return;
+
+        if (collision.TryGetComponent(out IDamageable damageable))
+        {
+            damageable.TakeDamage(null, damage);
+            Destroy(gameObject);
+        }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (IsThrown)
+        if (!IsThrown)
+            return;
+
+        if (rb.velocity.magnitude < 0.25f && timer > delayCheck)
         {
-            timer += Time.deltaTime;
-
-            if (timer > delayPickup)
-                IsPickupable = true;
-
-            if (rb.velocity.magnitude < 0.1f && IsPickupable)
-            {
-                IsThrown = false;
-                rb.velocity = Vector2.zero;
-            }
+            IsThrown = false;
+            IsPickupable = true;
+            rb.velocity = Vector2.zero;
         }
+
+        timer += Time.deltaTime;
     }
 
     public void SetIsPickupable(bool isPickupable)

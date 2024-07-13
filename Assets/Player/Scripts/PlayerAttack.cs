@@ -13,7 +13,6 @@ public class PlayerAttack : MonoBehaviour
     [Header("References")]
     [SerializeField] private Player player;
     [SerializeField] private TrailRenderer trailRenderer;
-    [SerializeField] private ParticleSystem enemyDeathParticlesPrefab;
 
     [Header("Attack Variables")]
     [SerializeField] private float maxAttackCount = 1;
@@ -31,9 +30,6 @@ public class PlayerAttack : MonoBehaviour
     {
         if (player == null)
             LogExtension.LogMissingVariable(name, nameof(player));
-
-        if (enemyDeathParticlesPrefab == null)
-            LogExtension.LogMissingVariable(name, nameof(enemyDeathParticlesPrefab));
 
         if (attackHitbox == null)
             LogExtension.LogMissingVariable(name, nameof(attackHitbox));
@@ -62,17 +58,18 @@ public class PlayerAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (IsAttacking)
-        {
-            // TODO: This needs to be fixed for multiplayer later
-            //if (other.gameObject.TryGetComponent(out Enemy enemy) && enemy.transitionOnDeath)
-            //    StartCoroutine(LoadNewScene());
+        if (!IsAttacking)
+            return;
 
-            HandleDeathParticles(other.gameObject);
-            Destroy(other.gameObject);
+        // TODO: This needs to be fixed for multiplayer later
+        //if (other.gameObject.TryGetComponent(out Enemy enemy) && enemy.transitionOnDeath)
+        //    StartCoroutine(LoadNewScene());
 
+        if (other.TryGetComponent(out IDamageable damageable))
+            damageable.TakeDamage(player.PlayerStats, 1);
+
+        if (other.TryGetComponent(out Enemy _))
             OnEnemyKilled?.Invoke();
-        }
     }
 
     // TODO: Remove this when fixing above OnTriggerEnter2D function
@@ -130,19 +127,6 @@ public class PlayerAttack : MonoBehaviour
 
         for (int i = 0; i < maxAttackCount; i++)
             abilityTimers[i].OnTimerTimeout?.Invoke(attackCooldown);
-    }
-
-    private void HandleDeathParticles(GameObject enemy)
-    {
-        // TODO: Add enemy death particles prefab
-        if (enemyDeathParticlesPrefab == null)
-            return;
-
-        ParticleSystem deathParticles = Instantiate(enemyDeathParticlesPrefab, player.transform.position, Quaternion.identity);
-
-        Vector3 difference = player.transform.position - enemy.transform.position;
-        float rotationZ = Mathf.Atan2(difference.y, -difference.x) * Mathf.Rad2Deg;
-        deathParticles.transform.SetPositionAndRotation(enemy.transform.position, Quaternion.Euler(rotationZ, 90.0f, 0));
     }
 
     private bool CanAttack()
