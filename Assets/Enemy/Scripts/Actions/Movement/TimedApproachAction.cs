@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class TimedApproachAction : MovementAction
 {
-    bool hasTimeLeft = true;
+    bool hasTimeLeft;
     [SerializeField, Tooltip("Time the action will execute for in seconds")] protected float actionTime = 1f;
 
     public override IEnumerator ExecuteAction(Player player)
     {
+        hasTimeLeft = true;
         StartCoroutine(StopTimer());
         while (hasTimeLeft)
         {
