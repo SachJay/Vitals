@@ -1,7 +1,8 @@
+using Mirror;
 using System.Collections;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : NetworkBehaviour
 {
     [SerializeField] private EnemyAction[] enemyActions;
     [SerializeField] private Rigidbody2D rb;
@@ -11,7 +12,7 @@ public class Enemy : MonoBehaviour
 
     private Player player;
 
-    private void Start()
+    public override void OnStartServer()
     {
         // TODO: Update to determine which player it should be targeting (right now it targets a random player in this list)
         if (player == null && CustomNetworkManager.Instance != null)
