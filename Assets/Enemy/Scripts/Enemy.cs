@@ -26,6 +26,11 @@ public class Enemy : MonoBehaviour
         StartCoroutine(HandleEnemyActions());
     }
 
+    private void Update()
+    {
+        //Handle interrupts here
+    }
+
     public void SetPlayerTarget(Player player)
     {
         this.player = player;
@@ -67,10 +72,5 @@ public class Enemy : MonoBehaviour
     private IEnumerator Idle()
     {
         yield return new WaitForSeconds(0.1f);
-    }
-
-    private void Update()
-    {
-       //Handle interrupts here
     }
 }
