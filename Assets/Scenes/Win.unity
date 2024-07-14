@@ -315,6 +315,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MeleeAttacker
       objectReference: {fileID: 0}
+    - target: {fileID: 6104785928943288641, guid: 03f494253d9136d4a89ceaf532dda1df, type: 3}
+      propertyPath: sceneId
+      value: 1951673640
+      objectReference: {fileID: 0}
     - target: {fileID: 8094258152645059028, guid: 03f494253d9136d4a89ceaf532dda1df, type: 3}
       propertyPath: m_LocalPosition.x
       value: 23.754921
