@@ -601,6 +601,10 @@ PrefabInstance:
       propertyPath: sceneId
       value: 320399502
       objectReference: {fileID: 0}
+    - target: {fileID: 5429194533963491520, guid: 8c99a7380d6b50344911787cd3e3831d, type: 3}
+      propertyPath: knockbackForce
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 8094258152645059028, guid: 8c99a7380d6b50344911787cd3e3831d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 24.84
