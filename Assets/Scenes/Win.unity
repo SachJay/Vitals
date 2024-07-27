@@ -280,6 +280,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7226015319375104485, guid: dad3e1d0fdea0ea4eb2209d07f29c1da, type: 3}
+      propertyPath: syncMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7226015319375104485, guid: dad3e1d0fdea0ea4eb2209d07f29c1da, type: 3}
+      propertyPath: syncDirection
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3451276787617159621, guid: dad3e1d0fdea0ea4eb2209d07f29c1da, type: 3}
       propertyPath: m_Name
       value: BackShotGunShooter (1)
@@ -372,6 +380,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2566103920468026670, guid: 03f494253d9136d4a89ceaf532dda1df, type: 3}
+      propertyPath: syncMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2566103920468026670, guid: 03f494253d9136d4a89ceaf532dda1df, type: 3}
+      propertyPath: syncDirection
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3451276787617159621, guid: 03f494253d9136d4a89ceaf532dda1df, type: 3}
       propertyPath: m_Name
       value: MeleeAttacker
@@ -618,6 +634,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2104002378827509137, guid: a884b10525238a14186998fbf5509d98, type: 3}
+      propertyPath: syncMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2104002378827509137, guid: a884b10525238a14186998fbf5509d98, type: 3}
+      propertyPath: syncDirection
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3451276787617159621, guid: a884b10525238a14186998fbf5509d98, type: 3}
       propertyPath: m_Name
       value: SimpleShooter (1)
@@ -784,6 +808,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShotGunShooter (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4386661760618260942, guid: 8b18ecc642b51124f8fd2ad9a22a2bd9, type: 3}
+      propertyPath: syncMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4386661760618260942, guid: 8b18ecc642b51124f8fd2ad9a22a2bd9, type: 3}
+      propertyPath: syncDirection
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8094258152645059028, guid: 8b18ecc642b51124f8fd2ad9a22a2bd9, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.9864786
@@ -839,8 +871,8 @@ SceneRoots:
   - {fileID: 1869227561}
   - {fileID: 285913651}
   - {fileID: 714986419}
-  - {fileID: 729825411}
   - {fileID: 760575697}
+  - {fileID: 729825411}
   - {fileID: 648291151}
   - {fileID: 1897140302}
   - {fileID: 1843605756}
