@@ -57,6 +57,34 @@ public class PlayerStats : NetworkBehaviour, IDamageable
         invincibilityCoroutine = StartCoroutine(GainTempInvincibility(invincibilityDuration));
     }
 
+    public void TriggerStun(Vector2 impactPosition)
+    {
+        //FIXME IMPL STUN LOGIC FOR PLAYER
+        throw new System.NotImplementedException();
+    }
+
+    public bool IsAttackResetable()
+    {
+        return false;
+    }
+
+    public void TakeDamage(IDamageable damager, int damage)
+    {
+        if (isOwned)
+            CMD_TakeDamage();
+    }
+
+    public void Revive()
+    {
+        if (isOwned)
+        {
+            StartInvulnerability(reviveInvincibilityDuration);
+            CMD_Revive();
+        }
+    }
+
+    public Transform GetTransform() => transform;
+
     private void PlayerDash_OnDashStarted()
     {
         IsInvincible = true;
@@ -96,23 +124,6 @@ public class PlayerStats : NetworkBehaviour, IDamageable
         invincibilityCoroutine = null;
     }
 
-    public void TakeDamage(IDamageable damager, int damage)
-    {
-        if (isOwned)
-            CMD_TakeDamage();
-    }
-
-    public void Revive()
-    {
-        if (isOwned)
-        {
-            StartInvulnerability(reviveInvincibilityDuration);
-            CMD_Revive();
-        }
-    }
-
-    public Transform GetTransform() => transform;
-
     #region Mirror Functions
 
     [Command]
@@ -142,11 +153,5 @@ public class PlayerStats : NetworkBehaviour, IDamageable
         Vector3 difference = attackPosition - transform.position;
         float rotationZ = Mathf.Atan2(difference.y, -difference.x) * Mathf.Rad2Deg;
         deathParticles.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(rotationZ, 90.0f, 0));
-    }
-
-    public void TriggerStun(Vector2 impactPosition)
-    {
-        //FIXME IMPL STUN LOGIC FOR PLAYER
-        throw new System.NotImplementedException();
     }
 }
