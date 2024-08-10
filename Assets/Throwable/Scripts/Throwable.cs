@@ -25,7 +25,7 @@ public class Throwable : MonoBehaviour, IInteractable
 
         if (collision.TryGetComponent(out IDamageable damageable))
         {
-            damageable.TakeDamage(null, damage);
+            damageable.TriggerStun(transform.position);
             Destroy(gameObject);
         }
     }

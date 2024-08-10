@@ -143,4 +143,10 @@ public class PlayerStats : NetworkBehaviour, IDamageable
         float rotationZ = Mathf.Atan2(difference.y, -difference.x) * Mathf.Rad2Deg;
         deathParticles.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(rotationZ, 90.0f, 0));
     }
+
+    public void TriggerStun(Vector2 impactPosition)
+    {
+        //FIXME IMPL STUN LOGIC FOR PLAYER
+        throw new System.NotImplementedException();
+    }
 }
