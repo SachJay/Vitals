@@ -15,6 +15,8 @@ public class Enemy : NetworkBehaviour
 
     private Player player;
 
+    private Coroutine enemyActionCorouter;
+
     public override void OnStartServer()
     {
         // TODO: Update to determine which player it should be targeting (right now it targets a random player in this list)
@@ -48,11 +50,6 @@ public class Enemy : NetworkBehaviour
         rb.velocity = Vector2.zero;
 
         enemyActionCorouter = StartCoroutine(HandleEnemyActions());
-    }
-
-    private void Update()
-    {
-        //Handle interrupts here
     }
 
     public void SetPlayerTarget(Player player)

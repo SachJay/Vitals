@@ -29,6 +29,11 @@ public class EnemyStats : NetworkBehaviour, IDamageable
         Destroy(gameObject);
     }
 
+    public void TriggerStun(Vector2 impactPosition)
+    {
+        enemy.StunEnemy(impactPosition);
+    }
+
     private void HandleDeathParticles(Vector2 damagerPosition)
     {
         if (enemyDeathParticlesPrefab == null)
