@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55b66f548900c464f9eed49e50c9bbd7, type: 3}
-  m_Name: BaseProjectile
+  m_Name: so_MeleeProjectile
   m_EditorClassIdentifier: 
   projectileType: 0
-  projectileColor: {r: 0, g: 0, b: 0, a: 0}
-  projectileScale: {x: 0, y: 0, z: 0}
-  projectileSpeed: 0
-  projectileDuration: 0
+  projectileColor: {r: 1, g: 0.62352943, b: 0.2627451, a: 1}
+  projectileScale: {x: 1, y: 1, z: 1}
+  projectileSpeed: 400
+  projectileDuration: 0.75
+  isContactDamage: 1

@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1845481412475575828}
@@ -89,8 +89,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   rb: {fileID: 6194367845769135771}
-  contactDamage: 1
-  speed: 200
+  spriteRenderer: {fileID: 2056712470479702222}
 --- !u!50 &6194367845769135771
 Rigidbody2D:
   serializedVersion: 4

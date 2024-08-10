@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class TeleportAttack : EnemyAttack
 {
+    [Header("Teleport Attack Configurations")]
     [SerializeField] private float endingDelay = 1f;
     [SerializeField] private float waveDelay = 0f;
     [SerializeField] private int numberOfWaves = 5;

@@ -13,11 +13,22 @@ public class Projectile : NetworkBehaviour
     public ProjectileType ProjectileType { get; private set; }
 
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private bool contactDamage = true;
-    [SerializeField] private float speed = 1;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
+    private bool contactDamage = true;
 
     private float timer = 0.0f;
     private float duration = 0.0f;
+
+    private void OnEnable()
+    {
+        timer = 0.0f;
+    }
+
+    private void OnDisable()
+    {
+        rb.velocity = Vector3.zero;
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -26,11 +37,11 @@ public class Projectile : NetworkBehaviour
 
         if (other.transform != null && other.transform.parent != null && other.transform.parent.parent != null && other.transform.parent.parent.gameObject.TryGetComponent(out Player player))
         {
-            if ((!player.PlayerStats.IsInvincible) || CompareTag(ProjectileType.ToString()))
+            if ((!player.PlayerStats.IsInvincible) || CompareTag(ProjectileType.Undodgeable.ToString()))
             {
                 // TODO: Add IDamageable and damage
                 player.PlayerStats.TakeDamage(null, 1);
-                Destroy(gameObject);
+                ProjectilePool.Instance.ReturnProjectile(gameObject);
             }
         }
     }
@@ -47,14 +58,12 @@ public class Projectile : NetworkBehaviour
     {
         ProjectileType = projectileSO.ProjectileType;
         contactDamage = projectileSO.IsContactDamage;
-        speed = projectileSO.ProjectileSpeed;
-        transform.localScale = projectileSO.ProjectileScale;
-        rb.AddForce(direction.normalized * speed);
-        duration = projectileSO.ProjectileDuration;
-    }
+        
+        rb.AddForce(direction.normalized * projectileSO.ProjectileSpeed);
 
-    public void SetDirection(Vector2 direction)
-    {
-        rb.AddForce(direction.normalized * speed);
+        duration = projectileSO.ProjectileDuration;
+        transform.localScale = projectileSO.ProjectileScale;
+
+        spriteRenderer.color = projectileSO.ProjectileColor;
     }
 }

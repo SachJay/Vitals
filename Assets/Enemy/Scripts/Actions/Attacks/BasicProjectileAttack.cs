@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ShotFire : EnemyAttack
 {
+    [Header("Shot Fire Configurations")]
     [SerializeField, Tooltip("Number Of Projectiles Per Wave")] private int projectileAmount = 3;
     [SerializeField, Tooltip("The number of degrees each projectiles are from each other")] private float projectileSpread = 0.1f;
     [SerializeField, Tooltip("Delay of entire attack. Delay after all waves in seconds")] private float endingDelay = 1f;

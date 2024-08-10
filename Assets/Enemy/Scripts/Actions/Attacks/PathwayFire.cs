@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PathwayFire : EnemyAttack
 {
+    [Header("Pathway Fire Configurations")]
     [SerializeField] private float endingDelay = 1f;
     [SerializeField] private float waveDelay = 0f;
     [SerializeField] private int numberOfWaves = 5;

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class SpawnAttack : EnemyAttack
 {
+    [Header("Spawn Attack Configurations")]
     [SerializeField] private float numberOfEnemies = 0.5f;
     [SerializeField] private float endingDelay = 0.0f;
     [SerializeField] private float spawnDelay = 0.5f;

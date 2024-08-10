@@ -2,6 +2,7 @@ using UnityEngine;
 
 public abstract class EnemyAttack : EnemyAction
 {
+    [Header("Base Enemy Attack Configurations")]
     [SerializeField] protected ProjectileScriptableObject projectileSO;
 
     public Projectile SpawnProjectile(Vector2 direction, float spawnOffset)

@@ -44,9 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf108c44bdb9df418a0bcd041a54914, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab1: {fileID: 7708346955731555250, guid: 46a8ab9cab4804a48ad1e3c9e35abc25, type: 3}
-  projectileSpeed: 400
-  projectileDuration: 10
+  projectileSO: {fileID: 11400000, guid: 21514459d864f94469aa7c7ad27d9dc2, type: 2}
   projectileAmount: 1
   projectileSpread: 0
   endingDelay: 1
