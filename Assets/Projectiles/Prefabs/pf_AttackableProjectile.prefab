@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5415950531253974732}
   - component: {fileID: 1433470877745292513}
   - component: {fileID: 6585798391635024308}
+  - component: {fileID: 7910653925574264896}
   m_Layer: 6
   m_Name: pf_AttackableProjectile
   m_TagString: Attackable
@@ -189,6 +190,19 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!114 &7910653925574264896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3451276787617159621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2be874b24c4d274082bcc7f58e2e33c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyDeathParticlesPrefab: {fileID: 3240456933415795335, guid: 2503a67f3845060458631f1c40afdb0f, type: 3}
 --- !u!1 &4257931105250986860
 GameObject:
   m_ObjectHideFlags: 0
