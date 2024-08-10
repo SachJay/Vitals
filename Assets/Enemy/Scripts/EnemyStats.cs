@@ -16,6 +16,8 @@ public class EnemyStats : NetworkBehaviour, IDamageable
             CmdTakeDamage(damager.GetTransform().position);
     }
 
+    public bool IsAttackResetable() => true;
+
     [Command]
     private void CmdTakeDamage(Vector2 damagerPosition)
     {

@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8094258152645059028}
-  - component: {fileID: 1090012229901992717}
   - component: {fileID: 7708346955731555250}
+  - component: {fileID: 7771750786772854240}
+  - component: {fileID: 1090012229901992717}
   - component: {fileID: 6194367845769135771}
   - component: {fileID: 6027675997365875340}
   - component: {fileID: 5161832758037619748}
@@ -38,6 +39,36 @@ Transform:
   - {fileID: 1845481412475575828}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7708346955731555250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3451276787617159621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48fac33729e0d824e948401ab3414184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  rb: {fileID: 6194367845769135771}
+  spriteRenderer: {fileID: 2056712470479702222}
+--- !u!114 &7771750786772854240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3451276787617159621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2be874b24c4d274082bcc7f58e2e33c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyDeathParticlesPrefab: {fileID: 3240456933415795335, guid: 2503a67f3845060458631f1c40afdb0f, type: 3}
 --- !u!58 &1090012229901992717
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -73,23 +104,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &7708346955731555250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3451276787617159621}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48fac33729e0d824e948401ab3414184, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  rb: {fileID: 6194367845769135771}
-  spriteRenderer: {fileID: 2056712470479702222}
 --- !u!50 &6194367845769135771
 Rigidbody2D:
   serializedVersion: 4

@@ -6,7 +6,6 @@ public class Throwable : MonoBehaviour, IInteractable
     public bool IsThrown { get; private set; } = false;
 
     [SerializeField] private float force = 100.0f;
-    [SerializeField] private int damage = 1;
 
     private readonly float delayCheck = 1.0f;
     private float timer = 0.0f;

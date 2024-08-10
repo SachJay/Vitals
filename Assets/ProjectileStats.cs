@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileEnemyStats : MonoBehaviour, IDamageable
+public class ProjectileStats : MonoBehaviour, IDamageable
 {
     [SerializeField] private ParticleSystem enemyDeathParticlesPrefab;
 
