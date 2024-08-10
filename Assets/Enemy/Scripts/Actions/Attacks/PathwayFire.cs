@@ -27,7 +27,7 @@ public class PathwayFire : EnemyAttack
         {
             if (Mathf.Abs(j) > sprayGap)
             {
-                Projectile p1 = SpawnProjectile(Mathf.PI, projectilePrefab1, spawnOffset);
+                Projectile p1 = SpawnProjectile(Mathf.PI, spawnOffset);
                 p1.transform.position = p1.transform.position + new Vector3(horiOffset, j + waveSpreadCount + 1, 0);
             }
         }
@@ -36,7 +36,7 @@ public class PathwayFire : EnemyAttack
 
             for(int i = -1; i <= 1; i+=2)
             {
-                Projectile p1 = SpawnProjectile(Mathf.PI, projectilePrefab1, spawnOffset);
+                Projectile p1 = SpawnProjectile(Mathf.PI, spawnOffset);
                 p1.transform.position = p1.transform.position + new Vector3(horiOffset, i * sprayGap + waveSpreadCount, 0);
             }
             
@@ -60,7 +60,7 @@ public class PathwayFire : EnemyAttack
 
             if (direction == 1)
             {
-                Projectile p3 = SpawnProjectile(Mathf.PI, projectileAttackablePrefab, spawnOffset);
+                Projectile p3 = SpawnProjectile(Mathf.PI, spawnOffset);
                 p3.transform.position = p3.transform.position + new Vector3(horiOffset, waveSpreadCount, 0);
             }
         }

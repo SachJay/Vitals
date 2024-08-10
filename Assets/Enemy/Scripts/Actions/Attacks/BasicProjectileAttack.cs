@@ -26,7 +26,7 @@ public class ShotFire : EnemyAttack
                 float angle = Mathf.Atan2(targetDir.y, targetDir.x) + Random.Range(minRandonDir * Mathf.Deg2Rad, maxRandomDir * Mathf.Deg2Rad);
 
                 float evenProjectileAdjust = projectileAmount % 2 == 0 ? projectileSpreadRad / 2 : 0;
-                SpawnProjectile(angle + i * projectileSpreadRad + evenProjectileAdjust, projectilePrefab1, spawnOffset);
+                SpawnProjectile(angle + i * projectileSpreadRad + evenProjectileAdjust, spawnOffset);
 
                 if (projectileDelay != 0)
                     yield return new WaitForSeconds(projectileDelay);

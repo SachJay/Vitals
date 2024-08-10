@@ -1,9 +1,9 @@
 using Mirror;
 using UnityEngine;
 
-public class BaseProjectilePool : MonoBehaviour
+public class ProjectilePool : MonoBehaviour
 {
-    public static BaseProjectilePool Instance { get; private set; }
+    public static ProjectilePool Instance { get; private set; }
 
     public Pool<GameObject> Pool;
 
