@@ -66,10 +66,12 @@ public class PlayerAttack : MonoBehaviour
         //    StartCoroutine(LoadNewScene());
 
         if (other.TryGetComponent(out IDamageable damageable))
+        {
             damageable.TakeDamage(player.PlayerStats, 1);
 
-        if (other.TryGetComponent(out Enemy _))
-            OnEnemyKilled?.Invoke();
+            if (damageable.IsAttackResetable())
+                OnEnemyKilled?.Invoke();
+        }
     }
 
     // TODO: Remove this when fixing above OnTriggerEnter2D function

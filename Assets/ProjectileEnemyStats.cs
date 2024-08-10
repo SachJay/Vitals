@@ -1,25 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStats : MonoBehaviour, IDamageable
+public class ProjectileEnemyStats : MonoBehaviour, IDamageable
 {
     [SerializeField] private ParticleSystem enemyDeathParticlesPrefab;
-    [SerializeField] private Enemy enemy;
 
     public Transform GetTransform() => transform;
 
     public void TakeDamage(IDamageable damager, int damage)
     {
         if (damager == null)
-            HandleDeathParticles(transform);
+        {
+            HandleDamage(transform.position);
+        }
         else
-            HandleDeathParticles(damager.GetTransform());
-
-        Destroy(gameObject);
+        {
+            HandleDamage(damager.GetTransform().position);
+        }
     }
 
     public void TriggerStun(Vector2 impactPosition)
     {
-        enemy.StunEnemy(impactPosition);
+        HandleDamage(impactPosition);
     }
 
     public bool IsAttackResetable()
@@ -27,14 +30,21 @@ public class EnemyStats : MonoBehaviour, IDamageable
         return true;
     }
 
-    private void HandleDeathParticles(Transform damager)
+    private void HandleDamage(Vector2 position)
+    {
+        HandleDeathParticles(position);
+
+        Destroy(gameObject);
+    }
+
+    private void HandleDeathParticles(Vector2 position)
     {
         if (enemyDeathParticlesPrefab == null)
             return;
 
-        ParticleSystem deathParticles = Instantiate(enemyDeathParticlesPrefab, damager.position, Quaternion.identity);
+        ParticleSystem deathParticles = Instantiate(enemyDeathParticlesPrefab, position, Quaternion.identity);
 
-        Vector3 difference = damager.position - transform.position;
+        Vector3 difference = position - (Vector2) transform.position;
         float rotationZ = Mathf.Atan2(difference.y, -difference.x) * Mathf.Rad2Deg;
         deathParticles.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(rotationZ, 90.0f, 0));
     }

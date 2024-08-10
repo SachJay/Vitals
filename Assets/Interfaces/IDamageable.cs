@@ -7,4 +7,7 @@ public interface IDamageable
     public void TriggerStun(Vector2 impactPosition);
 
     public Transform GetTransform();
+
+    public bool IsAttackResetable();
+
 }
