@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 333007501}
   - component: {fileID: 333007500}
   - component: {fileID: 333007499}
+  - component: {fileID: 333007503}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -232,8 +233,6 @@ MonoBehaviour:
   - {fileID: 3451276787617159621, guid: dad3e1d0fdea0ea4eb2209d07f29c1da, type: 3}
   - {fileID: 3451276787617159621, guid: 03f494253d9136d4a89ceaf532dda1df, type: 3}
   - {fileID: 3451276787617159621, guid: 698d2b68f1d95cc46ba11528c1c4fb08, type: 3}
-  - {fileID: 2476934131000394010, guid: 7ce9a1ee7ffc35145bd4ebeff021296d, type: 3}
-  - {fileID: 1318097362026393724, guid: aeb623f2fbd00074f8beaf24d8e74c71, type: 3}
   - {fileID: 8369133581286250176, guid: ffcd97b8ef7b3084fb612302ff46c5b1, type: 3}
   - {fileID: 3451276787617159621, guid: 677aff5e1fa21964184a103fc069925b, type: 3}
   - {fileID: 3451276787617159621, guid: e338cc9f8feebfe41a3eb7ddbf787326, type: 3}
@@ -255,6 +254,21 @@ MonoBehaviour:
   evaluationInterval: 3
   timeInterpolationGui: 0
   GamePlayerPrefab: {fileID: 2072584938607171452, guid: aeb623f2fbd00074f8beaf24d8e74c71, type: 3}
+--- !u!114 &333007503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333007497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ab4e25be1a8de0418430b1e79aa4d01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 3451276787617159621, guid: 677aff5e1fa21964184a103fc069925b, type: 3}
+  prefabCount: 50
+  currentCount: 0
 --- !u!1 &376451035
 GameObject:
   m_ObjectHideFlags: 0

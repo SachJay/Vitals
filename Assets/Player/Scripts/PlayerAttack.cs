@@ -1,7 +1,8 @@
+using Mirror;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerAttack : NetworkBehaviour
 {
     public delegate void PlayerAttackEvent();
     public PlayerAttackEvent OnAttackStarted;
@@ -35,8 +36,11 @@ public class PlayerAttack : MonoBehaviour
             LogExtension.LogMissingVariable(name, nameof(attackHitbox));
     }
 
-    private void Start()
+    public override void OnStartLocalPlayer()
     {
+        if (!isOwned)
+            return;
+
         player.PlayerInputHandler.OnAttackInputStarted += PlayerInput_OnAttackStarted;
         OnEnemyKilled += PlayerAttack_OnEnemyKilled;
 

@@ -168,6 +168,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d9ed3867006ef40af29b947dbb89eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   enemyActions:
   - {fileID: 3509899973805200607}
   rb: {fileID: 3311548755933363982}
@@ -186,6 +189,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2538ae5a0214b4943b1d7228765f6369, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   enemyDeathParticlesPrefab: {fileID: 3240456933415795335, guid: 2503a67f3845060458631f1c40afdb0f, type: 3}
 --- !u!58 &1090012229901992717
 CircleCollider2D:
@@ -284,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   target: {fileID: 8094258152645059028}

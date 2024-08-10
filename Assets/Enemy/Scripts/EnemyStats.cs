@@ -10,16 +10,21 @@ public class EnemyStats : NetworkBehaviour, IDamageable
     public void TakeDamage(IDamageable damager, int damage)
     {
         if (damager == null)
-            CMD_TakeDamage(transform.position + Random.insideUnitSphere);
+            CmdTakeDamage(transform.position + Random.insideUnitSphere);
         else
-            CMD_TakeDamage(damager.GetTransform().position);
+            CmdTakeDamage(damager.GetTransform().position);
     }
 
     [Command]
-    private void CMD_TakeDamage(Vector2 damagerPosition)
+    private void CmdTakeDamage(Vector2 damagerPosition)
+    {
+        RpcTakeDamage(damagerPosition);
+    }
+
+    [ClientRpc]
+    private void RpcTakeDamage(Vector2 damagerPosition)
     {
         HandleDeathParticles(damagerPosition);
-
         Destroy(gameObject);
     }
 
