@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyStats : NetworkBehaviour, IDamageable
 {
     [SerializeField] private ParticleSystem enemyDeathParticlesPrefab;
+    [SerializeField] private Enemy enemy;
 
     public Transform GetTransform() => transform;
 
