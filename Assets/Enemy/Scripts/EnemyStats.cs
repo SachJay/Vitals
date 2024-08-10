@@ -3,6 +3,7 @@ using UnityEngine;
 public class EnemyStats : MonoBehaviour, IDamageable
 {
     [SerializeField] private ParticleSystem enemyDeathParticlesPrefab;
+    [SerializeField] private Enemy enemy;
 
     public Transform GetTransform() => transform;
 
@@ -14,6 +15,11 @@ public class EnemyStats : MonoBehaviour, IDamageable
             HandleDeathParticles(damager.GetTransform());
 
         Destroy(gameObject);
+    }
+
+    public void TriggerStun(Vector2 impactPosition)
+    {
+        enemy.StunEnemy(impactPosition);
     }
 
     private void HandleDeathParticles(Transform damager)
