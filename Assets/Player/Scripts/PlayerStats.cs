@@ -57,6 +57,34 @@ public class PlayerStats : NetworkBehaviour, IDamageable
         invincibilityCoroutine = StartCoroutine(GainTempInvincibility(invincibilityDuration));
     }
 
+    public void TriggerStun(Vector2 impactPosition)
+    {
+        //FIXME IMPL STUN LOGIC FOR PLAYER
+        throw new System.NotImplementedException();
+    }
+
+    public bool IsAttackResetable()
+    {
+        return false;
+    }
+
+    public void TakeDamage(IDamageable damager, int damage)
+    {
+        if (isOwned)
+            CMD_TakeDamage();
+    }
+
+    public void Revive()
+    {
+        if (isOwned)
+        {
+            StartInvulnerability(reviveInvincibilityDuration);
+            CMD_Revive();
+        }
+    }
+
+    public Transform GetTransform() => transform;
+
     private void PlayerDash_OnDashStarted()
     {
         IsInvincible = true;
@@ -95,23 +123,6 @@ public class PlayerStats : NetworkBehaviour, IDamageable
         IsInvincible = false;
         invincibilityCoroutine = null;
     }
-
-    public void TakeDamage(IDamageable damager, int damage)
-    {
-        if (isOwned)
-            CMD_TakeDamage();
-    }
-
-    public void Revive()
-    {
-        if (isOwned)
-        {
-            StartInvulnerability(reviveInvincibilityDuration);
-            CMD_Revive();
-        }
-    }
-
-    public Transform GetTransform() => transform;
 
     #region Mirror Functions
 
