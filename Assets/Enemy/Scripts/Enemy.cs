@@ -30,9 +30,10 @@ public class Enemy : MonoBehaviour
     {
         //Handle interrupts here
 
+
         if (Input.GetKeyDown(KeyCode.L))
         {
-            Knockback(player.transform.position, 120f, 2f);
+            Knockback(player.transform.position, 45f, 0.15f);
         }
     }
 
@@ -77,11 +78,11 @@ public class Enemy : MonoBehaviour
     public void Knockback(Vector3 sourcePosition, float forceMulti, float duration)
     {
         StopAllCoroutines();
+        
         StartCoroutine(DelayedReset(duration));
 
         Vector3 knockbackDir = (transform.position - sourcePosition).normalized;
-        rb.AddForce(knockbackDir * forceMulti);
-        print(rb.velocity);
+        rb.velocity = knockbackDir * forceMulti;
     }
 
     private IEnumerator DelayedReset(float delayTime)
@@ -92,7 +93,7 @@ public class Enemy : MonoBehaviour
         rb.velocity = Vector3.zero; //This exists reset the velocity of the enemy
     }
 
-        private IEnumerator Idle()
+    private IEnumerator Idle()
     {
         yield return new WaitForSeconds(0.1f);
     }
