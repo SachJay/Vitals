@@ -106,7 +106,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.99215686, g: 0.8862745, b: 0.29411766, a: 1}
+  m_Color: {r: 0.47058824, g: 0.08235294, b: 0.26666668, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -336,6 +336,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1845481412475575828}
   - component: {fileID: 2056712470479702222}
+  - component: {fileID: 6707949199636034536}
   m_Layer: 6
   m_Name: Circle
   m_TagString: Untagged
@@ -404,7 +405,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.990566, g: 0.8863664, b: 0.2943663, a: 1}
+  m_Color: {r: 0.47058824, g: 0.08235294, b: 0.26666668, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -414,6 +415,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6707949199636034536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4257931105250986860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6deec3875f4aa31498d9eebf870dcf6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  overrideColor: 4
+  spriteRenderers:
+  - {fileID: 2056712470479702222}
+  - {fileID: 2243939329560817252}
+  - {fileID: 6783308282265944472}
+  - {fileID: 5587950017309418142}
+  - {fileID: 8872904246165785554}
+  images: []
 --- !u!1 &4412060087705601970
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,7 +541,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.99215686, g: 0.8862745, b: 0.29411766, a: 1}
+  m_Color: {r: 0.47058824, g: 0.08235294, b: 0.26666668, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -605,7 +626,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.99215686, g: 0.8862745, b: 0.29411766, a: 1}
+  m_Color: {r: 0.47058824, g: 0.08235294, b: 0.26666668, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -784,7 +805,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.99215686, g: 0.8862745, b: 0.29411766, a: 1}
+  m_Color: {r: 0.47058824, g: 0.08235294, b: 0.26666668, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
