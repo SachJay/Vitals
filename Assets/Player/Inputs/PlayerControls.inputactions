@@ -2,7 +2,7 @@
     "name": "PlayerControls",
     "maps": [
         {
-            "name": "Player",
+            "name": "MainGameplay",
             "id": "c5585ab9-d716-4ec1-9dde-639a5f5c3637",
             "actions": [
                 {
@@ -36,15 +36,6 @@
                     "name": "Restart",
                     "type": "Button",
                     "id": "b220dc8a-bd44-43c2-8cbc-605b510f904e",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Interact",
-                    "type": "Button",
-                    "id": "552e30f7-123d-4294-9fa0-1908d8271bc1",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -139,15 +130,32 @@
                     "action": "Restart",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
+                }
+            ]
+        },
+        {
+            "name": "FishingMinigame",
+            "id": "6f110ce4-da97-445b-a374-103c266c6141",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "fbc39f76-4a2d-4a5d-9298-d13ceacd5764",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
                 {
                     "name": "",
-                    "id": "ebe913bf-c89e-4f17-add4-115d3ad1c066",
-                    "path": "<Keyboard>/e",
+                    "id": "af4c8839-8e62-4c0d-8cd6-cdd674199950",
+                    "path": "",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Interact",
+                    "action": "New action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
