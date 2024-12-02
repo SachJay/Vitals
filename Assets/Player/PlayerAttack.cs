@@ -13,6 +13,12 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     FreezeFrameEffect freezeFrameEffect;
 
+    ScreenShaker screenShaker = null;
+
+    private void Start()
+    {
+        screenShaker = Camera.main.gameObject.GetComponent<ScreenShaker>();
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (player.IsAttacking)
@@ -29,6 +35,7 @@ public class PlayerAttack : MonoBehaviour
         yield return StartCoroutine(freezeFrameEffect.FreezeGame());
 
         handleDeathParticles(other.gameObject);
+        screenShaker.ShakeScreen();
         deathSoundEffect.Play();
         Destroy(other.gameObject);
 

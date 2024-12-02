@@ -343,7 +343,7 @@ public class Player : MonoBehaviour
     {
         if (!isAlive) return false;
         else if (currentDashCount <= 0) return false;
-        else if (IsAttacking || isDashing) return false;
+        else if (IsAttacking) return false;
 
         else return true;
     }
