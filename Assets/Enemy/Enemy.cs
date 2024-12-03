@@ -113,9 +113,9 @@ public class Enemy : MonoBehaviour
             return;
 
         ParticleSystem deathParticles = Instantiate(enemyDeathParticlesPrefab, damager.position, Quaternion.identity);
-
-        Vector3 difference = damager.position - transform.position;
-        float rotationZ = Mathf.Atan2(difference.y, -difference.x) * Mathf.Rad2Deg;
-        deathParticles.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(rotationZ, 0, 0));
+        // Disabling rotation of death particle
+        //Vector3 difference = damager.position - transform.position;
+        //float rotationX = Mathf.Atan2(difference.y, -difference.x) * Mathf.Rad2Deg;
+        deathParticles.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(0, 0, 0));
     }
 }
