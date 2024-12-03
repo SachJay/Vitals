@@ -1,54 +1,121 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    //[SerializeField]
-    public Player player;
+    [SerializeField] private EnemyAction[] enemyActions;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private float attackDelay = 1f;
+    [SerializeField] private float speed = 100;
+    [SerializeField] private float agroRange = 50f;
 
-    [SerializeField]
-    EnemyAttack[] enemyAttack;
+    [SerializeField] private float stunDuration = 1f;
+    [SerializeField] private float knockbackForce = 50f;
 
-    [SerializeField]
-    float attackDelay = 1f;
+    [SerializeField] private Player player;
+    [SerializeField] private ParticleSystem enemyDeathParticlesPrefab;
 
-    [SerializeField]
-    Rigidbody2D rb;
-
-    [SerializeField]
-    float speed = 100;
-
-    //[SerializeField]
-    public bool transitionOnDeath = false;
+    private Coroutine enemyActionCorouter;
 
     private void Start()
     {
-        StartCoroutine("StartAttacks");
+        if (player == null)
+        {
+            if (!TryGetComponent(out player))
+                LogExtension.LogMissingComponent(name, nameof(Player));
+        }
+
+        enemyActionCorouter = StartCoroutine(HandleEnemyActions());
     }
 
-    IEnumerator StartAttacks()
+    public void StunEnemy(Vector2 impactPosition)
     {
-        while (true)
-        {
-            for(int i = 0; i < enemyAttack.Length; i++)
-            {
-                yield return StartCoroutine(enemyAttack[i].ExecuteAttack(player));
-            }
+        StartCoroutine(StunTimer(impactPosition));
+    }
 
-            yield return new WaitForSeconds(attackDelay);
-        }
+    private IEnumerator StunTimer(Vector2 impactPosition)
+    {
+        if (enemyActionCorouter != null)
+            StopCoroutine(enemyActionCorouter);
+
+        Vector2 diff = ((Vector2)gameObject.transform.position - impactPosition);
+        rb.AddForce(diff * knockbackForce, ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(stunDuration);
+
+        rb.velocity = Vector2.zero;
+
+        enemyActionCorouter = StartCoroutine(HandleEnemyActions());
     }
 
     private void Update()
     {
-        Vector2 targetDir = (player.transform.position - transform.position).normalized;
+        //Handle interrupts here
+    }
 
-        rb.MovePosition(rb.position + targetDir * speed);
+    public void SetPlayerTarget(Player player)
+    {
+        this.player = player;
+    }
 
-        Vector3 difference = player.transform.position - transform.position;
+    private IEnumerator HandleEnemyActions()
+    {
+        while (true)
+        {
+            if (player == null)
+                yield return null;
+
+            if (Vector2.Distance(transform.position, player.transform.position) < agroRange)
+            {
+                for (int i = 0; i < enemyActions.Length; i++)
+                {
+                    yield return StartCoroutine(enemyActions[i].ExecuteAction(player));
+                }
+
+                yield return new WaitForSeconds(attackDelay);
+            }
+            else
+            {
+                yield return StartCoroutine(Idle());
+            }
+        }
+    }
+
+    public void MoveTowards(Vector3 target, float speedMultiplayer)
+    {
+        Vector2 targetDirection = (target - transform.position).normalized;
+
+        rb.MovePosition(rb.position + targetDirection * speed * speedMultiplayer);
+
+        Vector3 difference = target - transform.position;
         float rotationZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ + 90);
+    }
 
+    public void Die(IDamageable damager)
+    {
+        if (damager == null)
+            HandleDeathParticles(transform);
+        else
+            HandleDeathParticles(damager.GetTransform());
+
+        Destroy(gameObject);
+    }
+
+    private IEnumerator Idle()
+    {
+        yield return new WaitForSeconds(0.1f);
+    }
+
+    private void HandleDeathParticles(Transform damager)
+    {
+        if (enemyDeathParticlesPrefab == null)
+            return;
+
+        ParticleSystem deathParticles = Instantiate(enemyDeathParticlesPrefab, damager.position, Quaternion.identity);
+
+        Vector3 difference = damager.position - transform.position;
+        float rotationZ = Mathf.Atan2(difference.y, -difference.x) * Mathf.Rad2Deg;
+        deathParticles.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(rotationZ, 0, 0));
     }
 }

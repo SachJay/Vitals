@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8094258152645059028}
   - component: {fileID: 5429194533963491520}
+  - component: {fileID: 7006099456816208087}
   - component: {fileID: 1090012229901992717}
   - component: {fileID: 3311548755933363982}
   m_Layer: 6
@@ -48,12 +49,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d9ed3867006ef40af29b947dbb89eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  enemyAttack: []
-  attackDelay: 1
+  enemyActions:
+  - {fileID: 4128649951961136214}
   rb: {fileID: 3311548755933363982}
+  attackDelay: 1
   speed: 0.01
-  transitionOnDeath: 0
+  agroRange: 50
+  stunDuration: 1
+  knockbackForce: 50
+  player: {fileID: 0}
+  enemyDeathParticlesPrefab: {fileID: 3240456933415795335, guid: 2503a67f3845060458631f1c40afdb0f, type: 3}
+--- !u!114 &7006099456816208087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3451276787617159621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee90c44407902634f8336f872df9e425, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 5429194533963491520}
 --- !u!58 &1090012229901992717
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -104,7 +122,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -590,14 +608,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab1: {fileID: 7708346955731555250, guid: a662f47c8cdc9b540aaeb707968ec81f, type: 3}
   projectileSpeed: 200
-  projectileNumbers: 0
+  projectileScale: {x: 1, y: 1, z: 1}
+  projectileDuration: 10
+  projectileAmount: 3
   projectileSpread: 0
   endingDelay: 1
   projectileDelay: 0.3
   waveDelay: 0
   numberOfWaves: 10
-  maxOffset: 1.57
-  minOffset: -1.57
+  maxRandomDir: 5
+  minRandonDir: -5
   predictiveAmount: 0
   spawnOffset: 0
 --- !u!1 &6480860039486160453

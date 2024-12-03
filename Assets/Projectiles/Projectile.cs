@@ -34,18 +34,33 @@ public class Projectile : MonoBehaviour
 
         if (other.transform != null && other.transform.parent != null && other.transform.parent.parent != null && other.transform.parent.parent.gameObject.TryGetComponent(out Player player))
         {
-            if ((!player.IsInv) || tag == "Undodgable")
+            if ((!player.PlayerStats.IsInvincible) || tag == "Undodgable")
             {
                 //Destroy(other.transform.parent.gameObject);
-                player.KillPlayer(transform.position);
+                player.PlayerStats.TakeDamage(null, 1);
                 Destroy(gameObject);
             }
         }
 
     }
 
+    public void SetSpeed(float speed)
+    {
+        this.speed = speed;
+    }
+
+    public void SetDuration(float duration)
+    {
+        Destroy(gameObject, duration);
+    }
+
     public void SetDirection(Vector2 direction)
     {
         rb.AddForce(direction.normalized * speed);
+    }
+
+    public void SetScale(Vector3 scale)
+    {
+        transform.localScale = scale;
     }
 }
