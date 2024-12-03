@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ScreenShaker : MonoBehaviour
 {
-    public AnimationCurve curve;
-    public float duration = 0.3f;
-    public float strength = 1f;
+    [SerializeField] private AnimationCurve curve;
+    [SerializeField] private float duration = 0.3f;
+    [SerializeField] private float strength = 1f;
 
     public void ShakeScreen()
     {
