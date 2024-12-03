@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Throwable : MonoBehaviour, IInteractable
 {
-    public bool IsPickupable { get; private set; } = true;
+    [SerializeField] public bool IsPickupable { get; private set; } = true;
     public bool IsThrown { get; private set; } = false;
 
     [SerializeField] private float force = 100.0f;
@@ -15,9 +15,7 @@ public class Throwable : MonoBehaviour, IInteractable
     private void Awake()
     {
         if (!TryGetComponent(out rb))
-        {
-            //LogExtension.LogMissingComponent(name, nameof(Rigidbody2D));
-        }
+            LogExtension.LogMissingComponent(name, nameof(Rigidbody2D));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -27,7 +25,7 @@ public class Throwable : MonoBehaviour, IInteractable
 
         if (collision.TryGetComponent(out IDamageable damageable))
         {
-            damageable.TakeDamage(null, damage);
+            damageable.TriggerStun(transform.position);
             Destroy(gameObject);
         }
     }
