@@ -15,7 +15,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private ParticleSystem enemyDeathParticlesPrefab;
 
-    private Coroutine enemyActionCorouter;
+    private Coroutine enemyActionCorouter = null;
+    private Coroutine specificEnemyActionCorouter = null;
 
     private void Start()
     {
@@ -35,15 +36,23 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator StunTimer(Vector2 impactPosition)
     {
+        
         if (enemyActionCorouter != null)
             StopCoroutine(enemyActionCorouter);
 
+        if (specificEnemyActionCorouter != null)
+            StopCoroutine(specificEnemyActionCorouter);
+
         Vector2 diff = ((Vector2)gameObject.transform.position - impactPosition);
         rb.AddForce(diff * knockbackForce, ForceMode2D.Impulse);
+        float currentRotation = rb.rotation;
+        float currentAngularRotation = rb.angularVelocity;
 
         yield return new WaitForSeconds(stunDuration);
 
         rb.velocity = Vector2.zero;
+        rb.rotation = currentRotation;
+        rb.angularVelocity = currentAngularRotation;
 
         enemyActionCorouter = StartCoroutine(HandleEnemyActions());
     }
@@ -69,14 +78,16 @@ public class Enemy : MonoBehaviour
             {
                 for (int i = 0; i < enemyActions.Length; i++)
                 {
-                    yield return StartCoroutine(enemyActions[i].ExecuteAction(player));
+                    specificEnemyActionCorouter = StartCoroutine(enemyActions[i].ExecuteAction(player));
+                    yield return specificEnemyActionCorouter;
                 }
 
                 yield return new WaitForSeconds(attackDelay);
             }
             else
             {
-                yield return StartCoroutine(Idle());
+                specificEnemyActionCorouter = StartCoroutine(Idle());
+                yield return specificEnemyActionCorouter;
             }
         }
     }
@@ -113,9 +124,9 @@ public class Enemy : MonoBehaviour
             return;
 
         ParticleSystem deathParticles = Instantiate(enemyDeathParticlesPrefab, damager.position, Quaternion.identity);
-
-        Vector3 difference = damager.position - transform.position;
-        float rotationZ = Mathf.Atan2(difference.y, -difference.x) * Mathf.Rad2Deg;
-        deathParticles.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(rotationZ, 0, 0));
+        // Disabling rotation of death particle
+        //Vector3 difference = damager.position - transform.position;
+        //float rotationX = Mathf.Atan2(difference.y, -difference.x) * Mathf.Rad2Deg;
+        deathParticles.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(0, 0, 0));
     }
 }
