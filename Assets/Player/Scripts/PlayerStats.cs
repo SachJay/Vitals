@@ -73,6 +73,11 @@ public class PlayerStats : MonoBehaviour, IDamageable
         spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.0f);
     }
 
+    public Vector2 GetVelocity()
+    {
+        return player.PlayerAttack.GetAttackVelocity();
+    }
+
     public void Revive()
     {
         isDead = false;

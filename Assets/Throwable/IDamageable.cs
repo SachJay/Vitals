@@ -10,4 +10,9 @@ public interface IDamageable
 
     public bool IsAttackResetable();
 
+    public Vector2 GetVelocity()
+    {
+        return Vector2.zero;
+    }
+
 }

@@ -618,7 +618,7 @@ GameObject:
   - component: {fileID: 2153353530371749555}
   - component: {fileID: 7299214256964080997}
   - component: {fileID: 4532141224999840405}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1057,6 +1057,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 754991848935380481}
   spriteRenderer: {fileID: 2380100135437610038}
+  rigid: {fileID: 2015630407674421259}
   playerDeathParticlesPrefab: {fileID: 3240456933415795335, guid: 4e5b56f4b7e0ff74ba54b4b191c02c52, type: 3}
   killInvincibilityDuration: 0.2
   reviveInvincibilityDuration: 0.5

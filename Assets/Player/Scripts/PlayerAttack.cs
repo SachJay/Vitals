@@ -22,6 +22,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private AbilityTimer[] abilityTimers;
     [SerializeField] private CircleCollider2D attackHitbox;
 
+    private Vector2 maxAttackDistVec = Vector2.zero;
     private Vector2 attackDestination = Vector2.zero;
     private float currentAttackCount = 1;
     private float elapsedTime = 0;
@@ -158,7 +159,7 @@ public class PlayerAttack : MonoBehaviour
 
         if (Vector2.Distance((Vector2)player.transform.position, attackDestination) > maxAttackDistance)
         {
-            Vector2 maxAttackDistVec = (attackDestination - (Vector2)player.transform.position).normalized;
+            maxAttackDistVec = (attackDestination - (Vector2)player.transform.position).normalized;
 
             attackDestination = (Vector2)player.transform.position + maxAttackDistVec * maxAttackDistance;
         }
@@ -205,5 +206,10 @@ public class PlayerAttack : MonoBehaviour
     public void SetTrailRenderer(bool newState)
     {
         trailRenderer.emitting = newState;
+    }
+
+    public Vector2 GetAttackVelocity()
+    {
+        return maxAttackDistVec;
     }
 }
