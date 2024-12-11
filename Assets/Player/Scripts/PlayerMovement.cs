@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("References")]
     [SerializeField] private Player player;
     [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private GameObject rotatable;
 
     [Header("Movement Configurations")]
     [SerializeField] private float maxSpeed = 1f;
@@ -28,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
         if (!player.PlayerDash.IsDashing && !player.PlayerAttack.IsAttacking)
         {
             HandleMovement();
+            HandleRotation();
             LimitSpeed();
         }
     }
@@ -37,6 +39,13 @@ public class PlayerMovement : MonoBehaviour
     private void HandleMovement()
     {
         rb.AddForce(accel * Time.deltaTime * currentVelocity, ForceMode2D.Force);
+    }
+
+    private void HandleRotation()
+    {
+        float rotationValue = Mathf.Atan2(rb.velocity.normalized.y, rb.velocity.normalized.x) * Mathf.Rad2Deg;
+
+        rotatable.transform.rotation = Quaternion.Euler(new Vector3(rotatable.transform.rotation.x, rotatable.transform.rotation.y, rotationValue));
     }
 
     private void LimitSpeed()
