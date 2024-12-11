@@ -13,6 +13,7 @@ public class ShotFire : EnemyAttack
     [SerializeField, Tooltip("Lower value for the random direction a projectile will fire in degrees")] private float minRandonDir = -5f;
     [SerializeField, Tooltip("Amount the projectile is fired infront of player in unity units")] private float predictiveAmount = 0f;
     [SerializeField, Tooltip("Random distance projectiles could spawn originating from enemy in unity units")] private float spawnOffset = 0f;
+    [SerializeField, Tooltip("The sound effect of the projectile makes when fired")] private AudioSource attackSoundEffect;
 
     public override IEnumerator ExecuteAction(Player player)
     {
@@ -27,6 +28,7 @@ public class ShotFire : EnemyAttack
 
                 float evenProjectileAdjust = projectileAmount % 2 == 0 ? projectileSpreadRad / 2 : 0;
                 SpawnProjectile(angle + i * projectileSpreadRad + evenProjectileAdjust, projectilePrefab1, spawnOffset);
+                attackSoundEffect.Play();
 
                 if (projectileDelay != 0)
                     yield return new WaitForSeconds(projectileDelay);

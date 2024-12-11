@@ -24,6 +24,7 @@ public class PlayerDash : MonoBehaviour
     private float elapsedTime = 0;
 
     [SerializeField] AudioSource dashSoundEffect;
+    [SerializeField] private GameObject visuals;
 
     private void Start()
     {
@@ -64,6 +65,7 @@ public class PlayerDash : MonoBehaviour
         GetDashLocation();
         SetTrailRenderer(true);
 
+        visuals.transform.right = dashDestination - (Vector2)transform.position;
         dashSoundEffect.Play();
 
         AbilityTimer abilityTimer = GetFirstAvailableAbilityTimer();
