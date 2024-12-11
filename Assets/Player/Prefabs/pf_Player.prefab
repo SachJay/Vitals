@@ -1077,6 +1077,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 754991848935380481}
   spriteRenderer: {fileID: 2380100135437610038}
+  rigid: {fileID: 2015630407674421259}
   playerDeathParticlesPrefab: {fileID: 3240456933415795335, guid: 4e5b56f4b7e0ff74ba54b4b191c02c52, type: 3}
   killInvincibilityDuration: 0.2
   reviveInvincibilityDuration: 0.5
