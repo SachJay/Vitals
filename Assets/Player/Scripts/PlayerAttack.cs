@@ -33,6 +33,8 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private AudioSource impactSoundEffect;
     [SerializeField] private AudioSource enemyDeathSoundEffect;
     [SerializeField] private GameObject visuals;
+    [SerializeField] private DistortionShockWave distortionShockWave;
+    [SerializeField] private ParticleSystem attackPoofEffects;
 
     private ScreenShaker screenShaker;
 
@@ -129,6 +131,7 @@ public class PlayerAttack : MonoBehaviour
 
         visuals.transform.right = attackDestination - (Vector2)transform.position;
         swingSoundEffect.Play();
+        attackPoofEffects.Play();
 
         AbilityTimer abilityTimer = GetFirstAvailableAbilityTimer();
         if (abilityTimer != null)
@@ -141,6 +144,7 @@ public class PlayerAttack : MonoBehaviour
         freezeFrameEffect.FreezeGame();
         screenShaker.ShakeScreen();
         enemyDeathSoundEffect.Play();
+        distortionShockWave.CallShockWave(transform.position);
 
         for (int i = 0; i < maxAttackCount; i++)
             abilityTimers[i].OnTimerTimeout?.Invoke(attackCooldown);
