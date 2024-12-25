@@ -10,6 +10,7 @@ public class SpriteSquisher : MonoBehaviour
     [SerializeField] private float minSquishPercent = 1;
     [SerializeField] private float maxSquishPercent = 0.75f;
     [SerializeField] private Player player;
+
     private float squishValue;
 
     private Vector3 originalScale;

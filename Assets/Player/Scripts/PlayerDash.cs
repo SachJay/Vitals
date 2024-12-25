@@ -24,6 +24,10 @@ public class PlayerDash : MonoBehaviour
     private float elapsedTime = 0;
 
     [SerializeField] AudioSource dashSoundEffect;
+    //[SerializeField] AfterImageGenerator afterImageGenerator;
+    [SerializeField] ParticleSystem dashParticleEffects;
+    [SerializeField] ParticleSystem landingParticleEffects;
+
     [SerializeField] private GameObject visuals;
 
     private void Start()
@@ -67,6 +71,9 @@ public class PlayerDash : MonoBehaviour
 
         visuals.transform.right = dashDestination - (Vector2)transform.position;
         dashSoundEffect.Play();
+        //afterImageGenerator.CallGenerateAfterImages();
+        dashParticleEffects.Play();
+        landingParticleEffects.Play();
 
         AbilityTimer abilityTimer = GetFirstAvailableAbilityTimer();
         if (abilityTimer != null)
