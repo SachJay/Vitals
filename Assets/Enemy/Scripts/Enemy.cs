@@ -12,7 +12,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float stunDuration = 1f;
     [SerializeField] private float knockbackForce = 50f;
 
+<<<<<<< Updated upstream:Assets/Enemy/Scripts/Enemy.cs
     private Player player;
+=======
+    [SerializeField] private Player player;
+    [SerializeField] private ParticleSystem[] enemyDeathParticlesPrefabs;
+>>>>>>> Stashed changes:Assets/Enemy/Enemy.cs
 
     private Coroutine enemyActionCorouter;
 
@@ -98,4 +103,22 @@ public class Enemy : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
     }
+<<<<<<< Updated upstream:Assets/Enemy/Scripts/Enemy.cs
+=======
+
+    private void HandleDeathParticles(Transform damager)
+    {
+        if (enemyDeathParticlesPrefabs == null)
+            return;
+
+        foreach (ParticleSystem enemyDeathParticlesPrefab in enemyDeathParticlesPrefabs)
+        {
+            ParticleSystem deathParticles = Instantiate(enemyDeathParticlesPrefab, damager.position, Quaternion.identity);
+            // Disabling rotation of death particle
+            //Vector3 difference = damager.position - transform.position;
+            //float rotationX = Mathf.Atan2(difference.y, -difference.x) * Mathf.Rad2Deg;
+            deathParticles.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(0, 0, 0));
+        }
+    }
+>>>>>>> Stashed changes:Assets/Enemy/Enemy.cs
 }

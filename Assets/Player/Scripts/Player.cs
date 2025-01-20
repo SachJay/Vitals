@@ -13,6 +13,7 @@ public class Player : NetworkBehaviour
     public PlayerDash PlayerDash;
     public PlayerPickup PlayerPickup;
     public PlayerThrow PlayerThrow;
+    public PlayerSpell PlayerSpell;
 
     public bool IsOwned => isOwned;
 

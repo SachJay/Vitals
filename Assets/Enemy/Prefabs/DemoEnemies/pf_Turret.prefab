@@ -1,5 +1,50 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &148529895155487877
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 264853497649688934}
+  - component: {fileID: 2782164864816214382}
+  m_Layer: 0
+  m_Name: SelfDestruct
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &264853497649688934
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148529895155487877}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1414217118075503186}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2782164864816214382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148529895155487877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa25ccc4b9fa04241ab878ca0efceece, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 3451276787617159621}
 --- !u!1 &3451276787617159621
 GameObject:
   m_ObjectHideFlags: 0
@@ -48,6 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d9ed3867006ef40af29b947dbb89eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream:Assets/Enemy/Prefabs/DemoEnemies/pf_Turret.prefab
   player: {fileID: 0}
   enemyAttack:
   - {fileID: 4128649951961136214}
@@ -55,6 +101,35 @@ MonoBehaviour:
   rb: {fileID: 3311548755933363982}
   speed: 0.01
   transitionOnDeath: 0
+=======
+  enemyActions:
+  - {fileID: 4128649951961136214}
+  - {fileID: 4474794251472915415}
+  - {fileID: 2782164864816214382}
+  rb: {fileID: 3311548755933363982}
+  attackDelay: 1
+  speed: 0.01
+  agroRange: 50
+  stunDuration: 1
+  knockbackForce: 3
+  player: {fileID: 0}
+  enemyDeathParticlesPrefabs:
+  - {fileID: 3240456933415795335, guid: 2503a67f3845060458631f1c40afdb0f, type: 3}
+  - {fileID: 3240456933415795335, guid: c543f7104d26c38418608ba153a356a1, type: 3}
+--- !u!114 &7006099456816208087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3451276787617159621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee90c44407902634f8336f872df9e425, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 5429194533963491520}
+>>>>>>> Stashed changes:Assets/Player/Turrent.prefab
 --- !u!58 &1090012229901992717
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -589,16 +664,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf108c44bdb9df418a0bcd041a54914, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream:Assets/Enemy/Prefabs/DemoEnemies/pf_Turret.prefab
   projectilePrefab1: {fileID: 7708346955731555250, guid: a662f47c8cdc9b540aaeb707968ec81f, type: 3}
   projectileSpeed: 200
   projectileNumbers: 0
+=======
+  projectilePrefab1: {fileID: 7708346955731555250, guid: 6ad7cd090a0b58344a43078f3b1e4d02, type: 3}
+  projectileSpeed: 400
+  projectileScale: {x: 1, y: 1, z: 1}
+  projectileDuration: 10
+  projectileAmount: 2
+>>>>>>> Stashed changes:Assets/Player/Turrent.prefab
   projectileSpread: 0
   endingDelay: 1
-  projectileDelay: 0.3
+  projectileDelay: 0.5
   waveDelay: 0
+<<<<<<< Updated upstream:Assets/Enemy/Prefabs/DemoEnemies/pf_Turret.prefab
   numberOfWaves: 10
   maxOffset: 1.57
   minOffset: -1.57
+=======
+  numberOfWaves: 3
+  maxRandomDir: 5
+  minRandonDir: -5
+>>>>>>> Stashed changes:Assets/Player/Turrent.prefab
   predictiveAmount: 0
 --- !u!1 &6480860039486160453
 GameObject:
@@ -753,6 +842,230 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 646237524862858286}
+  - {fileID: 1279616669468321094}
+  - {fileID: 264853497649688934}
   m_Father: {fileID: 8094258152645059028}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< Updated upstream:Assets/Enemy/Prefabs/DemoEnemies/pf_Turret.prefab
+=======
+--- !u!1 &8452424238902980928
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1082021339663902393}
+  m_Layer: 0
+  m_Name: Audio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1082021339663902393
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8452424238902980928}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.68836987, y: 0.5902169, z: -0.008779249}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4143865163575583851}
+  m_Father: {fileID: 8094258152645059028}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8534331791671570597
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1279616669468321094}
+  - component: {fileID: 4474794251472915415}
+  m_Layer: 0
+  m_Name: Explosion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1279616669468321094
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8534331791671570597}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1414217118075503186}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4474794251472915415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8534331791671570597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bf108c44bdb9df418a0bcd041a54914, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab1: {fileID: 7708346955731555250, guid: 6ad7cd090a0b58344a43078f3b1e4d02, type: 3}
+  projectileSpeed: 1200
+  projectileScale: {x: 1, y: 1, z: 1}
+  projectileDuration: 10
+  projectileAmount: 72
+  projectileSpread: 5
+  endingDelay: 0
+  projectileDelay: 0
+  waveDelay: 0.03
+  numberOfWaves: 1
+  maxRandomDir: 0
+  minRandonDir: 0
+  predictiveAmount: 0
+  spawnOffset: 0
+  attackSoundEffect: {fileID: 4773271189800966679}
+--- !u!1 &8935337595671859319
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4143865163575583851}
+  - component: {fileID: 4773271189800966679}
+  m_Layer: 0
+  m_Name: SmallAttack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4143865163575583851
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8935337595671859319}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1082021339663902393}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &4773271189800966679
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8935337595671859319}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: a0600a5b6cf89dd47806804deefeef4f, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+>>>>>>> Stashed changes:Assets/Player/Turrent.prefab

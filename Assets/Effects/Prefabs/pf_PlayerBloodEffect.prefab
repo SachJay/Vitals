@@ -1030,8 +1030,13 @@ ParticleSystem:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
+<<<<<<< Updated upstream:Assets/Effects/Prefabs/pf_PlayerBloodEffect.prefab
       cycleCount: 1
       repeatInterval: 0.01
+=======
+      cycleCount: 8
+      repeatInterval: 0.02
+>>>>>>> Stashed changes:Assets/Effects/ParticleEffects/AttackingPoof.prefab
       probability: 1
   SizeModule:
     enabled: 0

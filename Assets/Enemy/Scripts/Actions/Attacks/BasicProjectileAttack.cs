@@ -27,6 +27,12 @@ public class ShotFire : EnemyAttack
 
                 float evenProjectileAdjust = projectileAmount % 2 == 0 ? projectileSpreadRad / 2 : 0;
                 SpawnProjectile(angle + i * projectileSpreadRad + evenProjectileAdjust, projectilePrefab1, spawnOffset);
+<<<<<<< Updated upstream:Assets/Enemy/Scripts/Actions/Attacks/BasicProjectileAttack.cs
+=======
+                
+                if (attackSoundEffect != null)
+                    attackSoundEffect.Play();
+>>>>>>> Stashed changes:Assets/Attacks/ShotFire.cs
 
                 if (projectileDelay != 0)
                     yield return new WaitForSeconds(projectileDelay);
