@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   force: 2000
-  delayPickup: 1
+  damage: 1
 --- !u!58 &1145374770364274669
 CircleCollider2D:
   m_ObjectHideFlags: 0

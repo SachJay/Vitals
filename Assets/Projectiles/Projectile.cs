@@ -15,6 +15,9 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     bool contactDamage = true;
 
+    [SerializeField]
+    protected bool dashable = true;
+
     private void Start()
     {
         StartCoroutine("Die");
@@ -34,7 +37,7 @@ public class Projectile : MonoBehaviour
 
         if (other.transform != null && other.transform.parent != null && other.transform.parent.parent != null && other.transform.parent.parent.gameObject.TryGetComponent(out Player player))
         {
-            if ((!player.PlayerStats.IsInvincible) || tag == "Undodgable")
+            if ((!player.PlayerStats.IsInvincible) || !dashable)
             {
                 //Destroy(other.transform.parent.gameObject);
                 player.PlayerStats.TakeDamage(null, 1);
