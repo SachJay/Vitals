@@ -13,7 +13,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float knockbackForce = 50f;
 
     [SerializeField] private Player player;
-    [SerializeField] private ParticleSystem enemyDeathParticlesPrefab;
+    [SerializeField] private ParticleSystem[] enemyDeathParticlesPrefabs;
 
     private Coroutine enemyActionCorouter = null;
     private Coroutine specificEnemyActionCorouter = null;
@@ -120,13 +120,16 @@ public class Enemy : MonoBehaviour
 
     private void HandleDeathParticles(Transform damager)
     {
-        if (enemyDeathParticlesPrefab == null)
+        if (enemyDeathParticlesPrefabs == null)
             return;
 
-        ParticleSystem deathParticles = Instantiate(enemyDeathParticlesPrefab, damager.position, Quaternion.identity);
-        // Disabling rotation of death particle
-        //Vector3 difference = damager.position - transform.position;
-        //float rotationX = Mathf.Atan2(difference.y, -difference.x) * Mathf.Rad2Deg;
-        deathParticles.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(0, 0, 0));
+        foreach (ParticleSystem enemyDeathParticlesPrefab in enemyDeathParticlesPrefabs)
+        {
+            ParticleSystem deathParticles = Instantiate(enemyDeathParticlesPrefab, damager.position, Quaternion.identity);
+            // Disabling rotation of death particle
+            //Vector3 difference = damager.position - transform.position;
+            //float rotationX = Mathf.Atan2(difference.y, -difference.x) * Mathf.Rad2Deg;
+            deathParticles.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(0, 0, 0));
+        }
     }
 }

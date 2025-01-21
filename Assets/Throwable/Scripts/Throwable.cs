@@ -12,6 +12,8 @@ public class Throwable : MonoBehaviour, IInteractable
     private float timer = 0.0f;
     private Rigidbody2D rb;
 
+    public int Bounces { get; set; } = 1;
+
     private void Awake()
     {
         if (!TryGetComponent(out rb))
@@ -26,6 +28,15 @@ public class Throwable : MonoBehaviour, IInteractable
         if (collision.TryGetComponent(out IDamageable damageable))
         {
             damageable.TriggerStun(transform.position);
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Bounces--;
+        if (Bounces < 0)
+        {
             Destroy(gameObject);
         }
     }
@@ -55,7 +66,7 @@ public class Throwable : MonoBehaviour, IInteractable
         timer = 0.0f;
         gameObject.SetActive(true);
         IsThrown = true;
-        rb.AddForce(direction.normalized * force);
+        rb.AddForce(direction.normalized * force, ForceMode2D.Impulse);
     }
 
     public void Interact()

@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public PlayerDash PlayerDash;
     public PlayerPickup PlayerPickup;
     public PlayerThrow PlayerThrow;
+    public PlayerSpell PlayerSpell;
 
     private void Awake()
     {
