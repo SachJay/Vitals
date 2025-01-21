@@ -6,6 +6,7 @@ public class PlayerInputHandler : MonoBehaviour
     public delegate void PlayerInputEvent();
     public PlayerInputEvent OnAttackInputStarted;
     public PlayerInputEvent OnDashInputStarted;
+    public PlayerInputEvent OnSpellInputStarted;
     public PlayerInputEvent OnInteractInputStarted;
     public PlayerInputEvent OnInteractInputEnded;
 
@@ -36,6 +37,14 @@ public class PlayerInputHandler : MonoBehaviour
         if (context.started)
         {
             OnDashInputStarted?.Invoke();
+        }
+    }
+
+    public void OnCastSpellInput(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            OnSpellInputStarted?.Invoke();
         }
     }
 

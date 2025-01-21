@@ -4,6 +4,7 @@ public class ShieldStats : MonoBehaviour, IDamageable
 {
     [SerializeField] private Rigidbody2D rigidbody;
     [SerializeField] private float strength = 0.2f;
+    [SerializeField] private Throwable throwable;
     public Transform GetTransform() => transform;
 
     public void TakeDamage(IDamageable damager, int damage)
@@ -13,6 +14,7 @@ public class ShieldStats : MonoBehaviour, IDamageable
 
         rigidbody.velocity = Vector2.zero;
         rigidbody.AddForce(dir * (currentSpeed + strength), ForceMode2D.Impulse);
+        throwable.Bounces = 1;
     }
 
     public void TriggerStun(Vector2 impactPosition)
