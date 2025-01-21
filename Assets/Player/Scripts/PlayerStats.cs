@@ -1,8 +1,7 @@
-using Mirror;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerStats : NetworkBehaviour, IDamageable
+public class PlayerStats : MonoBehaviour, IDamageable
 {
     public delegate void PlayerStatsEvent();
     public PlayerStatsEvent OnDie;
@@ -20,7 +19,6 @@ public class PlayerStats : NetworkBehaviour, IDamageable
     [SerializeField] private float reviveInvincibilityDuration = 0.5f;
     [SerializeField] private float dashEndingInvincibilityDuration = 0.1f;
 
-    [SyncVar(hook = nameof(OnIsDeadChanged))]
     private bool isDead;
 
     private Coroutine invincibilityCoroutine = null;
@@ -70,17 +68,20 @@ public class PlayerStats : NetworkBehaviour, IDamageable
 
     public void TakeDamage(IDamageable damager, int damage)
     {
-        if (isOwned)
-            CMD_TakeDamage();
+        isDead = true;
+        PlayDeathParticles(transform.position);
+        spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.0f);
+    }
+
+    public Vector2 GetVelocity()
+    {
+        return player.PlayerAttack.GetAttackVelocity();
     }
 
     public void Revive()
     {
-        if (isOwned)
-        {
-            StartInvulnerability(reviveInvincibilityDuration);
-            CMD_Revive();
-        }
+        isDead = false;
+        StartInvulnerability(reviveInvincibilityDuration);
     }
 
     public Transform GetTransform() => transform;
@@ -123,24 +124,6 @@ public class PlayerStats : NetworkBehaviour, IDamageable
         IsInvincible = false;
         invincibilityCoroutine = null;
     }
-
-    #region Mirror Functions
-
-    [Command]
-    private void CMD_TakeDamage()
-    {
-        isDead = true;
-        PlayDeathParticles(transform.position);
-        spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.0f);
-    }
-
-    [Command]
-    private void CMD_Revive()
-    {
-        isDead = false;
-    }
-
-    #endregion
 
     // TODO: Move out of PlayerStats
     private void PlayDeathParticles(Vector3 attackPosition)

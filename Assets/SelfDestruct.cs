@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class SelfDestruct : EnemyAction
 {
-    [SerializeField] GameObject enemy;
+
+    [SerializeField] GameObject self;
+
     public override IEnumerator ExecuteAction(Player player)
     {
         yield return null;
 
-        Destroy(enemy);
+        Destroy(self);
     }
 }

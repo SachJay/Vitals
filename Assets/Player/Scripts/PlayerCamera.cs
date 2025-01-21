@@ -10,8 +10,6 @@ public class PlayerCamera : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!player.IsOwned)
-            return;
 
         if (playerCamera == null)
             return;

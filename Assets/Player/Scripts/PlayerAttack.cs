@@ -22,9 +22,21 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private AbilityTimer[] abilityTimers;
     [SerializeField] private CircleCollider2D attackHitbox;
 
+    private Vector2 maxAttackDistVec = Vector2.zero;
     private Vector2 attackDestination = Vector2.zero;
     private float currentAttackCount = 1;
     private float elapsedTime = 0;
+
+    [SerializeField] private FreezeFrameEffect freezeFrameEffect;
+    [SerializeField] private ParticleSystem impactParticleEffects;
+    [SerializeField] private AudioSource swingSoundEffect;
+    [SerializeField] private AudioSource impactSoundEffect;
+    [SerializeField] private AudioSource enemyDeathSoundEffect;
+    [SerializeField] private GameObject visuals;
+    [SerializeField] private DistortionShockWave distortionShockWave;
+    [SerializeField] private ParticleSystem attackPoofEffects;
+
+    private ScreenShaker screenShaker;
 
     private void Awake()
     {
@@ -33,6 +45,8 @@ public class PlayerAttack : MonoBehaviour
 
         if (attackHitbox == null)
             LogExtension.LogMissingVariable(name, nameof(attackHitbox));
+
+        screenShaker = Camera.main.gameObject.GetComponent<ScreenShaker>();
     }
 
     private void Start()
@@ -47,9 +61,6 @@ public class PlayerAttack : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!player.IsOwned)
-            return;
-
         if (!IsAttacking)
             return;
 
@@ -118,6 +129,10 @@ public class PlayerAttack : MonoBehaviour
         attackHitbox.enabled = true;
         SetTrailRenderer(true);
 
+        visuals.transform.right = attackDestination - (Vector2)transform.position;
+        swingSoundEffect.Play();
+        attackPoofEffects.Play();
+
         AbilityTimer abilityTimer = GetFirstAvailableAbilityTimer();
         if (abilityTimer != null)
             abilityTimer.StartTimer(attackCooldown);
@@ -126,6 +141,10 @@ public class PlayerAttack : MonoBehaviour
     private void PlayerAttack_OnEnemyKilled()
     {
         EndAttack();
+        freezeFrameEffect.FreezeGame();
+        screenShaker.ShakeScreen();
+        enemyDeathSoundEffect.Play();
+        distortionShockWave.CallShockWave(transform.position);
 
         for (int i = 0; i < maxAttackCount; i++)
             abilityTimers[i].OnTimerTimeout?.Invoke(attackCooldown);
@@ -144,7 +163,7 @@ public class PlayerAttack : MonoBehaviour
 
         if (Vector2.Distance((Vector2)player.transform.position, attackDestination) > maxAttackDistance)
         {
-            Vector2 maxAttackDistVec = (attackDestination - (Vector2)player.transform.position).normalized;
+            maxAttackDistVec = (attackDestination - (Vector2)player.transform.position).normalized;
 
             attackDestination = (Vector2)player.transform.position + maxAttackDistVec * maxAttackDistance;
         }
@@ -154,6 +173,8 @@ public class PlayerAttack : MonoBehaviour
     {
         attackHitbox.enabled = false;
         SetTrailRenderer(false);
+        impactParticleEffects.Play();
+        impactSoundEffect.Play();
 
         IsAttacking = false;
         OnAttackEnded?.Invoke();
@@ -189,5 +210,10 @@ public class PlayerAttack : MonoBehaviour
     public void SetTrailRenderer(bool newState)
     {
         trailRenderer.emitting = newState;
+    }
+
+    public Vector2 GetAttackVelocity()
+    {
+        return maxAttackDistVec;
     }
 }

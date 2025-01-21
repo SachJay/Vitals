@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Throwable : MonoBehaviour, IInteractable
 {
-    public bool IsPickupable { get; private set; } = true;
+    [SerializeField] public bool IsPickupable { get; private set; } = true;
     public bool IsThrown { get; private set; } = false;
 
     [SerializeField] private float force = 100.0f;

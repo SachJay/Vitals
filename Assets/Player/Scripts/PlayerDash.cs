@@ -18,10 +18,17 @@ public class PlayerDash : MonoBehaviour
     [SerializeField] private float maxDashDistance = 15;
     [SerializeField] private float dashDuration = 0.5f;
     [SerializeField] private AbilityTimer[] abilityTimers;
-
+    
     private Vector2 dashDestination = Vector2.zero;
     private float currentDashCount;
     private float elapsedTime = 0;
+
+    [SerializeField] AudioSource dashSoundEffect;
+    //[SerializeField] AfterImageGenerator afterImageGenerator;
+    [SerializeField] ParticleSystem dashParticleEffects;
+    [SerializeField] ParticleSystem landingParticleEffects;
+
+    [SerializeField] private GameObject visuals;
 
     private void Start()
     {
@@ -36,9 +43,6 @@ public class PlayerDash : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!player.IsOwned)
-            return;
-
         if (!IsDashing || player.PlayerAttack.IsAttacking)
             return;
 
@@ -64,6 +68,12 @@ public class PlayerDash : MonoBehaviour
 
         GetDashLocation();
         SetTrailRenderer(true);
+
+        visuals.transform.right = dashDestination - (Vector2)transform.position;
+        dashSoundEffect.Play();
+        //afterImageGenerator.CallGenerateAfterImages();
+        dashParticleEffects.Play();
+        landingParticleEffects.Play();
 
         AbilityTimer abilityTimer = GetFirstAvailableAbilityTimer();
         if (abilityTimer != null)
@@ -113,7 +123,7 @@ public class PlayerDash : MonoBehaviour
 
     private bool CanDash()
     {
-        if (player.PlayerStats.IsDead || currentDashCount <= 0 || player.PlayerAttack.IsAttacking || IsDashing)
+        if (player.PlayerStats.IsDead || currentDashCount <= 0 || player.PlayerAttack.IsAttacking)
             return false;
         return true;
     }

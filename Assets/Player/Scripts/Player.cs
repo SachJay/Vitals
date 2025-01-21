@@ -1,11 +1,10 @@
-using Mirror;
 using UnityEngine;
 
-public class Player : NetworkBehaviour
+public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
 
-    [HideInInspector] public PlayerInputHandler PlayerInputHandler;
+    public PlayerInputHandler PlayerInputHandler;
     [HideInInspector] public PlayerMovement PlayerMovement;
 
     public PlayerStats PlayerStats;
@@ -14,14 +13,6 @@ public class Player : NetworkBehaviour
     public PlayerPickup PlayerPickup;
     public PlayerThrow PlayerThrow;
     public PlayerSpell PlayerSpell;
-
-    public bool IsOwned => isOwned;
-
-    public override void OnStartLocalPlayer()
-    {
-        if (isOwned)
-            Instance = this;
-    }
 
     private void Awake()
     {
