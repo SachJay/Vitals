@@ -1336,7 +1336,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 35120
+  m_InstanceId: 61068
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -1949,10 +1949,11 @@ MonoBehaviour:
   maxActionCount: 1
   actionCooldown: 5
   maxActionDistance: 1
+  maxSpawnRange: 10
   actionDuration: 0.5
   abilityTimers:
   - {fileID: 1355433437035442319}
-  spellPrefab: {fileID: 8743106760057350198, guid: 6fb1c495bc1635c4d87ad9076f823fca, type: 3}
+  spellPrefab: {fileID: 8743106760057350198, guid: 2cb81f7e1c0b5ca40b26a6c5428d041f, type: 3}
   spellSoundEffect: {fileID: 3494299010434570249}
   spellParticleEffects: {fileID: 665177379876780137}
   visuals: {fileID: 669521459393079585}
