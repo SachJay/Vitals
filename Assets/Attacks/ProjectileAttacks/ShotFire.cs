@@ -9,8 +9,7 @@ public class ShotFire : EnemyAttack
     [SerializeField, Tooltip("Delay between each projectile in seconds")] private float projectileDelay = 0.1f;
     [SerializeField, Tooltip("Delay between next wave in seconds")] private float waveDelay = 0f;
     [SerializeField, Tooltip("Number of waves. 1 wave shoots the number of projectiles defined")] private float numberOfWaves = 5f;
-    [SerializeField, Tooltip("Upper value for the random direction a projectile will fire in degrees")] private float maxRandomDir = 5f;
-    [SerializeField, Tooltip("Lower value for the random direction a projectile will fire in degrees")] private float minRandonDir = -5f;
+    [SerializeField, Tooltip("Upper value for the random direction a projectile will fire in degrees")] private float randomDir = 5f;
     [SerializeField, Tooltip("Amount the projectile is fired infront of player in unity units")] private float predictiveAmount = 0f;
     [SerializeField, Tooltip("Random distance projectiles could spawn originating from enemy in unity units")] private float spawnOffset = 0f;
     [SerializeField, Tooltip("The sound effect of the projectile makes when fired")] private AudioSource attackSoundEffect;
@@ -24,7 +23,7 @@ public class ShotFire : EnemyAttack
             for (int i = -getFloorValue((float)projectileAmount / 2); i <= Mathf.Max(0, getCeilValue((float)projectileAmount / 2) - 1); i++)
             {
                 Vector3 targetDir = player.transform.position - transform.position + player.PlayerMovement.GetVelocity() * predictiveAmount;
-                float angle = Mathf.Atan2(targetDir.y, targetDir.x) + Random.Range(minRandonDir * Mathf.Deg2Rad, maxRandomDir * Mathf.Deg2Rad);
+                float angle = Mathf.Atan2(targetDir.y, targetDir.x) + Random.Range(randomDir * Mathf.Deg2Rad, randomDir * Mathf.Deg2Rad);
 
                 float evenProjectileAdjust = projectileAmount % 2 == 0 ? projectileSpreadRad / 2 : 0;
                 SpawnProjectile(angle + i * projectileSpreadRad + evenProjectileAdjust, projectilePrefab1, spawnOffset);
