@@ -45,6 +45,11 @@ public class PlayerStats : MonoBehaviour, IDamageable
         {
             TakeDamage(null, 0);
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Revive();
+        }
     }
 #endif
 
@@ -68,6 +73,9 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
     public void TakeDamage(IDamageable damager, int damage)
     {
+        if (isDead)
+            return;
+
         isDead = true;
         PlayDeathParticles(transform.position);
         spriteRenderer.color = new(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0.0f);
@@ -133,8 +141,8 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
         ParticleSystem deathParticles = Instantiate(playerDeathParticlesPrefab, transform.position, Quaternion.identity);
 
-        Vector3 difference = attackPosition - transform.position;
-        float rotationZ = Mathf.Atan2(difference.y, -difference.x) * Mathf.Rad2Deg;
-        deathParticles.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(rotationZ, 90.0f, 0));
+        //Vector3 difference = attackPosition - transform.position;
+        //float rotationZ = Mathf.Atan2(difference.y, -difference.x) * Mathf.Rad2Deg;
+        //deathParticles.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(rotationZ, 90.0f, 0));
     }
 }

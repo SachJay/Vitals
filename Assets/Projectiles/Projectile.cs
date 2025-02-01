@@ -35,7 +35,7 @@ public class Projectile : MonoBehaviour
         if (!contactDamage)
             return;
 
-        if (other.transform != null && other.transform.parent != null && other.transform.parent.parent != null && other.transform.parent.parent.gameObject.TryGetComponent(out Player player))
+        if (other.transform.gameObject.TryGetComponent(out Player player))
         {
             if ((!player.PlayerStats.IsInvincible) || !dashable)
             {

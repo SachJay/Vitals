@@ -100,9 +100,9 @@ public class PlayerSpell : MonoBehaviour
 
     private void CreateSpell()
     {
-        GameObject spell = Instantiate(spellPrefab, GetCastLocation(maxSpawnRange), Quaternion.identity);
-        //Throwable spellThrow = spell.GetComponent<Throwable>();  // NOT THROWING JUST YET
-        //spellThrow.Throw(castDestination - (Vector2) transform.position);
+        GameObject spell = Instantiate(spellPrefab, transform.position, Quaternion.identity);
+        Throwable spellThrow = spell.GetComponent<Throwable>();
+        spellThrow.Throw(castDestination - (Vector2) transform.position);
     }
 
     private Vector2 GetCastLocation(float maxRange)
